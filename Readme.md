@@ -1,4 +1,4 @@
-RAFT
+# RAFT
 
 * https://raft.github.io/
 * https://raft.github.io/raft.pdf
@@ -9,3 +9,15 @@ RAFT
 * https://thesquareplanet.com/blog/students-guide-to-raft/
 
 * https://notes.eatonphil.com/minimal-key-value-store-with-hashicorp-raft.html
+
+* [You Must Build A Raft](https://www.youtube.com/watch?v=Hm_m4MIXn9Q)
+* [Mastering the Raft Consensus Algorithm: A Comprehensive Tutorial in Distributed Systems](https://www.youtube.com/watch?v=ZyqAbQkpeUo)
+* [GopherCon 2023: Build Your Own Distributed System Using Go - Philip O'Toole](https://www.youtube.com/watch?v=8XbxQ1Epi5w)
+* [Practical Distributed Consensus using HashiCorp/raft](https://www.youtube.com/watch?v=EGRmmxVFOfE)
+* [Designing for Understandability: The Raft Consensus Algorithm](https://www.youtube.com/watch?v=vYp4LYbnnW8&t=2517s)
+
+# Torrent Protocol
+
+* https://www.bittorrent.org/beps/bep_0003.html
+
+* [BitTorrent Internals](https://www.youtube.com/playlist?list=PLsdq-3Z1EPT1rNeq2GXpnivaWINnOaCd0)
