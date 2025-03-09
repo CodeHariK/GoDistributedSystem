@@ -15,6 +15,8 @@
 * [GopherCon 2023: Build Your Own Distributed System Using Go - Philip O'Toole](https://www.youtube.com/watch?v=8XbxQ1Epi5w)
 * [Practical Distributed Consensus using HashiCorp/raft](https://www.youtube.com/watch?v=EGRmmxVFOfE)
 * [Designing for Understandability: The Raft Consensus Algorithm](https://www.youtube.com/watch?v=vYp4LYbnnW8&t=2517s)
+* [Build Your Own Distributed System Using Go](https://www.youtube.com/watch?v=8XbxQ1Epi5w)
+* [Understand RAFT without breaking your brain](https://www.youtube.com/watch?v=IujMVjKvWP4)
 
 # Torrent Protocol
 
