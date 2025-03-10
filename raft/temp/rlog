@@ -1,0 +1,1289 @@
+=== RUN   TestElectionBasic
+19:54:29.885899 [0] listening at [::]:52677
+19:54:29.886230 [1] listening at [::]:52678
+19:54:29.886325 [2] listening at [::]:52679
+19:54:29.888297 [0] election timer started (166ms), term=0
+19:54:29.888281 [2] election timer started (178ms), term=0
+19:54:29.888516 [1] election timer started (267ms), term=0
+19:54:30.059656 [0] becomes Candidate (currentTerm=1); log=[]
+19:54:30.059893 [0] election timer started (262ms), term=1
+19:54:30.059883 [0] sending RequestVote to 1: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:30.059918 [0] sending RequestVote to 2: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:30.065275 [2] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:30.065334 [2] ... term out of date in RequestVote
+19:54:30.065351 [2] becomes Follower with term=1; log=[]
+19:54:30.065389 [2] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:30.065523 [2] election timer started (248ms), term=1
+19:54:30.066347 [0] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:30.066361 [1] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:30.066389 [0] wins election with 2 votes
+19:54:30.066411 [1] ... term out of date in RequestVote
+19:54:30.066414 [0] becomes Leader; term=1, log=[]
+19:54:30.066430 [1] becomes Follower with term=1; log=[]
+19:54:30.066528 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.066562 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.066869 [1] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:30.067171 [1] election timer started (174ms), term=1
+19:54:30.067692 [0] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:30.067732 [0] while waiting for reply, state = Leader
+19:54:30.068710 [1] in election timer term changed from 0 to 1, bailing out
+19:54:30.068737 [2] in election timer term changed from 0 to 1, bailing out
+19:54:30.069905 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.070030 [0] in election timer state=Leader, bailing out
+19:54:30.070046 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:30.072836 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.072919 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:30.116690 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.116687 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.118267 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.118285 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.118374 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:30.118394 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:30.166698 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.166698 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.171617 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.171698 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:30.172629 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.172715 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:30.190071 [0] becomes Dead
+19:54:30.190154 [1] becomes Dead
+19:54:30.190222 [2] becomes Dead
+--- PASS: TestElectionBasic (0.31s)
+=== RUN   TestElectionLeaderDisconnect
+19:54:30.191050 [0] listening at [::]:52686
+19:54:30.191250 [1] listening at [::]:52687
+19:54:30.191402 [2] listening at [::]:52688
+19:54:30.193857 [1] election timer started (194ms), term=0
+19:54:30.193896 [0] election timer started (285ms), term=0
+19:54:30.193896 [2] election timer started (235ms), term=0
+19:54:30.196005 [2] in election timer state=Dead, bailing out
+19:54:30.197420 [1] in election timer state=Dead, bailing out
+19:54:30.394284 [1] becomes Candidate (currentTerm=1); log=[]
+19:54:30.394507 [1] election timer started (162ms), term=1
+19:54:30.394491 [1] sending RequestVote to 0: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:30.394510 [1] sending RequestVote to 2: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:30.399027 [2] RequestVote: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:30.399145 [2] ... term out of date in RequestVote
+19:54:30.399186 [2] becomes Follower with term=1; log=[]
+19:54:30.399262 [2] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:30.399487 [2] election timer started (222ms), term=1
+19:54:30.400585 [1] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:30.400697 [1] wins election with 2 votes
+19:54:30.400771 [1] becomes Leader; term=1, log=[]
+19:54:30.400926 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.400938 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.401094 [0] RequestVote: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:30.401200 [0] ... term out of date in RequestVote
+19:54:30.401248 [0] becomes Follower with term=1; log=[]
+19:54:30.401304 [0] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:30.401780 [0] election timer started (191ms), term=1
+19:54:30.402323 [1] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:30.402357 [1] while waiting for reply, state = Leader
+19:54:30.405061 [1] in election timer state=Leader, bailing out
+19:54:30.405075 [0] in election timer term changed from 0 to 1, bailing out
+19:54:30.405265 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.405380 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:30.405458 [2] in election timer term changed from 0 to 1, bailing out
+19:54:30.407396 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.407485 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:30.451044 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.451044 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.454960 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.455077 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:30.456741 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.456820 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:30.495357 [TEST] Disconnect 1
+19:54:30.501072 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.501072 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.551103 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.551103 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.601075 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.601069 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.651124 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.651124 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.652029 [0] becomes Candidate (currentTerm=2); log=[]
+19:54:30.652191 [0] sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:30.652200 [0] sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:30.652271 [0] election timer started (187ms), term=2
+19:54:30.656070 [2] RequestVote: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=1]
+19:54:30.656155 [2] ... term out of date in RequestVote
+19:54:30.656199 [2] becomes Follower with term=2; log=[]
+19:54:30.656259 [2] ... RequestVote reply: &{Term:2 VoteGranted:true}
+19:54:30.656405 [2] election timer started (253ms), term=2
+19:54:30.657811 [0] received RequestVoteReply {Term:2 VoteGranted:true}
+19:54:30.657876 [0] wins election with 2 votes
+19:54:30.657935 [0] becomes Leader; term=2, log=[]
+19:54:30.658081 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.658064 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.659695 [2] in election timer term changed from 1 to 2, bailing out
+19:54:30.662819 [0] in election timer state=Leader, bailing out
+19:54:30.664179 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.664280 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:30.701428 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.701428 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.708232 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.708242 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.713428 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.713527 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:30.751404 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.751405 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.758233 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.758233 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.764584 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.764688 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:30.801417 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.801417 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.808249 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.808249 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.813425 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:30.813793 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:30.847239 [0] becomes Dead
+19:54:30.847332 [1] becomes Dead
+19:54:30.847390 [2] becomes Dead
+--- PASS: TestElectionLeaderDisconnect (0.66s)
+=== RUN   TestElectionLeaderAndAnotherDisconnect
+19:54:30.848115 [0] listening at [::]:52695
+19:54:30.848373 [1] listening at [::]:52696
+19:54:30.848534 [2] listening at [::]:52697
+19:54:30.850355 [2] election timer started (277ms), term=0
+19:54:30.850352 [0] election timer started (232ms), term=0
+19:54:30.850357 [1] election timer started (158ms), term=0
+19:54:30.856586 [2] in election timer state=Dead, bailing out
+19:54:31.011526 [1] becomes Candidate (currentTerm=1); log=[]
+19:54:31.011744 [1] election timer started (274ms), term=1
+19:54:31.011770 [1] sending RequestVote to 2: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:31.011737 [1] sending RequestVote to 0: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:31.014548 [2] RequestVote: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:31.014598 [2] ... term out of date in RequestVote
+19:54:31.014621 [2] becomes Follower with term=1; log=[]
+19:54:31.014652 [2] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:31.014767 [2] election timer started (167ms), term=1
+19:54:31.014830 [0] RequestVote: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:31.014873 [0] ... term out of date in RequestVote
+19:54:31.014896 [0] becomes Follower with term=1; log=[]
+19:54:31.014926 [0] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:31.015029 [0] election timer started (249ms), term=1
+19:54:31.015350 [1] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:31.015386 [1] wins election with 2 votes
+19:54:31.015421 [1] becomes Leader; term=1, log=[]
+19:54:31.015505 [1] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:31.015491 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.015500 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.015535 [1] while waiting for reply, state = Leader
+19:54:31.020647 [2] in election timer term changed from 0 to 1, bailing out
+19:54:31.020656 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.020745 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:31.020732 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.020805 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:31.020835 [0] in election timer term changed from 0 to 1, bailing out
+19:54:31.022191 [1] in election timer state=Leader, bailing out
+19:54:31.066101 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.066101 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.068943 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.069037 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:31.071742 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.071916 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:31.115936 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.115948 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.117518 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.117613 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:31.118406 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.118468 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:31.152438 [TEST] Disconnect 1
+19:54:31.153178 [TEST] Disconnect 2
+19:54:31.165796 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.165783 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.215633 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.215630 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.265976 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.265977 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.285882 [2] becomes Candidate (currentTerm=2); log=[]
+19:54:31.286005 [2] sending RequestVote to 1: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:31.286054 [2] election timer started (188ms), term=2
+19:54:31.286013 [2] sending RequestVote to 0: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:31.315771 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.315769 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.366235 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.366235 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.376126 [0] becomes Candidate (currentTerm=2); log=[]
+19:54:31.376207 [0] sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:31.376232 [0] sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:31.376264 [0] election timer started (213ms), term=2
+19:54:31.416640 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.416640 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.465740 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.465788 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.477234 [2] becomes Candidate (currentTerm=3); log=[]
+19:54:31.477330 [2] election timer started (254ms), term=3
+19:54:31.477323 [2] sending RequestVote to 0: {Term:3 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:31.477332 [2] sending RequestVote to 1: {Term:3 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:31.516604 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.516599 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.566194 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.566194 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.597487 [0] becomes Candidate (currentTerm=3); log=[]
+19:54:31.597617 [0] election timer started (224ms), term=3
+19:54:31.597613 [0] sending RequestVote to 1: {Term:3 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:31.597627 [0] sending RequestVote to 2: {Term:3 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:31.604413 [TEST] Reconnect 2
+19:54:31.616552 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.616595 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.619759 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.619834 [2] AppendEntries reply: {Term:3 Success:false}
+19:54:31.620383 [1] term out of date in heartbeat reply
+19:54:31.620413 [1] becomes Follower with term=3; log=[]
+19:54:31.620460 [1] election timer started (298ms), term=3
+19:54:31.738285 [2] becomes Candidate (currentTerm=4); log=[]
+19:54:31.738367 [2] election timer started (207ms), term=4
+19:54:31.738363 [2] sending RequestVote to 1: {Term:4 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:31.738406 [2] sending RequestVote to 0: {Term:4 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:31.740092 [0] RequestVote: {Term:4 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=3, votedFor=0]
+19:54:31.740133 [0] ... term out of date in RequestVote
+19:54:31.740150 [0] becomes Follower with term=4; log=[]
+19:54:31.740179 [0] ... RequestVote reply: &{Term:4 VoteGranted:true}
+19:54:31.740256 [0] election timer started (234ms), term=4
+19:54:31.740600 [2] received RequestVoteReply {Term:4 VoteGranted:true}
+19:54:31.740622 [2] wins election with 2 votes
+19:54:31.740642 [2] becomes Leader; term=4, log=[]
+19:54:31.740688 [2] sending AppendEntries to 0: ni=0, args={Term:4 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.740695 [2] sending AppendEntries to 1: ni=0, args={Term:4 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.742376 [1] RequestVote: {Term:4 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=3, votedFor=-1]
+19:54:31.742411 [1] ... term out of date in RequestVote
+19:54:31.742426 [1] becomes Follower with term=4; log=[]
+19:54:31.742450 [1] ... RequestVote reply: &{Term:4 VoteGranted:true}
+19:54:31.742521 [1] election timer started (169ms), term=4
+19:54:31.743042 [2] received RequestVoteReply {Term:4 VoteGranted:true}
+19:54:31.743067 [2] while waiting for reply, state = Leader
+19:54:31.743264 [0] AppendEntries: {Term:4 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.743314 [0] AppendEntries reply: {Term:4 Success:true}
+19:54:31.744361 [1] AppendEntries: {Term:4 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:31.744411 [1] AppendEntries reply: {Term:4 Success:true}
+19:54:31.748145 [0] in election timer term changed from 3 to 4, bailing out
+19:54:31.748488 [2] in election timer state=Leader, bailing out
+19:54:31.750593 [1] in election timer term changed from 3 to 4, bailing out
+19:54:31.757251 [0] becomes Dead
+19:54:31.757313 [1] becomes Dead
+19:54:31.757365 [2] becomes Dead
+--- PASS: TestElectionLeaderAndAnotherDisconnect (0.91s)
+=== RUN   TestDisconnectAllThenRestore
+19:54:31.757769 [0] listening at [::]:52708
+19:54:31.757918 [1] listening at [::]:52709
+19:54:31.758038 [2] listening at [::]:52710
+19:54:31.760269 [1] election timer started (150ms), term=0
+19:54:31.760721 [2] election timer started (256ms), term=0
+19:54:31.760723 [0] election timer started (267ms), term=0
+19:54:31.761381 [0] in election timer state=Dead, bailing out
+19:54:31.762841 [1] in election timer state=Dead, bailing out
+19:54:31.860817 [TEST] Disconnect 0
+19:54:31.861442 [TEST] Disconnect 1
+19:54:31.861741 [TEST] Disconnect 2
+19:54:31.911438 [1] becomes Candidate (currentTerm=1); log=[]
+19:54:31.911670 [1] election timer started (275ms), term=1
+19:54:31.911685 [1] sending RequestVote to 0: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:31.911759 [1] sending RequestVote to 2: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.021700 [2] becomes Candidate (currentTerm=1); log=[]
+19:54:32.021910 [2] election timer started (205ms), term=1
+19:54:32.021903 [2] sending RequestVote to 1: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:32.021908 [2] sending RequestVote to 0: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:32.032609 [0] becomes Candidate (currentTerm=1); log=[]
+19:54:32.032860 [0] election timer started (199ms), term=1
+19:54:32.032927 [0] sending RequestVote to 2: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:32.033037 [0] sending RequestVote to 1: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:32.192933 [1] becomes Candidate (currentTerm=2); log=[]
+19:54:32.193161 [1] election timer started (194ms), term=2
+19:54:32.193160 [1] sending RequestVote to 2: {Term:2 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.193149 [1] sending RequestVote to 0: {Term:2 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.232656 [2] becomes Candidate (currentTerm=2); log=[]
+19:54:32.232809 [2] sending RequestVote to 0: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:32.232780 [2] sending RequestVote to 1: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:32.232885 [2] election timer started (258ms), term=2
+19:54:32.232956 [0] becomes Candidate (currentTerm=2); log=[]
+19:54:32.232998 [0] sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:32.233039 [0] sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:32.233054 [0] election timer started (194ms), term=2
+19:54:32.312819 [TEST] Reconnect 0
+19:54:32.314679 [TEST] Reconnect 1
+19:54:32.315119 [TEST] Reconnect 2
+19:54:32.394039 [1] becomes Candidate (currentTerm=3); log=[]
+19:54:32.394183 [1] election timer started (190ms), term=3
+19:54:32.394170 [1] sending RequestVote to 2: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.394188 [1] sending RequestVote to 0: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.397759 [2] RequestVote: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=2, votedFor=2]
+19:54:32.397840 [2] ... term out of date in RequestVote
+19:54:32.397880 [2] becomes Follower with term=3; log=[]
+19:54:32.397938 [2] ... RequestVote reply: &{Term:3 VoteGranted:true}
+19:54:32.398115 [2] election timer started (274ms), term=3
+19:54:32.399013 [1] received RequestVoteReply {Term:3 VoteGranted:true}
+19:54:32.399079 [1] wins election with 2 votes
+19:54:32.399131 [1] becomes Leader; term=3, log=[]
+19:54:32.399234 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.399252 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.400089 [0] RequestVote: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=2, votedFor=0]
+19:54:32.400170 [0] ... term out of date in RequestVote
+19:54:32.400209 [0] becomes Follower with term=3; log=[]
+19:54:32.400258 [0] ... RequestVote reply: &{Term:3 VoteGranted:true}
+19:54:32.400624 [0] election timer started (215ms), term=3
+19:54:32.401246 [1] received RequestVoteReply {Term:3 VoteGranted:true}
+19:54:32.401306 [1] while waiting for reply, state = Leader
+19:54:32.403006 [2] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.403089 [2] AppendEntries reply: {Term:3 Success:true}
+19:54:32.403145 [0] in election timer term changed from 2 to 3, bailing out
+19:54:32.403207 [2] in election timer term changed from 2 to 3, bailing out
+19:54:32.404449 [1] in election timer state=Leader, bailing out
+19:54:32.404639 [0] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.404706 [0] AppendEntries reply: {Term:3 Success:true}
+19:54:32.449285 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.449285 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.453024 [0] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.453149 [0] AppendEntries reply: {Term:3 Success:true}
+19:54:32.455145 [2] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.455272 [2] AppendEntries reply: {Term:3 Success:true}
+19:54:32.466038 [0] becomes Dead
+19:54:32.466116 [1] becomes Dead
+19:54:32.466169 [2] becomes Dead
+--- PASS: TestDisconnectAllThenRestore (0.71s)
+=== RUN   TestElectionLeaderDisconnectThenReconnect
+19:54:32.466583 [0] listening at [::]:52723
+19:54:32.466743 [1] listening at [::]:52724
+19:54:32.466887 [2] listening at [::]:52725
+19:54:32.468254 [2] in election timer state=Dead, bailing out
+19:54:32.468369 [2] election timer started (265ms), term=0
+19:54:32.468371 [1] election timer started (174ms), term=0
+19:54:32.468415 [0] election timer started (234ms), term=0
+19:54:32.471048 [0] in election timer state=Dead, bailing out
+19:54:32.649496 [1] becomes Candidate (currentTerm=1); log=[]
+19:54:32.649631 [1] sending RequestVote to 0: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.649662 [1] sending RequestVote to 2: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:32.649786 [1] election timer started (267ms), term=1
+19:54:32.652063 [2] RequestVote: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:32.652153 [2] ... term out of date in RequestVote
+19:54:32.652188 [2] becomes Follower with term=1; log=[]
+19:54:32.652243 [2] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:32.652381 [2] election timer started (210ms), term=1
+19:54:32.653265 [1] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:32.653291 [0] RequestVote: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:32.653328 [1] wins election with 2 votes
+19:54:32.653370 [0] ... term out of date in RequestVote
+19:54:32.653386 [1] becomes Leader; term=1, log=[]
+19:54:32.653406 [0] becomes Follower with term=1; log=[]
+19:54:32.653470 [0] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:32.653482 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.653531 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.653830 [0] election timer started (192ms), term=1
+19:54:32.654284 [1] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:32.654313 [1] while waiting for reply, state = Leader
+19:54:32.655432 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.655518 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:32.657389 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.657465 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:32.658556 [2] in election timer term changed from 0 to 1, bailing out
+19:54:32.658588 [0] in election timer term changed from 0 to 1, bailing out
+19:54:32.660207 [1] in election timer state=Leader, bailing out
+19:54:32.703581 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.703578 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.705302 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.705403 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:32.707389 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.707515 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:32.753678 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.753680 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.755420 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.755565 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:32.758566 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.758689 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:32.769796 [TEST] Disconnect 1
+19:54:32.803590 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.803590 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.853547 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.853642 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.903714 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.903711 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.953755 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.953756 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.954008 [0] becomes Candidate (currentTerm=2); log=[]
+19:54:32.954115 [0] election timer started (280ms), term=2
+19:54:32.954112 [0] sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:32.954155 [0] sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:32.956595 [2] RequestVote: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=1]
+19:54:32.956682 [2] ... term out of date in RequestVote
+19:54:32.956723 [2] becomes Follower with term=2; log=[]
+19:54:32.956789 [2] ... RequestVote reply: &{Term:2 VoteGranted:true}
+19:54:32.956968 [2] election timer started (298ms), term=2
+19:54:32.957846 [0] received RequestVoteReply {Term:2 VoteGranted:true}
+19:54:32.957911 [0] wins election with 2 votes
+19:54:32.957956 [0] becomes Leader; term=2, log=[]
+19:54:32.958070 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.958087 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.959954 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:32.960116 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:32.962784 [2] in election timer term changed from 1 to 2, bailing out
+19:54:32.964472 [0] in election timer state=Leader, bailing out
+19:54:33.004297 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.004297 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.008245 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.008241 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.013485 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.013624 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.056207 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.056207 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.058245 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.058604 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.064972 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.065338 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.104192 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.104192 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.108121 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.108131 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.110614 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.110652 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.120598 [TEST] Reconnect 1
+19:54:33.154244 [1] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.154257 [1] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.156258 [2] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.156300 [2] AppendEntries reply: {Term:2 Success:false}
+19:54:33.156618 [1] term out of date in heartbeat reply
+19:54:33.156638 [1] becomes Follower with term=2; log=[]
+19:54:33.156664 [1] election timer started (175ms), term=2
+19:54:33.157994 [0] AppendEntries: {Term:1 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.158041 [0] AppendEntries reply: {Term:2 Success:false}
+19:54:33.158089 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.158101 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.158355 [1] term out of date in heartbeat reply
+19:54:33.158368 [1] becomes Follower with term=2; log=[]
+19:54:33.158399 [1] election timer started (268ms), term=2
+19:54:33.160594 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.160641 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.160618 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.160666 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.208200 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.208213 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.211927 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.211975 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.212033 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.212060 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.258139 [0] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.258137 [0] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.261971 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.262096 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.263817 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.263995 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.272282 [0] becomes Dead
+19:54:33.272356 [1] becomes Dead
+19:54:33.272397 [2] becomes Dead
+--- PASS: TestElectionLeaderDisconnectThenReconnect (0.81s)
+=== RUN   TestElectionLeaderDisconnectThenReconnect5
+19:54:33.277198 [0] listening at [::]:52736
+19:54:33.277545 [1] listening at [::]:52737
+19:54:33.277701 [2] listening at [::]:52738
+19:54:33.277894 [3] listening at [::]:52739
+19:54:33.278185 [2] in election timer state=Dead, bailing out
+19:54:33.278232 [4] listening at [::]:52740
+19:54:33.280523 [1] in election timer state=Dead, bailing out
+19:54:33.280609 [1] in election timer state=Dead, bailing out
+19:54:33.285968 [2] election timer started (196ms), term=0
+19:54:33.285969 [0] election timer started (201ms), term=0
+19:54:33.286017 [1] election timer started (225ms), term=0
+19:54:33.286030 [4] election timer started (222ms), term=0
+19:54:33.286030 [3] election timer started (290ms), term=0
+19:54:33.487189 [2] becomes Candidate (currentTerm=1); log=[]
+19:54:33.487205 [0] becomes Candidate (currentTerm=1); log=[]
+19:54:33.487408 [2] sending RequestVote to 0: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:33.487537 [0] sending RequestVote to 3: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:33.487573 [2] sending RequestVote to 1: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:33.487583 [0] sending RequestVote to 2: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:33.487462 [2] sending RequestVote to 3: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:33.488090 [2] sending RequestVote to 4: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:33.488099 [0] sending RequestVote to 1: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:33.487474 [0] election timer started (164ms), term=1
+19:54:33.488319 [2] election timer started (274ms), term=1
+19:54:33.488436 [0] sending RequestVote to 4: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:33.492285 [3] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:33.492395 [3] ... term out of date in RequestVote
+19:54:33.492431 [3] becomes Follower with term=1; log=[]
+19:54:33.492395 [4] RequestVote: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:33.492514 [4] ... term out of date in RequestVote
+19:54:33.492557 [4] becomes Follower with term=1; log=[]
+19:54:33.492491 [3] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:33.492615 [4] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:33.492691 [1] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:33.492780 [1] ... term out of date in RequestVote
+19:54:33.492825 [1] becomes Follower with term=1; log=[]
+19:54:33.493013 [3] election timer started (202ms), term=1
+19:54:33.493109 [4] election timer started (192ms), term=1
+19:54:33.493296 [3] RequestVote: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=0]
+19:54:33.492889 [1] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:33.493375 [3] ... RequestVote reply: &{Term:1 VoteGranted:false}
+19:54:33.493585 [0] RequestVote: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=0]
+19:54:33.493671 [0] ... RequestVote reply: &{Term:1 VoteGranted:false}
+19:54:33.493857 [4] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=2]
+19:54:33.493949 [1] election timer started (228ms), term=1
+19:54:33.493934 [4] ... RequestVote reply: &{Term:1 VoteGranted:false}
+19:54:33.494539 [0] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:33.494669 [0] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:33.494666 [2] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=2]
+19:54:33.494700 [0] wins election with 3 votes
+19:54:33.494733 [0] becomes Leader; term=1, log=[]
+19:54:33.494709 [2] ... RequestVote reply: &{Term:1 VoteGranted:false}
+19:54:33.494810 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.494888 [2] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:33.494948 [2] received RequestVoteReply {Term:1 VoteGranted:false}
+19:54:33.495113 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.495234 [0] received RequestVoteReply {Term:1 VoteGranted:false}
+19:54:33.495268 [0] while waiting for reply, state = Leader
+19:54:33.495300 [2] received RequestVoteReply {Term:1 VoteGranted:false}
+19:54:33.495357 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.495618 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.496096 [1] in election timer term changed from 0 to 1, bailing out
+19:54:33.496166 [0] received RequestVoteReply {Term:1 VoteGranted:false}
+19:54:33.496195 [0] while waiting for reply, state = Leader
+19:54:33.496432 [1] RequestVote: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=0]
+19:54:33.496467 [3] in election timer term changed from 0 to 1, bailing out
+19:54:33.496473 [1] ... RequestVote reply: &{Term:1 VoteGranted:false}
+19:54:33.496571 [4] in election timer term changed from 0 to 1, bailing out
+19:54:33.497141 [2] received RequestVoteReply {Term:1 VoteGranted:false}
+19:54:33.498607 [0] in election timer state=Leader, bailing out
+19:54:33.499281 [4] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.499361 [4] AppendEntries reply: {Term:1 Success:true}
+19:54:33.500755 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.500820 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:33.501525 [3] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.501606 [3] AppendEntries reply: {Term:1 Success:true}
+19:54:33.501621 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.501695 [2] becomes Follower with term=1; log=[]
+19:54:33.501733 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:33.501884 [2] election timer started (274ms), term=1
+19:54:33.544981 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.544992 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.545085 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.544988 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.547957 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.547992 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.548066 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:33.548081 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:33.549728 [3] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.549839 [3] AppendEntries reply: {Term:1 Success:true}
+19:54:33.550719 [4] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.550827 [4] AppendEntries reply: {Term:1 Success:true}
+19:54:33.587493 [TEST] Disconnect 0
+19:54:33.595208 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.595190 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.595288 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.595388 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.645017 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.645006 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.645000 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.645000 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.695018 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.695026 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.695045 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.695018 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.743411 [4] becomes Candidate (currentTerm=2); log=[]
+19:54:33.743495 [4] sending RequestVote to 1: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0}
+19:54:33.743512 [4] election timer started (205ms), term=2
+19:54:33.743552 [4] sending RequestVote to 2: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0}
+19:54:33.743569 [4] sending RequestVote to 3: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0}
+19:54:33.743572 [4] sending RequestVote to 0: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0}
+19:54:33.744931 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.744942 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.744963 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.744990 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.745165 [1] RequestVote: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=0]
+19:54:33.745202 [1] ... term out of date in RequestVote
+19:54:33.745213 [1] becomes Follower with term=2; log=[]
+19:54:33.745231 [1] ... RequestVote reply: &{Term:2 VoteGranted:true}
+19:54:33.745300 [1] election timer started (192ms), term=2
+19:54:33.745600 [4] received RequestVoteReply {Term:2 VoteGranted:true}
+19:54:33.747357 [3] RequestVote: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=0]
+19:54:33.747384 [3] ... term out of date in RequestVote
+19:54:33.747394 [3] becomes Follower with term=2; log=[]
+19:54:33.747411 [3] ... RequestVote reply: &{Term:2 VoteGranted:true}
+19:54:33.747449 [3] election timer started (244ms), term=2
+19:54:33.747709 [4] received RequestVoteReply {Term:2 VoteGranted:true}
+19:54:33.747727 [4] wins election with 3 votes
+19:54:33.747741 [4] becomes Leader; term=2, log=[]
+19:54:33.747773 [4] sending AppendEntries to 3: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.747780 [4] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.747795 [4] sending AppendEntries to 0: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.747818 [4] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.749215 [2] RequestVote: {Term:2 CandidateId:4 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=-1]
+19:54:33.749290 [2] ... term out of date in RequestVote
+19:54:33.749329 [2] becomes Follower with term=2; log=[]
+19:54:33.749350 [2] ... RequestVote reply: &{Term:2 VoteGranted:true}
+19:54:33.749387 [2] election timer started (293ms), term=2
+19:54:33.749676 [4] received RequestVoteReply {Term:2 VoteGranted:true}
+19:54:33.749696 [4] while waiting for reply, state = Leader
+19:54:33.750275 [2] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.750311 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.750301 [3] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.750347 [3] AppendEntries reply: {Term:2 Success:true}
+19:54:33.751282 [1] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.751312 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.752030 [2] in election timer term changed from 1 to 2, bailing out
+19:54:33.753361 [3] in election timer term changed from 1 to 2, bailing out
+19:54:33.753672 [4] in election timer state=Leader, bailing out
+19:54:33.754097 [1] in election timer term changed from 1 to 2, bailing out
+19:54:33.758576 [2] in election timer term changed from 1 to 2, bailing out
+19:54:33.795457 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.795457 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.795485 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.795497 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.797820 [4] sending AppendEntries to 3: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.797821 [4] sending AppendEntries to 0: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.797827 [4] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.797840 [4] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.800103 [3] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.800141 [3] AppendEntries reply: {Term:2 Success:true}
+19:54:33.802318 [2] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.802356 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.803190 [1] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.803226 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.845509 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.845520 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.845511 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.845546 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.847833 [4] sending AppendEntries to 0: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.847840 [4] sending AppendEntries to 3: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.847843 [4] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.847859 [4] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.849307 [2] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.849390 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.852349 [3] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.852365 [1] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.852396 [3] AppendEntries reply: {Term:2 Success:true}
+19:54:33.852425 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.889034 [TEST] Reconnect 0
+19:54:33.895266 [0] sending AppendEntries to 4: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.895283 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.895313 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.895345 [0] sending AppendEntries to 3: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.897820 [4] sending AppendEntries to 3: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.897853 [4] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.897878 [4] sending AppendEntries to 0: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.897824 [4] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.898084 [4] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.898171 [4] AppendEntries reply: {Term:2 Success:false}
+19:54:33.898675 [0] term out of date in heartbeat reply
+19:54:33.898706 [0] becomes Follower with term=2; log=[]
+19:54:33.898745 [0] election timer started (183ms), term=2
+19:54:33.899203 [3] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.899269 [3] AppendEntries reply: {Term:2 Success:true}
+19:54:33.899297 [2] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.899376 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.900134 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.900161 [3] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.900195 [2] AppendEntries reply: {Term:2 Success:false}
+19:54:33.900220 [3] AppendEntries reply: {Term:2 Success:false}
+19:54:33.900812 [0] term out of date in heartbeat reply
+19:54:33.900838 [0] becomes Follower with term=2; log=[]
+19:54:33.900874 [0] term out of date in heartbeat reply
+19:54:33.900894 [0] becomes Follower with term=2; log=[]
+19:54:33.900925 [0] election timer started (168ms), term=2
+19:54:33.900943 [0] election timer started (195ms), term=2
+19:54:33.901613 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.901681 [1] AppendEntries reply: {Term:2 Success:false}
+19:54:33.902167 [0] term out of date in heartbeat reply
+19:54:33.902189 [0] becomes Follower with term=2; log=[]
+19:54:33.902223 [0] election timer started (162ms), term=2
+19:54:33.902191 [1] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.902263 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.902624 [0] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.902687 [0] AppendEntries reply: {Term:2 Success:true}
+19:54:33.947897 [4] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.947876 [4] sending AppendEntries to 0: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.947931 [4] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.947876 [4] sending AppendEntries to 3: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.949529 [3] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.949613 [3] AppendEntries reply: {Term:2 Success:true}
+19:54:33.950402 [1] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.950466 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:33.951365 [2] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.951427 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:33.953482 [0] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.953551 [0] AppendEntries reply: {Term:2 Success:true}
+19:54:33.997871 [4] sending AppendEntries to 3: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.997861 [4] sending AppendEntries to 1: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.997869 [4] sending AppendEntries to 0: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:33.997887 [4] sending AppendEntries to 2: ni=0, args={Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.002509 [2] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.002592 [2] AppendEntries reply: {Term:2 Success:true}
+19:54:34.003383 [3] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.003413 [1] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.003468 [3] AppendEntries reply: {Term:2 Success:true}
+19:54:34.003487 [1] AppendEntries reply: {Term:2 Success:true}
+19:54:34.003562 [0] AppendEntries: {Term:2 LeaderId:4 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.003652 [0] AppendEntries reply: {Term:2 Success:true}
+19:54:34.042465 [0] becomes Dead
+19:54:34.042561 [1] becomes Dead
+19:54:34.042622 [2] becomes Dead
+19:54:34.042671 [3] becomes Dead
+19:54:34.042728 [4] becomes Dead
+19:54:34.045374 [1] in election timer state=Dead, bailing out
+19:54:34.047723 [3] in election timer state=Dead, bailing out
+19:54:34.048944 [0] in election timer state=Dead, bailing out
+19:54:34.049516 [2] in election timer state=Dead, bailing out
+19:54:34.051189 [0] in election timer state=Dead, bailing out
+19:54:34.051239 [0] in election timer state=Dead, bailing out
+19:54:34.052438 [0] in election timer state=Dead, bailing out
+--- PASS: TestElectionLeaderDisconnectThenReconnect5 (0.82s)
+=== RUN   TestElectionFollowerComesBack
+19:54:34.096160 [0] listening at [::]:52769
+19:54:34.096427 [1] listening at [::]:52770
+19:54:34.096622 [2] listening at [::]:52771
+19:54:34.098509 [0] election timer started (210ms), term=0
+19:54:34.098511 [1] election timer started (295ms), term=0
+19:54:34.098519 [2] election timer started (158ms), term=0
+19:54:34.259698 [2] becomes Candidate (currentTerm=1); log=[]
+19:54:34.259780 [2] sending RequestVote to 1: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:34.259775 [2] sending RequestVote to 0: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:34.259794 [2] election timer started (226ms), term=1
+19:54:34.263661 [0] RequestVote: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:34.263715 [0] ... term out of date in RequestVote
+19:54:34.263723 [0] becomes Follower with term=1; log=[]
+19:54:34.263738 [0] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:34.263789 [0] election timer started (193ms), term=1
+19:54:34.264035 [2] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:34.264051 [2] wins election with 2 votes
+19:54:34.264061 [2] becomes Leader; term=1, log=[]
+19:54:34.264090 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.264099 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.264392 [1] RequestVote: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:34.264410 [1] ... term out of date in RequestVote
+19:54:34.264417 [1] becomes Follower with term=1; log=[]
+19:54:34.264429 [1] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:34.264479 [1] election timer started (258ms), term=1
+19:54:34.264672 [2] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:34.264688 [2] while waiting for reply, state = Leader
+19:54:34.267826 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.267879 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.268382 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.268409 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:34.268586 [0] in election timer term changed from 0 to 1, bailing out
+19:54:34.268633 [1] in election timer term changed from 0 to 1, bailing out
+19:54:34.270138 [2] in election timer state=Leader, bailing out
+19:54:34.314644 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.314661 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.316065 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.316111 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.318143 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.318186 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:34.364920 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.364933 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.366295 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.366350 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.370692 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.370748 [0] AppendEntries reply: {Term:1 Success:true}
+19:54:34.400219 [TEST] Disconnect 0
+19:54:34.414931 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.414945 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.417515 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.417591 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.464971 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.464974 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.468867 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.468981 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.514984 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.514984 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.518063 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.518216 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.564907 [0] becomes Candidate (currentTerm=2); log=[]
+19:54:34.565066 [0] election timer started (167ms), term=2
+19:54:34.565044 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.565056 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.565126 [0] sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:34.565180 [0] sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:34.571370 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.571509 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.615363 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.615343 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.621683 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.621846 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.665227 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.665228 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.667110 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.667253 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.715260 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.715260 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.718249 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.718394 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.735592 [0] becomes Candidate (currentTerm=3); log=[]
+19:54:34.735692 [0] election timer started (264ms), term=3
+19:54:34.735688 [0] sending RequestVote to 1: {Term:3 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:34.735702 [0] sending RequestVote to 2: {Term:3 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:34.764568 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.764518 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.769630 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.769778 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.815263 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.815256 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.818123 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.818216 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.865321 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.865432 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.868272 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.868431 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.915246 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.915258 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.920515 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.920668 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:34.965258 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.965257 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.970534 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:34.970687 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:35.005826 [0] becomes Candidate (currentTerm=4); log=[]
+19:54:35.005930 [0] sending RequestVote to 1: {Term:4 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:35.005928 [0] sending RequestVote to 2: {Term:4 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:35.005949 [0] election timer started (279ms), term=4
+19:54:35.015238 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.015281 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.019377 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.019460 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:35.051118 [TEST] Reconnect 0
+19:54:35.065245 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.065245 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.066934 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.067039 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:35.067583 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.067671 [0] AppendEntries reply: {Term:4 Success:false}
+19:54:35.068450 [2] term out of date in heartbeat reply
+19:54:35.068486 [2] becomes Follower with term=4; log=[]
+19:54:35.068547 [2] election timer started (264ms), term=4
+19:54:35.286247 [0] becomes Candidate (currentTerm=5); log=[]
+19:54:35.286450 [0] election timer started (290ms), term=5
+19:54:35.286460 [0] sending RequestVote to 2: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:35.286440 [0] sending RequestVote to 1: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:35.289025 [2] RequestVote: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=4, votedFor=-1]
+19:54:35.289127 [2] ... term out of date in RequestVote
+19:54:35.289166 [2] becomes Follower with term=5; log=[]
+19:54:35.289238 [2] ... RequestVote reply: &{Term:5 VoteGranted:true}
+19:54:35.289407 [2] election timer started (172ms), term=5
+19:54:35.289696 [1] RequestVote: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=1, votedFor=2]
+19:54:35.289772 [1] ... term out of date in RequestVote
+19:54:35.289811 [1] becomes Follower with term=5; log=[]
+19:54:35.289862 [1] ... RequestVote reply: &{Term:5 VoteGranted:true}
+19:54:35.290297 [1] election timer started (236ms), term=5
+19:54:35.290458 [0] received RequestVoteReply {Term:5 VoteGranted:true}
+19:54:35.290540 [0] wins election with 2 votes
+19:54:35.290590 [0] becomes Leader; term=5, log=[]
+19:54:35.290701 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.291282 [0] received RequestVoteReply {Term:5 VoteGranted:true}
+19:54:35.291390 [0] while waiting for reply, state = Leader
+19:54:35.291579 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.293321 [1] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.293414 [1] AppendEntries reply: {Term:5 Success:true}
+19:54:35.294843 [1] in election timer term changed from 1 to 5, bailing out
+19:54:35.296818 [0] in election timer state=Leader, bailing out
+19:54:35.297078 [2] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.297191 [2] AppendEntries reply: {Term:5 Success:true}
+19:54:35.298771 [2] in election timer term changed from 4 to 5, bailing out
+19:54:35.340796 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.340796 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.342684 [1] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.342723 [2] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.342850 [1] AppendEntries reply: {Term:5 Success:true}
+19:54:35.342876 [2] AppendEntries reply: {Term:5 Success:true}
+19:54:35.355733 [0] becomes Dead
+19:54:35.355814 [1] becomes Dead
+19:54:35.355889 [2] becomes Dead
+19:54:35.360044 [2] in election timer state=Dead, bailing out
+19:54:35.360432 [1] in election timer state=Dead, bailing out
+--- PASS: TestElectionFollowerComesBack (1.31s)
+=== RUN   TestElectionDisconnectLoop
+19:54:35.412145 [0] listening at [::]:52782
+19:54:35.412468 [1] listening at [::]:52783
+19:54:35.413219 [2] listening at [::]:52784
+19:54:35.415490 [2] election timer started (299ms), term=0
+19:54:35.415490 [1] election timer started (256ms), term=0
+19:54:35.415513 [0] election timer started (177ms), term=0
+19:54:35.596657 [0] becomes Candidate (currentTerm=1); log=[]
+19:54:35.596870 [0] election timer started (203ms), term=1
+19:54:35.596829 [0] sending RequestVote to 1: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:35.596871 [0] sending RequestVote to 2: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:35.602447 [2] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:35.602480 [1] RequestVote: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=0, votedFor=-1]
+19:54:35.602554 [2] ... term out of date in RequestVote
+19:54:35.602567 [1] ... term out of date in RequestVote
+19:54:35.602591 [2] becomes Follower with term=1; log=[]
+19:54:35.602604 [1] becomes Follower with term=1; log=[]
+19:54:35.602653 [2] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:35.602794 [2] election timer started (188ms), term=1
+19:54:35.602659 [1] ... RequestVote reply: &{Term:1 VoteGranted:true}
+19:54:35.603715 [1] election timer started (187ms), term=1
+19:54:35.604559 [0] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:35.604601 [0] wins election with 2 votes
+19:54:35.604628 [0] becomes Leader; term=1, log=[]
+19:54:35.604698 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.604733 [0] received RequestVoteReply {Term:1 VoteGranted:true}
+19:54:35.604715 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.604773 [0] while waiting for reply, state = Leader
+19:54:35.605740 [1] in election timer term changed from 0 to 1, bailing out
+19:54:35.605754 [2] in election timer term changed from 0 to 1, bailing out
+19:54:35.606388 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.606471 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:35.606988 [0] in election timer state=Leader, bailing out
+19:54:35.607393 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.607461 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:35.654919 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.654919 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.656938 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.657082 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:35.659995 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.660135 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:35.704871 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.704871 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.708905 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.709057 [1] AppendEntries reply: {Term:1 Success:true}
+19:54:35.710743 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.710862 [2] AppendEntries reply: {Term:1 Success:true}
+19:54:35.717008 [TEST] Disconnect 0
+19:54:35.717347 [TEST] Disconnect 1
+19:54:35.754905 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.754905 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.804895 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.804896 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.854917 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.854917 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.903990 [1] becomes Candidate (currentTerm=2); log=[]
+19:54:35.903977 [2] becomes Candidate (currentTerm=2); log=[]
+19:54:35.904163 [1] election timer started (259ms), term=2
+19:54:35.904147 [1] sending RequestVote to 0: {Term:2 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:35.904174 [2] sending RequestVote to 0: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:35.904246 [1] sending RequestVote to 2: {Term:2 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:35.904325 [2] election timer started (297ms), term=2
+19:54:35.904290 [2] sending RequestVote to 1: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:35.904891 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.904906 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.955484 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:35.955485 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.005484 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.005485 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.027832 [TEST] Reconnect 1
+19:54:36.029759 [TEST] Reconnect 0
+19:54:36.055443 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.055423 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.057950 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.058041 [2] AppendEntries reply: {Term:2 Success:false}
+19:54:36.058675 [0] term out of date in heartbeat reply
+19:54:36.058705 [0] becomes Follower with term=2; log=[]
+19:54:36.058753 [0] election timer started (233ms), term=2
+19:54:36.062775 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.062856 [1] AppendEntries reply: {Term:2 Success:false}
+19:54:36.063469 [0] term out of date in heartbeat reply
+19:54:36.063497 [0] becomes Follower with term=2; log=[]
+19:54:36.063544 [0] election timer started (271ms), term=2
+19:54:36.164363 [1] becomes Candidate (currentTerm=3); log=[]
+19:54:36.164552 [1] election timer started (266ms), term=3
+19:54:36.164545 [1] sending RequestVote to 0: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:36.164564 [1] sending RequestVote to 2: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:36.167241 [2] RequestVote: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=2, votedFor=2]
+19:54:36.167294 [2] ... term out of date in RequestVote
+19:54:36.167318 [2] becomes Follower with term=3; log=[]
+19:54:36.167365 [2] ... RequestVote reply: &{Term:3 VoteGranted:true}
+19:54:36.167485 [2] election timer started (257ms), term=3
+19:54:36.168060 [1] received RequestVoteReply {Term:3 VoteGranted:true}
+19:54:36.168099 [1] wins election with 2 votes
+19:54:36.168124 [1] becomes Leader; term=3, log=[]
+19:54:36.168188 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.168198 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.171041 [0] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.171113 [0] ... term out of date in AppendEntries
+19:54:36.171140 [0] becomes Follower with term=3; log=[]
+19:54:36.171231 [0] AppendEntries reply: {Term:3 Success:true}
+19:54:36.171575 [0] RequestVote: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=3, votedFor=-1]
+19:54:36.171523 [0] election timer started (152ms), term=3
+19:54:36.171673 [0] ... RequestVote reply: &{Term:3 VoteGranted:true}
+19:54:36.172167 [2] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.172246 [2] AppendEntries reply: {Term:3 Success:true}
+19:54:36.172321 [1] received RequestVoteReply {Term:3 VoteGranted:true}
+19:54:36.172355 [1] while waiting for reply, state = Leader
+19:54:36.173939 [0] in election timer term changed from 2 to 3, bailing out
+19:54:36.174459 [2] in election timer term changed from 2 to 3, bailing out
+19:54:36.174740 [1] in election timer state=Leader, bailing out
+19:54:36.178967 [0] in election timer term changed from 2 to 3, bailing out
+19:54:36.180589 [TEST] Disconnect 1
+19:54:36.180864 [TEST] Disconnect 2
+19:54:36.218374 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.218375 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.268354 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.268354 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.318340 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.318340 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.332214 [0] becomes Candidate (currentTerm=4); log=[]
+19:54:36.332370 [0] sending RequestVote to 1: {Term:4 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:36.332419 [0] election timer started (278ms), term=4
+19:54:36.332354 [0] sending RequestVote to 2: {Term:4 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:36.368329 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.368329 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.418292 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.418294 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.437960 [2] becomes Candidate (currentTerm=4); log=[]
+19:54:36.438061 [2] sending RequestVote to 1: {Term:4 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:36.438084 [2] election timer started (173ms), term=4
+19:54:36.438059 [2] sending RequestVote to 0: {Term:4 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:36.468969 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.468969 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.491325 [TEST] Reconnect 2
+19:54:36.493951 [TEST] Reconnect 1
+19:54:36.519012 [1] sending AppendEntries to 0: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.519012 [1] sending AppendEntries to 2: ni=0, args={Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.521900 [2] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.522006 [2] AppendEntries reply: {Term:4 Success:false}
+19:54:36.522312 [0] AppendEntries: {Term:3 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.522398 [0] AppendEntries reply: {Term:4 Success:false}
+19:54:36.522835 [1] term out of date in heartbeat reply
+19:54:36.522870 [1] becomes Follower with term=4; log=[]
+19:54:36.522936 [1] election timer started (216ms), term=4
+19:54:36.523082 [1] term out of date in heartbeat reply
+19:54:36.523118 [1] becomes Follower with term=4; log=[]
+19:54:36.523170 [1] election timer started (224ms), term=4
+19:54:36.613065 [0] becomes Candidate (currentTerm=5); log=[]
+19:54:36.613223 [0] sending RequestVote to 2: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:36.613238 [0] sending RequestVote to 1: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:36.613274 [0] election timer started (211ms), term=5
+19:54:36.616551 [1] RequestVote: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=4, votedFor=-1]
+19:54:36.616643 [1] ... term out of date in RequestVote
+19:54:36.616683 [1] becomes Follower with term=5; log=[]
+19:54:36.616745 [1] ... RequestVote reply: &{Term:5 VoteGranted:true}
+19:54:36.616948 [1] election timer started (233ms), term=5
+19:54:36.617916 [0] received RequestVoteReply {Term:5 VoteGranted:true}
+19:54:36.617906 [2] RequestVote: {Term:5 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=4, votedFor=2]
+19:54:36.617977 [0] wins election with 2 votes
+19:54:36.618008 [2] ... term out of date in RequestVote
+19:54:36.618029 [0] becomes Leader; term=5, log=[]
+19:54:36.618072 [2] becomes Follower with term=5; log=[]
+19:54:36.618133 [2] ... RequestVote reply: &{Term:5 VoteGranted:true}
+19:54:36.618160 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.618183 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.618823 [2] in election timer term changed from 4 to 5, bailing out
+19:54:36.619293 [2] election timer started (176ms), term=5
+19:54:36.620121 [0] received RequestVoteReply {Term:5 VoteGranted:true}
+19:54:36.620154 [0] while waiting for reply, state = Leader
+19:54:36.624959 [0] in election timer state=Leader, bailing out
+19:54:36.624887 [2] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.624893 [1] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.625016 [2] AppendEntries reply: {Term:5 Success:true}
+19:54:36.625020 [1] AppendEntries reply: {Term:5 Success:true}
+19:54:36.625130 [1] in election timer term changed from 4 to 5, bailing out
+19:54:36.625178 [1] in election timer term changed from 4 to 5, bailing out
+19:54:36.645178 [TEST] Disconnect 0
+19:54:36.645531 [TEST] Disconnect 1
+19:54:36.668269 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.668276 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.718263 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.718263 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.768269 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.768269 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.809624 [2] becomes Candidate (currentTerm=6); log=[]
+19:54:36.809903 [2] election timer started (219ms), term=6
+19:54:36.809846 [2] sending RequestVote to 1: {Term:6 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:36.809877 [2] sending RequestVote to 0: {Term:6 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:36.818324 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.818324 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.868016 [1] becomes Candidate (currentTerm=6); log=[]
+19:54:36.868219 [1] election timer started (254ms), term=6
+19:54:36.868210 [1] sending RequestVote to 2: {Term:6 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:36.868223 [1] sending RequestVote to 0: {Term:6 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:36.868377 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.868426 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.919225 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.919225 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.956391 [TEST] Reconnect 1
+19:54:36.958321 [TEST] Reconnect 0
+19:54:36.969232 [0] sending AppendEntries to 2: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.969232 [0] sending AppendEntries to 1: ni=0, args={Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.973162 [1] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.973245 [1] AppendEntries reply: {Term:6 Success:false}
+19:54:36.973857 [0] term out of date in heartbeat reply
+19:54:36.973881 [0] becomes Follower with term=6; log=[]
+19:54:36.973930 [0] election timer started (244ms), term=6
+19:54:36.974562 [2] AppendEntries: {Term:5 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:36.974688 [2] AppendEntries reply: {Term:6 Success:false}
+19:54:36.975504 [0] term out of date in heartbeat reply
+19:54:36.975531 [0] becomes Follower with term=6; log=[]
+19:54:36.975585 [0] election timer started (298ms), term=6
+19:54:37.030308 [2] becomes Candidate (currentTerm=7); log=[]
+19:54:37.030518 [2] sending RequestVote to 0: {Term:7 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:37.030519 [2] election timer started (276ms), term=7
+19:54:37.030483 [2] sending RequestVote to 1: {Term:7 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:37.033637 [1] RequestVote: {Term:7 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=6, votedFor=1]
+19:54:37.033702 [1] ... term out of date in RequestVote
+19:54:37.033721 [1] becomes Follower with term=7; log=[]
+19:54:37.033753 [1] ... RequestVote reply: &{Term:7 VoteGranted:true}
+19:54:37.033859 [1] election timer started (286ms), term=7
+19:54:37.034461 [2] received RequestVoteReply {Term:7 VoteGranted:true}
+19:54:37.034498 [2] wins election with 2 votes
+19:54:37.034520 [2] becomes Leader; term=7, log=[]
+19:54:37.034582 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.034588 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.037355 [1] AppendEntries: {Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.037448 [1] AppendEntries reply: {Term:7 Success:true}
+19:54:37.037875 [0] RequestVote: {Term:7 CandidateId:2 LastLogIndex:0 LastLogTerm:0} [currentTerm=6, votedFor=-1]
+19:54:37.037926 [0] ... term out of date in RequestVote
+19:54:37.037950 [0] becomes Follower with term=7; log=[]
+19:54:37.037982 [0] ... RequestVote reply: &{Term:7 VoteGranted:true}
+19:54:37.038085 [0] election timer started (291ms), term=7
+19:54:37.038583 [2] received RequestVoteReply {Term:7 VoteGranted:true}
+19:54:37.038719 [1] in election timer term changed from 6 to 7, bailing out
+19:54:37.038733 [2] while waiting for reply, state = Leader
+19:54:37.040410 [0] AppendEntries: {Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.040516 [0] AppendEntries reply: {Term:7 Success:true}
+19:54:37.040725 [2] in election timer state=Leader, bailing out
+19:54:37.044402 [0] in election timer term changed from 6 to 7, bailing out
+19:54:37.045847 [0] in election timer term changed from 6 to 7, bailing out
+19:54:37.084797 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.084797 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.088533 [0] AppendEntries: {Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.088692 [0] AppendEntries reply: {Term:7 Success:true}
+19:54:37.089598 [1] AppendEntries: {Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.089726 [1] AppendEntries reply: {Term:7 Success:true}
+19:54:37.108960 [TEST] Disconnect 2
+19:54:37.109544 [TEST] Disconnect 0
+19:54:37.134712 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.134712 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.184733 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.184733 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.234806 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.234773 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.284736 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.284744 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.334755 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.334755 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.384646 [1] becomes Candidate (currentTerm=8); log=[]
+19:54:37.384728 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.384728 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.384820 [1] sending RequestVote to 2: {Term:8 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:37.384842 [1] sending RequestVote to 0: {Term:8 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:37.384959 [1] election timer started (224ms), term=8
+19:54:37.388721 [0] becomes Candidate (currentTerm=8); log=[]
+19:54:37.388835 [0] election timer started (184ms), term=8
+19:54:37.388832 [0] sending RequestVote to 1: {Term:8 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:37.388866 [0] sending RequestVote to 2: {Term:8 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:37.419871 [TEST] Reconnect 0
+19:54:37.421805 [TEST] Reconnect 2
+19:54:37.435526 [2] sending AppendEntries to 0: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.435510 [2] sending AppendEntries to 1: ni=0, args={Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.437919 [1] AppendEntries: {Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.438001 [1] AppendEntries reply: {Term:8 Success:false}
+19:54:37.438630 [2] term out of date in heartbeat reply
+19:54:37.438653 [2] becomes Follower with term=8; log=[]
+19:54:37.438701 [2] election timer started (213ms), term=8
+19:54:37.439365 [0] AppendEntries: {Term:7 LeaderId:2 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.439445 [0] AppendEntries reply: {Term:8 Success:false}
+19:54:37.440015 [2] term out of date in heartbeat reply
+19:54:37.440044 [2] becomes Follower with term=8; log=[]
+19:54:37.440084 [2] election timer started (210ms), term=8
+19:54:37.579290 [0] becomes Candidate (currentTerm=9); log=[]
+19:54:37.579465 [0] sending RequestVote to 2: {Term:9 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:37.579521 [0] election timer started (281ms), term=9
+19:54:37.579459 [0] sending RequestVote to 1: {Term:9 CandidateId:0 LastLogIndex:0 LastLogTerm:0}
+19:54:37.583296 [2] RequestVote: {Term:9 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=8, votedFor=-1]
+19:54:37.583390 [2] ... term out of date in RequestVote
+19:54:37.583437 [2] becomes Follower with term=9; log=[]
+19:54:37.583504 [2] ... RequestVote reply: &{Term:9 VoteGranted:true}
+19:54:37.583697 [2] election timer started (249ms), term=9
+19:54:37.584837 [0] received RequestVoteReply {Term:9 VoteGranted:true}
+19:54:37.584900 [0] wins election with 2 votes
+19:54:37.584861 [1] RequestVote: {Term:9 CandidateId:0 LastLogIndex:0 LastLogTerm:0} [currentTerm=8, votedFor=1]
+19:54:37.584954 [1] ... term out of date in RequestVote
+19:54:37.585004 [1] becomes Follower with term=9; log=[]
+19:54:37.584946 [0] becomes Leader; term=9, log=[]
+19:54:37.585076 [1] ... RequestVote reply: &{Term:9 VoteGranted:true}
+19:54:37.585131 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.585364 [1] in election timer term changed from 8 to 9, bailing out
+19:54:37.585412 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.585511 [1] election timer started (291ms), term=9
+19:54:37.585914 [0] received RequestVoteReply {Term:9 VoteGranted:true}
+19:54:37.585951 [0] while waiting for reply, state = Leader
+19:54:37.588247 [1] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.588373 [1] AppendEntries reply: {Term:9 Success:true}
+19:54:37.588973 [2] in election timer term changed from 8 to 9, bailing out
+19:54:37.589822 [0] in election timer state=Leader, bailing out
+19:54:37.589998 [2] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.590069 [2] AppendEntries reply: {Term:9 Success:true}
+19:54:37.590194 [2] in election timer term changed from 8 to 9, bailing out
+19:54:37.635291 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.635307 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.641685 [1] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.641697 [2] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.641808 [1] AppendEntries reply: {Term:9 Success:true}
+19:54:37.641912 [2] AppendEntries reply: {Term:9 Success:true}
+19:54:37.685276 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.685276 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.687205 [1] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.687357 [1] AppendEntries reply: {Term:9 Success:true}
+19:54:37.690488 [2] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.690619 [2] AppendEntries reply: {Term:9 Success:true}
+19:54:37.723706 [TEST] Disconnect 0
+19:54:37.724351 [TEST] Disconnect 1
+19:54:37.735291 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.735291 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.785193 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.785189 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.835192 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.835195 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.885203 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.885214 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.935220 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.935220 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.944849 [2] becomes Candidate (currentTerm=10); log=[]
+19:54:37.945021 [2] sending RequestVote to 1: {Term:10 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:37.945047 [2] election timer started (290ms), term=10
+19:54:37.945004 [2] sending RequestVote to 0: {Term:10 CandidateId:2 LastLogIndex:0 LastLogTerm:0}
+19:54:37.986209 [1] becomes Candidate (currentTerm=10); log=[]
+19:54:37.986356 [1] election timer started (157ms), term=10
+19:54:37.986338 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.986326 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:37.986455 [1] sending RequestVote to 2: {Term:10 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:37.986440 [1] sending RequestVote to 0: {Term:10 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:38.035639 [TEST] Reconnect 1
+19:54:38.035789 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.035780 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.038035 [TEST] Reconnect 0
+19:54:38.086289 [0] sending AppendEntries to 2: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.086289 [0] sending AppendEntries to 1: ni=0, args={Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.091337 [1] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.091438 [1] AppendEntries reply: {Term:10 Success:false}
+19:54:38.092221 [0] term out of date in heartbeat reply
+19:54:38.092253 [0] becomes Follower with term=10; log=[]
+19:54:38.092306 [0] election timer started (232ms), term=10
+19:54:38.094627 [2] AppendEntries: {Term:9 LeaderId:0 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.094816 [2] AppendEntries reply: {Term:10 Success:false}
+19:54:38.095597 [0] term out of date in heartbeat reply
+19:54:38.095627 [0] becomes Follower with term=10; log=[]
+19:54:38.095680 [0] election timer started (154ms), term=10
+19:54:38.146601 [1] becomes Candidate (currentTerm=11); log=[]
+19:54:38.146797 [1] election timer started (273ms), term=11
+19:54:38.146787 [1] sending RequestVote to 2: {Term:11 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:38.146814 [1] sending RequestVote to 0: {Term:11 CandidateId:1 LastLogIndex:0 LastLogTerm:0}
+19:54:38.149341 [0] RequestVote: {Term:11 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=10, votedFor=-1]
+19:54:38.149433 [0] ... term out of date in RequestVote
+19:54:38.149469 [0] becomes Follower with term=11; log=[]
+19:54:38.149538 [0] ... RequestVote reply: &{Term:11 VoteGranted:true}
+19:54:38.149843 [0] election timer started (200ms), term=11
+19:54:38.150936 [1] received RequestVoteReply {Term:11 VoteGranted:true}
+19:54:38.150997 [1] wins election with 2 votes
+19:54:38.151053 [1] becomes Leader; term=11, log=[]
+19:54:38.151157 [1] sending AppendEntries to 0: ni=0, args={Term:11 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.151180 [1] sending AppendEntries to 2: ni=0, args={Term:11 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.152217 [2] RequestVote: {Term:11 CandidateId:1 LastLogIndex:0 LastLogTerm:0} [currentTerm=10, votedFor=2]
+19:54:38.152267 [2] ... term out of date in RequestVote
+19:54:38.152287 [2] becomes Follower with term=11; log=[]
+19:54:38.152321 [2] ... RequestVote reply: &{Term:11 VoteGranted:true}
+19:54:38.152389 [2] election timer started (280ms), term=11
+19:54:38.152470 [0] in election timer term changed from 10 to 11, bailing out
+19:54:38.153451 [1] received RequestVoteReply {Term:11 VoteGranted:true}
+19:54:38.153484 [1] while waiting for reply, state = Leader
+19:54:38.153822 [0] AppendEntries: {Term:11 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.153890 [0] AppendEntries reply: {Term:11 Success:true}
+19:54:38.154828 [2] AppendEntries: {Term:11 LeaderId:1 PrevLogIndex:0 PrevLogTerm:0 Entries:[] LeaderCommit:0}
+19:54:38.154892 [2] AppendEntries reply: {Term:11 Success:true}
+19:54:38.155192 [2] in election timer term changed from 10 to 11, bailing out
+19:54:38.155859 [0] in election timer term changed from 10 to 11, bailing out
+19:54:38.157094 [1] in election timer state=Leader, bailing out
+19:54:38.189592 [0] becomes Dead
+19:54:38.189693 [1] becomes Dead
+19:54:38.189765 [2] becomes Dead
+19:54:38.190392 [0] in election timer state=Dead, bailing out
+19:54:38.192643 [2] in election timer state=Dead, bailing out
+--- PASS: TestElectionDisconnectLoop (2.83s)
+PASS
+ok  	github.com/codeharik/raft	10.006s

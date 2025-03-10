@@ -31,8 +31,8 @@ type Server struct {
 	cm       *ConsensusModule
 	rpcProxy *RPCProxy
 
-	rpcServer *rpc.Server
-	listener  net.Listener
+	rpcerver *rpc.Server
+	listener net.Listener
 
 	peerClients map[int]*rpc.Client
 
