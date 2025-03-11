@@ -1,0 +1,252 @@
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <title>TestElectionLeaderDisconnectThenReconnect -- FAIL</title>
+  </head>
+  <style>
+  table {
+    font-family: "Courier New";
+    border-collapse: collapse;
+  }
+
+  table, th, td {
+    padding: 8px;
+    border: 1px solid #cccccc;
+  }
+
+  td.testcell {
+    background-color: #ffffff;
+  }
+
+  td.Follower {
+    background-color: #ffffff;
+  }
+
+  td.Candidate {
+    background-color: #e2e2a3;
+  }
+
+  td.Leader {
+    background-color: #e6fff5;
+  }
+
+  td.Dead {
+    background-color: #dddddd;
+  }
+
+  h1 {
+    text-align: center;
+  }
+  </style>
+<body>
+  <h1>TestElectionLeaderDisconnectThenReconnect -- FAIL</h1>
+  <p></p>
+  <table>
+    <tr>
+      
+      <th>Time</th>
+      
+      <th>0</th>
+      
+      <th>1</th>
+      
+      <th>2</th>
+      
+    </tr>
+    
+    <tr>
+      <td>18:43:57.299672</td>  <td class="Follower">listening at [::]:50395</td>  <td class="Follower"></td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.299834</td>  <td class="Follower"></td>  <td class="Follower">listening at [::]:50396</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.299949</td>  <td class="Follower"></td>  <td class="Follower"></td>  <td class="Follower">listening at [::]:50397</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.301823</td>  <td class="Follower"></td>  <td class="Follower"></td>  <td class="Follower">election timer started (239ms), term=0</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.301832</td>  <td class="Follower">election timer started (275ms), term=0</td>  <td class="Follower"></td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.301822</td>  <td class="Follower"></td>  <td class="Follower">election timer started (191ms), term=0</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.308080</td>  <td class="Follower"></td>  <td class="Follower">in election timer state=Dead, bailing out</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.308109</td>  <td class="Follower"></td>  <td class="Follower"></td>  <td class="Follower">in election timer state=Dead, bailing out</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.308682</td>  <td class="Follower">in election timer state=Dead, bailing out</td>  <td class="Follower"></td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.493049</td>  <td class="Follower"></td>  <td class="Candidate">becomes Candidate (currentTerm=1); log=[]</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.493271</td>  <td class="Follower"></td>  <td class="Candidate">election timer started (282ms), term=1</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.493269</td>  <td class="Follower"></td>  <td class="Candidate">sending RequestVote to 0: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.493272</td>  <td class="Follower"></td>  <td class="Candidate">sending RequestVote to 2: {Term:1 CandidateId:1 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Follower"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.542997</td>  <td class="Follower"></td>  <td class="Candidate"></td>  <td class="Candidate">becomes Candidate (currentTerm=1); log=[]</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.543360</td>  <td class="Follower"></td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 1: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.543347</td>  <td class="Follower"></td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 0: {Term:1 CandidateId:2 LastLogIndex:0 LastLogTerm:0}</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.543474</td>  <td class="Follower"></td>  <td class="Candidate"></td>  <td class="Candidate">election timer started (264ms), term=1</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.582994</td>  <td class="Candidate">becomes Candidate (currentTerm=1); log=[]</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.583478</td>  <td class="Candidate">sending RequestVote to 2: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.583465</td>  <td class="Candidate">sending RequestVote to 1: {Term:1 CandidateId:0 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.583504</td>  <td class="Candidate">election timer started (178ms), term=1</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.764539</td>  <td class="Candidate">becomes Candidate (currentTerm=2); log=[]</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.764786</td>  <td class="Candidate">election timer started (261ms), term=2</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.764752</td>  <td class="Candidate">sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.764758</td>  <td class="Candidate">sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.784501</td>  <td class="Candidate"></td>  <td class="Candidate">becomes Candidate (currentTerm=2); log=[]</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.784592</td>  <td class="Candidate"></td>  <td class="Candidate">election timer started (199ms), term=2</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.784594</td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 2: {Term:2 CandidateId:1 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.784592</td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 0: {Term:2 CandidateId:1 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.814623</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">becomes Candidate (currentTerm=2); log=[]</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.814702</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 0: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.814726</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 1: {Term:2 CandidateId:2 LastLogIndex:0 LastLogTerm:0}</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.814821</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">election timer started (226ms), term=2</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.985689</td>  <td class="Candidate"></td>  <td class="Candidate">becomes Candidate (currentTerm=3); log=[]</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.985871</td>  <td class="Candidate"></td>  <td class="Candidate">election timer started (261ms), term=3</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.985860</td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 0: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:57.985878</td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 2: {Term:3 CandidateId:1 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.026025</td>  <td class="Candidate">becomes Candidate (currentTerm=3); log=[]</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.026139</td>  <td class="Candidate">election timer started (240ms), term=3</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.026131</td>  <td class="Candidate">sending RequestVote to 2: {Term:3 CandidateId:0 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.026136</td>  <td class="Candidate">sending RequestVote to 1: {Term:3 CandidateId:0 LastLogIndex:0 LastLogTerm:0}</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.045955</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">becomes Candidate (currentTerm=3); log=[]</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.046082</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">election timer started (233ms), term=3</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.046090</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 1: {Term:3 CandidateId:2 LastLogIndex:0 LastLogTerm:0}</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.046061</td>  <td class="Candidate"></td>  <td class="Candidate"></td>  <td class="Candidate">sending RequestVote to 0: {Term:3 CandidateId:2 LastLogIndex:0 LastLogTerm:0}</td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.057044</td>  <td class="Dead">becomes Dead</td>  <td class="Candidate"></td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.057150</td>  <td class="Dead"></td>  <td class="Dead">becomes Dead</td>  <td class="Candidate"></td>
+    </tr>
+    
+    <tr>
+      <td>18:43:58.057205</td>  <td class="Dead"></td>  <td class="Dead"></td>  <td class="Dead">becomes Dead</td>
+    </tr>
+    
+  </table>
+</body>
+</html>

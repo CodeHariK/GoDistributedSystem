@@ -258,6 +258,9 @@ func parseTestLogs(rd io.Reader) []TestLog {
 }
 
 func main() {
+	part := flag.Int("part", 1, "Part")
+	flag.Parse()
+
 	testlogs := parseTestLogs(os.Stdin)
 
 	tnames := make(map[string]int)
@@ -279,8 +282,7 @@ func main() {
 		if tl.status != "PASS" {
 			statusSummary = tl.status
 		}
-		part := flag.Int("part", 10, "Part")
-		flag.Parse()
+
 		dir := fmt.Sprint("./temp/part", *part)
 
 		emitTestViz(dir, tl)
