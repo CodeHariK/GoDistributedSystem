@@ -42,16 +42,77 @@ func (cm *ConsensusModule) RequestVote(
 	ctx context.Context,
 	req *connect.Request[api.RequestVoteRequest],
 ) (*connect.Response[api.RequestVoteResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented,
-		errors.New("craft.CraftService.RequestVote is not implemented"))
+	cm.mu.Lock()
+	defer cm.mu.Unlock()
+	if cm.state == api.CMState_DEAD {
+		return nil, connect.NewError(connect.CodeUnavailable,
+			errors.New("craft.CraftService.RequestVote CMState_DEAD"))
+	}
+
+	cm.dlog("RequestVote: %+v [currentTerm=%d, votedFor=%d]", req.Msg, cm.currentTerm, cm.votedFor)
+
+	if req.Msg.Term > cm.currentTerm {
+		cm.dlog("... term out of date in RequestVote")
+		cm.becomeFollower(req.Msg.Term)
+	}
+
+	reply := api.RequestVoteResponse{
+		Term:        cm.currentTerm,
+		VoteGranted: false,
+	}
+
+	if cm.currentTerm == req.Msg.Term &&
+		(cm.votedFor == -1 || cm.votedFor == req.Msg.CandidateId) {
+		reply.VoteGranted = true
+		cm.votedFor = req.Msg.CandidateId
+		cm.electionResetEvent = time.Now()
+	}
+
+	cm.dlog("... RequestVote reply: Term:%d Votegranted:%d", reply.Term, reply.VoteGranted)
+
+	return connect.NewResponse(&reply), nil
 }
 
 func (cm *ConsensusModule) AppendEntries(
 	ctx context.Context,
 	req *connect.Request[api.AppendEntriesRequest],
 ) (*connect.Response[api.AppendEntriesResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented,
-		errors.New("craft.CraftService.AppendEntries is not implemented"))
+	cm.mu.Lock()
+	defer cm.mu.Unlock()
+	if cm.state == api.CMState_DEAD {
+		return nil, connect.NewError(connect.CodeUnavailable,
+			errors.New("craft.CraftService.AppendEntries CMState_DEAD"))
+	}
+	cm.dlog("AppendEntries: %+v", req.Msg)
+
+	if req.Msg.Term > cm.currentTerm {
+		cm.dlog("... term out of date in AppendEntries")
+		cm.becomeFollower(req.Msg.Term)
+	}
+
+	reply := api.AppendEntriesResponse{
+		Term:    cm.currentTerm,
+		Success: false,
+	}
+
+	if req.Msg.Term == cm.currentTerm {
+		if cm.state != api.CMState_FOLLOWER {
+			cm.becomeFollower(req.Msg.Term)
+		}
+		cm.electionResetEvent = time.Now()
+		reply.Success = true
+	}
+
+	cm.dlog("AppendEntries reply: Term:%d Success:%d", reply.Term, reply.Success)
+
+	return connect.NewResponse(&reply), nil
+}
+
+// Report reports the state of this CM.
+func (cm *ConsensusModule) Report() (id int64, term int64, isLeader bool) {
+	cm.mu.Lock()
+	defer cm.mu.Unlock()
+	return cm.id, cm.currentTerm, cm.state == api.CMState_LEADER
 }
 
 // Stop stops this CM, cleaning up its state. This method returns quickly, but
@@ -130,6 +191,15 @@ func (cm *ConsensusModule) runElectionTimer() {
 	}
 }
 
+func (s *CraftServer) GetPeerClient(peerId int64) (*Connection, bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	// Unlock before making network calls
+	// dont blocks other goroutines from accessing cm.server.peerClients
+	peer, exists := s.peerClients[peerId]
+	return peer, exists
+}
+
 // startElection starts a new election with this CM as a candidate.
 // Expects cm.mu to be locked.
 func (cm *ConsensusModule) startElection() {
@@ -144,36 +214,39 @@ func (cm *ConsensusModule) startElection() {
 
 	// Send RequestVote RPCs to all other servers concurrently.
 	for _, peerId := range cm.peerIds {
-		go func(peerId int) {
-			args := api.RequestVoteRequest{
-				Term:        savedCurrentTerm,
-				CandidateId: cm.id,
-			}
-			var reply api.RequestVoteResponse
+		go func(peerId int64) {
+			cm.dlog("sending RequestVote to %d: Term:%d CandidateId:%d", peerId, savedCurrentTerm, cm.id)
 
-			cm.dlog("sending RequestVote to %d: %+v", peerId, args)
-			if err := cm.server.Call(peerId, "ConsensusModule.RequestVote", args, &reply); err == nil {
-				cm.mu.Lock()
-				defer cm.mu.Unlock()
-				cm.dlog("received RequestVoteReply %+v", reply)
+			if peer, exists := cm.server.GetPeerClient(peerId); exists && peer != nil {
+				res, err := peer.client.RequestVote(context.Background(),
+					connect.NewRequest(&api.RequestVoteRequest{
+						Term:        savedCurrentTerm,
+						CandidateId: cm.id,
+					}))
 
-				if cm.state != api.CMState_CANDIDATE {
-					cm.dlog("while waiting for reply, state = %v", cm.state)
-					return
-				}
+				if err == nil {
+					cm.mu.Lock()
+					defer cm.mu.Unlock()
+					cm.dlog("received RequestVoteReply %+v", res)
 
-				if reply.Term > savedCurrentTerm {
-					cm.dlog("term out of date in RequestVoteReply")
-					cm.becomeFollower(reply.Term)
-					return
-				} else if reply.Term == savedCurrentTerm {
-					if reply.VoteGranted {
-						votesReceived += 1
-						if votesReceived*2 > len(cm.peerIds)+1 {
-							// Won the election!
-							cm.dlog("wins election with %d votes", votesReceived)
-							cm.startLeader()
-							return
+					if cm.state != api.CMState_CANDIDATE {
+						cm.dlog("while waiting for reply, state = %v", cm.state)
+						return
+					}
+
+					if res.Msg.Term > savedCurrentTerm {
+						cm.dlog("term out of date in RequestVoteReply")
+						cm.becomeFollower(res.Msg.Term)
+						return
+					} else if res.Msg.Term == savedCurrentTerm {
+						if res.Msg.VoteGranted {
+							votesReceived += 1
+							if votesReceived*2 > len(cm.peerIds)+1 {
+								// Won the election!
+								cm.dlog("wins election with %d votes", votesReceived)
+								cm.startLeader()
+								return
+							}
 						}
 					}
 				}
@@ -234,20 +307,24 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 	cm.mu.Unlock()
 
 	for _, peerId := range cm.peerIds {
-		args := api.AppendEntriesRequest{
-			Term:     savedCurrentTerm,
-			LeaderId: cm.id,
-		}
-		go func(peerId int) {
-			cm.dlog("sending AppendEntries to %v: ni=%d, args=%+v", peerId, 0, args)
-			var reply api.AppendEntriesResponse
-			if err := cm.server.Call(peerId, "ConsensusModule.AppendEntries", args, &reply); err == nil {
-				cm.mu.Lock()
-				defer cm.mu.Unlock()
-				if reply.Term > savedCurrentTerm {
-					cm.dlog("term out of date in heartbeat reply")
-					cm.becomeFollower(reply.Term)
-					return
+		go func(peerId int64) {
+			cm.dlog("sending AppendEntries to %v: ni=%d, Term=%d LeaderId:%d", peerId, 0, savedCurrentTerm, cm.id)
+
+			if peer, exists := cm.server.GetPeerClient(peerId); exists && peer != nil {
+				res, err := peer.client.AppendEntries(context.Background(),
+					connect.NewRequest(&api.AppendEntriesRequest{
+						Term:     savedCurrentTerm,
+						LeaderId: cm.id,
+					}))
+
+				if err == nil {
+					cm.mu.Lock()
+					defer cm.mu.Unlock()
+					if res.Msg.Term > savedCurrentTerm {
+						cm.dlog("term out of date in heartbeat reply")
+						cm.becomeFollower(res.Msg.Term)
+						return
+					}
 				}
 			}
 		}(peerId)

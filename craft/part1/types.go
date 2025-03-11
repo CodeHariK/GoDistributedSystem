@@ -1,9 +1,7 @@
 package craft
 
 import (
-	"net"
 	"net/http"
-	"net/rpc"
 	"sync"
 	"time"
 
@@ -22,14 +20,12 @@ type CraftServer struct {
 	cm       *ConsensusModule
 	rpcProxy *RPCProxy
 
-	rpcServer *rpc.Server
-	listener  net.Listener
+	server *http.Server
 
 	peerClients map[int64]*Connection
 
 	ready <-chan any
 	quit  chan any
-	wg    sync.WaitGroup
 }
 
 type ConsensusModule struct {

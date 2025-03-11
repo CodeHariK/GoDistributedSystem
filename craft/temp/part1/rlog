@@ -1,0 +1,54 @@
+=== RUN   TestElectionBasic
+12:45:23.877454 [0] listening at [::]:58176
+12:45:23.877818 [1] listening at [::]:58177
+12:45:23.878055 [2] listening at [::]:58178
+12:45:23.878289 [0] election timer started (231ms), term=0
+12:45:23.878318 [1] election timer started (184ms), term=0
+12:45:23.878489 [2] election timer started (221ms), term=0
+12:45:24.069659 [1] becomes Candidate (currentTerm=1); log=[]
+12:45:24.069923 [1] sending RequestVote to 2: Term:1 CandidateId:1
+12:45:24.069926 [1] sending RequestVote to 0: Term:1 CandidateId:1
+12:45:24.070107 [1] election timer started (212ms), term=1
+12:45:24.099559 [2] becomes Candidate (currentTerm=1); log=[]
+12:45:24.099634 [2] sending RequestVote to 0: Term:1 CandidateId:2
+12:45:24.099778 [2] election timer started (272ms), term=1
+12:45:24.099803 [2] sending RequestVote to 1: Term:1 CandidateId:2
+12:45:24.109547 [0] becomes Candidate (currentTerm=1); log=[]
+12:45:24.109601 [0] sending RequestVote to 1: Term:1 CandidateId:0
+12:45:24.109605 [0] election timer started (228ms), term=1
+12:45:24.109677 [0] sending RequestVote to 2: Term:1 CandidateId:0
+12:45:24.290731 [1] becomes Candidate (currentTerm=2); log=[]
+12:45:24.290957 [1] sending RequestVote to 0: Term:2 CandidateId:1
+12:45:24.290970 [1] sending RequestVote to 2: Term:2 CandidateId:1
+12:45:24.290983 [1] election timer started (256ms), term=2
+12:45:24.340735 [0] becomes Candidate (currentTerm=2); log=[]
+12:45:24.340904 [0] sending RequestVote to 2: Term:2 CandidateId:0
+12:45:24.340912 [0] sending RequestVote to 1: Term:2 CandidateId:0
+12:45:24.340918 [0] election timer started (245ms), term=2
+12:45:24.380901 [2] becomes Candidate (currentTerm=2); log=[]
+12:45:24.381058 [2] sending RequestVote to 1: Term:2 CandidateId:2
+12:45:24.381055 [2] sending RequestVote to 0: Term:2 CandidateId:2
+12:45:24.381080 [2] election timer started (182ms), term=2
+12:45:24.552077 [1] becomes Candidate (currentTerm=3); log=[]
+12:45:24.552253 [1] sending RequestVote to 2: Term:3 CandidateId:1
+12:45:24.552262 [1] sending RequestVote to 0: Term:3 CandidateId:1
+12:45:24.552267 [1] election timer started (164ms), term=3
+12:45:24.572057 [2] becomes Candidate (currentTerm=3); log=[]
+12:45:24.572167 [2] sending RequestVote to 0: Term:3 CandidateId:2
+12:45:24.572206 [2] sending RequestVote to 1: Term:3 CandidateId:2
+12:45:24.572253 [2] election timer started (194ms), term=3
+12:45:24.592060 [0] becomes Candidate (currentTerm=3); log=[]
+12:45:24.592220 [0] sending RequestVote to 1: Term:3 CandidateId:0
+12:45:24.592223 [0] election timer started (187ms), term=3
+12:45:24.592437 [0] sending RequestVote to 2: Term:3 CandidateId:0
+    testharness.go:131: leader not found
+12:45:24.633202 [0] becomes Dead
+12:45:24.633255 [0] CraftServer terminated!
+12:45:24.633281 [1] becomes Dead
+12:45:24.633309 [1] CraftServer terminated!
+12:45:24.633330 [2] becomes Dead
+12:45:24.633359 [2] CraftServer terminated!
+--- FAIL: TestElectionBasic (0.76s)
+FAIL
+FAIL	github.com/codeharik/craft/part1	1.014s
+FAIL

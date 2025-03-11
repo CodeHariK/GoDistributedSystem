@@ -1,6 +1,4 @@
-// Eli Bendersky [https://eli.thegreenplace.net]
-// This code is in the public domain.
-package raft
+package craft
 
 import (
 	"testing"
@@ -56,14 +54,14 @@ func TestElectionBasic(t *testing.T) {
 
 // 	sleepMs(100)
 // 	//	Disconnect all servers from the start. There will be no leader.
-// 	for i := 0; i < 3; i++ {
+// 	for i := int64(0); i < 3; i++ {
 // 		h.DisconnectPeer(i)
 // 	}
 // 	sleepMs(450)
 // 	h.CheckNoLeader()
 
 // 	// Reconnect all servers. A leader will be found.
-// 	for i := 0; i < 3; i++ {
+// 	for i := int64(0); i < 3; i++ {
 // 		h.ReconnectPeer(i)
 // 	}
 // 	h.CheckSingleLeader()
