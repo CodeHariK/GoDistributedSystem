@@ -10,7 +10,6 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -258,9 +257,6 @@ func parseTestLogs(rd io.Reader) []TestLog {
 }
 
 func main() {
-	part := flag.Int("part", 1, "Part")
-	flag.Parse()
-
 	testlogs := parseTestLogs(os.Stdin)
 
 	tnames := make(map[string]int)
@@ -283,9 +279,7 @@ func main() {
 			statusSummary = tl.status
 		}
 
-		dir := fmt.Sprint("./temp/part", *part)
-
-		emitTestViz(dir, tl)
+		emitTestViz("./temp", tl)
 		fmt.Println("")
 	}
 

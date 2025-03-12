@@ -1,0 +1,503 @@
+=== RUN   TestElectionBasic
+10:35:14.171087 [0] listening at [::]:50418
+10:35:14.171335 [1] listening at [::]:50419
+10:35:14.171490 [2] listening at [::]:50420
+10:35:14.171704 [1] election timer started (262ms), term=0
+10:35:14.171711 [0] election timer started (196ms), term=0
+10:35:14.171735 [2] election timer started (270ms), term=0
+10:35:14.372984 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:14.373298 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:14.373316 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:14.373266 [0] election timer started (235ms), term=1
+10:35:14.442221 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:14.442222 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:14.442424 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:14.442480 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:14.442523 [1] election timer started (252ms), term=1
+10:35:14.442430 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:14.442429 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:14.442707 [2] election timer started (178ms), term=1
+10:35:14.613676 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:14.613932 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:14.613964 [0] election timer started (171ms), term=2
+10:35:14.613944 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:14.623493 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:14.623598 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:14.623665 [2] election timer started (285ms), term=2
+10:35:14.623593 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:14.703676 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:14.703858 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:14.703848 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:14.703867 [1] election timer started (284ms), term=2
+10:35:14.794842 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:14.795038 [0] sending RequestVote to 1: Term:3 CandidateId:0
+10:35:14.795051 [0] election timer started (253ms), term=3
+10:35:14.795048 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:14.914823 [2] becomes Candidate (currentTerm=3); log=[]
+10:35:14.915051 [2] sending RequestVote to 0: Term:3 CandidateId:2
+10:35:14.915059 [2] sending RequestVote to 1: Term:3 CandidateId:2
+10:35:14.915057 [2] election timer started (293ms), term=3
+    testharness.go:131: leader not found
+10:35:14.925389 [0] becomes Dead
+10:35:14.925563 [0] CraftServer terminated!
+10:35:14.925593 [1] becomes Dead
+10:35:14.925624 [1] CraftServer terminated!
+10:35:14.925649 [2] becomes Dead
+10:35:14.925702 [2] CraftServer terminated!
+--- FAIL: TestElectionBasic (0.76s)
+10:35:14.925791 [0] in election timer state=DEAD, bailing out
+=== RUN   TestElectionLeaderDisconnect
+10:35:14.926576 [0] listening at [::]:50453
+10:35:14.927034 [1] listening at [::]:50454
+10:35:14.927580 [2] listening at [::]:50455
+10:35:14.927953 [1] election timer started (285ms), term=0
+10:35:14.927968 [2] election timer started (251ms), term=0
+10:35:14.927948 [0] election timer started (179ms), term=0
+10:35:14.934730 [1] in election timer state=DEAD, bailing out
+10:35:14.935229 [2] in election timer state=DEAD, bailing out
+10:35:15.109083 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:15.109292 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:15.109305 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:15.109308 [0] election timer started (221ms), term=1
+10:35:15.179122 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:15.179341 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:15.179361 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:15.179674 [2] election timer started (299ms), term=1
+10:35:15.219070 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:15.219218 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:15.219236 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:15.219226 [1] election timer started (251ms), term=1
+10:35:15.339842 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:15.340060 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:15.340052 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:15.340131 [0] election timer started (155ms), term=2
+10:35:15.470417 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:15.470611 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:15.470627 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:15.470651 [1] election timer started (237ms), term=2
+10:35:15.480784 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:15.480893 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:15.480972 [2] election timer started (213ms), term=2
+10:35:15.480916 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:15.501358 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:15.501595 [0] sending RequestVote to 1: Term:3 CandidateId:0
+10:35:15.501641 [0] election timer started (166ms), term=3
+10:35:15.501759 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:15.671950 [0] becomes Candidate (currentTerm=4); log=[]
+10:35:15.672149 [0] sending RequestVote to 1: Term:4 CandidateId:0
+10:35:15.672162 [0] sending RequestVote to 2: Term:4 CandidateId:0
+10:35:15.672178 [0] election timer started (150ms), term=4
+    testharness.go:131: leader not found
+10:35:15.682154 [0] becomes Dead
+10:35:15.682219 [0] CraftServer terminated!
+10:35:15.682240 [1] becomes Dead
+10:35:15.682271 [1] CraftServer terminated!
+10:35:15.682290 [2] becomes Dead
+10:35:15.682331 [2] CraftServer terminated!
+--- FAIL: TestElectionLeaderDisconnect (0.76s)
+10:35:15.682464 [0] in election timer state=DEAD, bailing out
+=== RUN   TestElectionLeaderAndAnotherDisconnect
+10:35:15.682807 [2] in election timer state=DEAD, bailing out
+10:35:15.683501 [0] listening at [::]:50488
+10:35:15.684085 [1] listening at [::]:50489
+10:35:15.684477 [2] listening at [::]:50490
+10:35:15.684907 [0] election timer started (222ms), term=0
+10:35:15.684958 [1] election timer started (271ms), term=0
+10:35:15.684993 [2] election timer started (212ms), term=0
+10:35:15.691627 [1] in election timer state=DEAD, bailing out
+10:35:15.906049 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:15.906288 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:15.906333 [2] election timer started (252ms), term=1
+10:35:15.906311 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:15.915861 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:15.915962 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:15.916051 [0] election timer started (177ms), term=1
+10:35:15.915967 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:15.956116 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:15.956229 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:15.956235 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:15.956231 [1] election timer started (251ms), term=1
+10:35:16.097198 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:16.097376 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:16.097385 [0] election timer started (165ms), term=2
+10:35:16.097388 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:16.167380 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:16.167557 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:16.167564 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:16.167560 [2] election timer started (248ms), term=2
+10:35:16.207366 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:16.207513 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:16.207519 [1] election timer started (184ms), term=2
+10:35:16.207518 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:16.268533 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:16.268739 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:16.268746 [0] election timer started (276ms), term=3
+10:35:16.268792 [0] sending RequestVote to 1: Term:3 CandidateId:0
+10:35:16.398638 [1] becomes Candidate (currentTerm=3); log=[]
+10:35:16.398711 [1] sending RequestVote to 0: Term:3 CandidateId:1
+10:35:16.398718 [1] election timer started (274ms), term=3
+10:35:16.398713 [1] sending RequestVote to 2: Term:3 CandidateId:1
+10:35:16.418777 [2] becomes Candidate (currentTerm=3); log=[]
+10:35:16.418851 [2] sending RequestVote to 0: Term:3 CandidateId:2
+10:35:16.418850 [2] election timer started (186ms), term=3
+10:35:16.418863 [2] sending RequestVote to 1: Term:3 CandidateId:2
+    testharness.go:131: leader not found
+10:35:16.439680 [0] becomes Dead
+10:35:16.439714 [0] CraftServer terminated!
+10:35:16.439734 [1] becomes Dead
+10:35:16.439753 [1] CraftServer terminated!
+10:35:16.439767 [2] becomes Dead
+10:35:16.439787 [2] CraftServer terminated!
+--- FAIL: TestElectionLeaderAndAnotherDisconnect (0.76s)
+=== RUN   TestDisconnectAllThenRestore
+10:35:16.440204 [0] listening at [::]:50527
+10:35:16.440426 [1] listening at [::]:50528
+10:35:16.440626 [2] listening at [::]:50529
+10:35:16.440986 [2] election timer started (204ms), term=0
+10:35:16.441048 [1] election timer started (229ms), term=0
+10:35:16.440961 [0] election timer started (299ms), term=0
+10:35:16.449822 [1] in election timer state=DEAD, bailing out
+10:35:16.449835 [0] in election timer state=DEAD, bailing out
+10:35:16.449852 [2] in election timer state=DEAD, bailing out
+10:35:16.542024 [TEST] Disconnect 0
+10:35:16.542246 [TEST] Disconnect 1
+10:35:16.542309 [TEST] Disconnect 2
+10:35:16.652153 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:16.652370 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:16.652366 [2] election timer started (272ms), term=1
+10:35:16.652362 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:16.672171 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:16.672282 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:16.672281 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:16.672328 [1] election timer started (293ms), term=1
+10:35:16.742152 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:16.742303 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:16.742303 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:16.742360 [0] election timer started (293ms), term=1
+10:35:16.933529 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:16.933730 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:16.933722 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:16.933811 [2] election timer started (233ms), term=2
+10:35:16.973457 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:16.973617 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:16.973638 [1] election timer started (157ms), term=2
+10:35:16.973683 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:16.993356 [TEST] Reconnect 0
+10:35:16.993682 [TEST] Reconnect 1
+10:35:16.993768 [TEST] Reconnect 2
+10:35:17.043476 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:17.043578 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:17.043592 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:17.043583 [0] election timer started (272ms), term=2
+10:35:17.134117 [1] becomes Candidate (currentTerm=3); log=[]
+10:35:17.134321 [1] sending RequestVote to 2: Term:3 CandidateId:1
+10:35:17.134317 [1] election timer started (203ms), term=3
+10:35:17.134321 [1] sending RequestVote to 0: Term:3 CandidateId:1
+10:35:17.174667 [2] becomes Candidate (currentTerm=3); log=[]
+10:35:17.174733 [2] sending RequestVote to 0: Term:3 CandidateId:2
+10:35:17.174732 [2] election timer started (288ms), term=3
+10:35:17.174811 [2] sending RequestVote to 1: Term:3 CandidateId:2
+10:35:17.324724 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:17.324811 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:17.324815 [0] election timer started (238ms), term=3
+10:35:17.324807 [0] sending RequestVote to 1: Term:3 CandidateId:0
+10:35:17.345545 [1] becomes Candidate (currentTerm=4); log=[]
+10:35:17.345655 [1] sending RequestVote to 0: Term:4 CandidateId:1
+10:35:17.345628 [1] election timer started (294ms), term=4
+10:35:17.345712 [1] sending RequestVote to 2: Term:4 CandidateId:1
+10:35:17.465856 [2] becomes Candidate (currentTerm=4); log=[]
+10:35:17.466058 [2] sending RequestVote to 1: Term:4 CandidateId:2
+10:35:17.466065 [2] sending RequestVote to 0: Term:4 CandidateId:2
+10:35:17.466105 [2] election timer started (277ms), term=4
+10:35:17.565955 [0] becomes Candidate (currentTerm=4); log=[]
+10:35:17.566146 [0] sending RequestVote to 2: Term:4 CandidateId:0
+10:35:17.566125 [0] sending RequestVote to 1: Term:4 CandidateId:0
+10:35:17.566131 [0] election timer started (166ms), term=4
+10:35:17.646782 [1] becomes Candidate (currentTerm=5); log=[]
+10:35:17.646966 [1] sending RequestVote to 0: Term:5 CandidateId:1
+10:35:17.646982 [1] sending RequestVote to 2: Term:5 CandidateId:1
+10:35:17.646977 [1] election timer started (249ms), term=5
+10:35:17.737281 [0] becomes Candidate (currentTerm=5); log=[]
+10:35:17.737473 [0] sending RequestVote to 1: Term:5 CandidateId:0
+10:35:17.737481 [0] sending RequestVote to 2: Term:5 CandidateId:0
+10:35:17.737479 [0] election timer started (242ms), term=5
+10:35:17.747176 [2] becomes Candidate (currentTerm=5); log=[]
+    testharness.go:131: leader not found
+10:35:17.747257 [2] sending RequestVote to 0: Term:5 CandidateId:2
+10:35:17.747342 [2] sending RequestVote to 1: Term:5 CandidateId:2
+10:35:17.747359 [0] becomes Dead
+10:35:17.747393 [2] election timer started (269ms), term=5
+10:35:17.747411 [0] CraftServer terminated!
+10:35:17.747448 [1] becomes Dead
+10:35:17.747475 [1] CraftServer terminated!
+10:35:17.747494 [2] becomes Dead
+10:35:17.747522 [2] CraftServer terminated!
+--- FAIL: TestDisconnectAllThenRestore (1.31s)
+=== RUN   TestElectionLeaderDisconnectThenReconnect
+10:35:17.747740 [0] in election timer state=DEAD, bailing out
+10:35:17.748560 [0] listening at [::]:50567
+10:35:17.748974 [1] listening at [::]:50569
+10:35:17.749326 [2] listening at [::]:50570
+10:35:17.749567 [0] election timer started (295ms), term=0
+10:35:17.749569 [1] election timer started (172ms), term=0
+10:35:17.749580 [2] election timer started (188ms), term=0
+10:35:17.758227 [2] in election timer state=DEAD, bailing out
+10:35:17.758240 [1] in election timer state=DEAD, bailing out
+10:35:17.930710 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:17.930884 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:17.930889 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:17.930925 [1] election timer started (201ms), term=1
+10:35:17.940552 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:17.940639 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:17.940678 [2] election timer started (198ms), term=1
+10:35:17.940637 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:18.050687 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:18.050881 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:18.050885 [0] election timer started (277ms), term=1
+10:35:18.050896 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:18.131831 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:18.132031 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:18.132058 [1] election timer started (254ms), term=2
+10:35:18.132088 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:18.141728 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:18.141827 [2] election timer started (224ms), term=2
+10:35:18.141886 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:18.141910 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:18.332046 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:18.332215 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:18.332225 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:18.332240 [0] election timer started (265ms), term=2
+10:35:18.373043 [2] becomes Candidate (currentTerm=3); log=[]
+10:35:18.373223 [2] sending RequestVote to 1: Term:3 CandidateId:2
+10:35:18.373222 [2] sending RequestVote to 0: Term:3 CandidateId:2
+10:35:18.373267 [2] election timer started (261ms), term=3
+10:35:18.393259 [1] becomes Candidate (currentTerm=3); log=[]
+10:35:18.393463 [1] sending RequestVote to 2: Term:3 CandidateId:1
+10:35:18.393463 [1] sending RequestVote to 0: Term:3 CandidateId:1
+10:35:18.393414 [1] election timer started (278ms), term=3
+    testharness.go:131: leader not found
+10:35:18.503777 [0] becomes Dead
+10:35:18.503885 [0] CraftServer terminated!
+10:35:18.503931 [1] becomes Dead
+10:35:18.503992 [1] CraftServer terminated!
+10:35:18.504046 [2] becomes Dead
+10:35:18.504099 [2] CraftServer terminated!
+--- FAIL: TestElectionLeaderDisconnectThenReconnect (0.76s)
+=== RUN   TestElectionLeaderDisconnectThenReconnect5
+10:35:18.507674 [0] listening at [::]:50603
+10:35:18.508095 [1] listening at [::]:50604
+10:35:18.508465 [2] listening at [::]:50605
+10:35:18.508791 [3] listening at [::]:50606
+10:35:18.509245 [4] listening at [::]:50607
+10:35:18.510133 [1] election timer started (224ms), term=0
+10:35:18.510199 [3] election timer started (213ms), term=0
+10:35:18.510209 [4] election timer started (288ms), term=0
+10:35:18.510138 [2] election timer started (295ms), term=0
+10:35:18.510254 [0] election timer started (165ms), term=0
+10:35:18.513375 [0] in election timer state=DEAD, bailing out
+10:35:18.513403 [2] in election timer state=DEAD, bailing out
+10:35:18.513651 [1] in election timer state=DEAD, bailing out
+10:35:18.680923 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:18.681102 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:18.681130 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:18.681190 [0] sending RequestVote to 4: Term:1 CandidateId:0
+10:35:18.681410 [0] election timer started (225ms), term=1
+10:35:18.681513 [0] sending RequestVote to 3: Term:1 CandidateId:0
+10:35:18.731281 [3] becomes Candidate (currentTerm=1); log=[]
+10:35:18.731443 [3] sending RequestVote to 0: Term:1 CandidateId:3
+10:35:18.731473 [3] sending RequestVote to 4: Term:1 CandidateId:3
+10:35:18.731485 [3] sending RequestVote to 1: Term:1 CandidateId:3
+10:35:18.731633 [3] sending RequestVote to 2: Term:1 CandidateId:3
+10:35:18.731606 [3] election timer started (235ms), term=1
+10:35:18.740968 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:18.741207 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:18.741204 [1] election timer started (204ms), term=1
+10:35:18.741311 [1] sending RequestVote to 4: Term:1 CandidateId:1
+10:35:18.741463 [1] sending RequestVote to 3: Term:1 CandidateId:1
+10:35:18.741595 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:18.801030 [4] becomes Candidate (currentTerm=1); log=[]
+10:35:18.801166 [4] sending RequestVote to 0: Term:1 CandidateId:4
+10:35:18.801250 [4] sending RequestVote to 3: Term:1 CandidateId:4
+10:35:18.801219 [4] sending RequestVote to 2: Term:1 CandidateId:4
+10:35:18.801176 [4] sending RequestVote to 1: Term:1 CandidateId:4
+10:35:18.801741 [4] election timer started (166ms), term=1
+10:35:18.811136 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:18.811222 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:18.811244 [2] election timer started (253ms), term=1
+10:35:18.811316 [2] sending RequestVote to 4: Term:1 CandidateId:2
+10:35:18.811325 [2] sending RequestVote to 3: Term:1 CandidateId:2
+10:35:18.811627 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:18.912358 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:18.912538 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:18.912549 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:18.912617 [0] sending RequestVote to 4: Term:2 CandidateId:0
+10:35:18.912711 [0] election timer started (201ms), term=2
+10:35:18.912563 [0] sending RequestVote to 3: Term:2 CandidateId:0
+10:35:18.952379 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:18.952466 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:18.952495 [1] election timer started (285ms), term=2
+10:35:18.952550 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:18.952570 [1] sending RequestVote to 3: Term:2 CandidateId:1
+10:35:18.952791 [1] sending RequestVote to 4: Term:2 CandidateId:1
+10:35:18.972401 [3] becomes Candidate (currentTerm=2); log=[]
+10:35:18.972407 [4] becomes Candidate (currentTerm=2); log=[]
+10:35:18.972512 [3] sending RequestVote to 1: Term:2 CandidateId:3
+10:35:18.972518 [3] election timer started (219ms), term=2
+10:35:18.972583 [3] sending RequestVote to 2: Term:2 CandidateId:3
+10:35:18.972593 [4] sending RequestVote to 0: Term:2 CandidateId:4
+10:35:18.972856 [3] sending RequestVote to 0: Term:2 CandidateId:3
+10:35:18.973760 [3] sending RequestVote to 4: Term:2 CandidateId:3
+10:35:18.974230 [4] sending RequestVote to 3: Term:2 CandidateId:4
+10:35:18.974242 [4] sending RequestVote to 1: Term:2 CandidateId:4
+10:35:18.974237 [4] sending RequestVote to 2: Term:2 CandidateId:4
+10:35:18.974269 [4] election timer started (159ms), term=2
+10:35:19.072219 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:19.072442 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:19.072509 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:19.072526 [2] election timer started (196ms), term=2
+10:35:19.072642 [2] sending RequestVote to 4: Term:2 CandidateId:2
+10:35:19.072864 [2] sending RequestVote to 3: Term:2 CandidateId:2
+10:35:19.123318 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:19.123517 [0] sending RequestVote to 4: Term:3 CandidateId:0
+10:35:19.123523 [0] sending RequestVote to 3: Term:3 CandidateId:0
+10:35:19.123587 [0] election timer started (265ms), term=3
+10:35:19.123571 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:19.123505 [0] sending RequestVote to 1: Term:3 CandidateId:0
+10:35:19.134438 [4] becomes Candidate (currentTerm=3); log=[]
+10:35:19.134579 [4] sending RequestVote to 0: Term:3 CandidateId:4
+10:35:19.134582 [4] election timer started (281ms), term=3
+10:35:19.134636 [4] sending RequestVote to 1: Term:3 CandidateId:4
+10:35:19.134650 [4] sending RequestVote to 3: Term:3 CandidateId:4
+10:35:19.134598 [4] sending RequestVote to 2: Term:3 CandidateId:4
+10:35:19.193581 [3] becomes Candidate (currentTerm=3); log=[]
+10:35:19.193729 [3] sending RequestVote to 0: Term:3 CandidateId:3
+10:35:19.193809 [3] sending RequestVote to 2: Term:3 CandidateId:3
+10:35:19.193854 [3] sending RequestVote to 1: Term:3 CandidateId:3
+10:35:19.193846 [3] election timer started (158ms), term=3
+10:35:19.193817 [3] sending RequestVote to 4: Term:3 CandidateId:3
+10:35:19.243602 [1] becomes Candidate (currentTerm=3); log=[]
+10:35:19.243748 [1] sending RequestVote to 0: Term:3 CandidateId:1
+10:35:19.243779 [1] sending RequestVote to 2: Term:3 CandidateId:1
+10:35:19.243834 [1] sending RequestVote to 4: Term:3 CandidateId:1
+10:35:19.243916 [1] election timer started (166ms), term=3
+10:35:19.243781 [1] sending RequestVote to 3: Term:3 CandidateId:1
+    testharness.go:131: leader not found
+10:35:19.264147 [0] becomes Dead
+10:35:19.264204 [0] CraftServer terminated!
+10:35:19.264233 [1] becomes Dead
+10:35:19.264271 [1] CraftServer terminated!
+10:35:19.264301 [2] becomes Dead
+10:35:19.264364 [2] CraftServer terminated!
+10:35:19.264388 [3] becomes Dead
+10:35:19.264417 [3] CraftServer terminated!
+10:35:19.264445 [4] becomes Dead
+10:35:19.264469 [4] CraftServer terminated!
+10:35:19.265314 [4] in election timer state=DEAD, bailing out
+10:35:19.273166 [2] in election timer state=DEAD, bailing out
+10:35:19.273815 [0] in election timer state=DEAD, bailing out
+10:35:19.273976 [3] in election timer state=DEAD, bailing out
+10:35:19.274024 [1] in election timer state=DEAD, bailing out
+--- FAIL: TestElectionLeaderDisconnectThenReconnect5 (0.81s)
+=== RUN   TestElectionFollowerComesBack
+10:35:19.319725 [0] listening at [::]:50720
+10:35:19.320282 [1] listening at [::]:50721
+10:35:19.320691 [2] listening at [::]:50722
+10:35:19.320966 [2] election timer started (275ms), term=0
+10:35:19.320979 [0] election timer started (150ms), term=0
+10:35:19.320977 [1] election timer started (206ms), term=0
+10:35:19.472016 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:19.472189 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:19.472188 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:19.472268 [0] election timer started (271ms), term=1
+10:35:19.532087 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:19.532231 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:19.532286 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:19.532283 [1] election timer started (183ms), term=1
+10:35:19.602076 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:19.602215 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:19.602228 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:19.602223 [2] election timer started (254ms), term=1
+10:35:19.723456 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:19.723597 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:19.723629 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:19.723734 [1] election timer started (206ms), term=2
+10:35:19.743401 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:19.743478 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:19.743487 [0] election timer started (226ms), term=2
+10:35:19.743484 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:19.863437 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:19.863629 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:19.863645 [2] election timer started (239ms), term=2
+10:35:19.863619 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:19.934653 [1] becomes Candidate (currentTerm=3); log=[]
+10:35:19.934846 [1] sending RequestVote to 0: Term:3 CandidateId:1
+10:35:19.934887 [1] sending RequestVote to 2: Term:3 CandidateId:1
+10:35:19.934876 [1] election timer started (246ms), term=3
+10:35:19.974631 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:19.974852 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:19.974864 [0] election timer started (167ms), term=3
+10:35:19.974866 [0] sending RequestVote to 1: Term:3 CandidateId:0
+    testharness.go:131: leader not found
+10:35:20.075035 [0] becomes Dead
+10:35:20.075090 [0] CraftServer terminated!
+10:35:20.075113 [1] becomes Dead
+10:35:20.075140 [1] CraftServer terminated!
+10:35:20.075162 [2] becomes Dead
+10:35:20.075190 [2] CraftServer terminated!
+10:35:20.084845 [2] in election timer state=DEAD, bailing out
+10:35:20.085046 [0] in election timer state=DEAD, bailing out
+10:35:20.085077 [1] in election timer state=DEAD, bailing out
+--- FAIL: TestElectionFollowerComesBack (0.81s)
+=== RUN   TestElectionDisconnectLoop
+10:35:20.131025 [0] listening at [::]:50755
+10:35:20.131469 [1] listening at [::]:50756
+10:35:20.131851 [2] listening at [::]:50757
+10:35:20.132136 [1] election timer started (199ms), term=0
+10:35:20.132155 [0] election timer started (190ms), term=0
+10:35:20.132157 [2] election timer started (241ms), term=0
+10:35:20.323288 [0] becomes Candidate (currentTerm=1); log=[]
+10:35:20.323471 [0] sending RequestVote to 1: Term:1 CandidateId:0
+10:35:20.323481 [0] sending RequestVote to 2: Term:1 CandidateId:0
+10:35:20.323515 [0] election timer started (227ms), term=1
+10:35:20.332743 [1] becomes Candidate (currentTerm=1); log=[]
+10:35:20.332827 [1] sending RequestVote to 0: Term:1 CandidateId:1
+10:35:20.332974 [1] sending RequestVote to 2: Term:1 CandidateId:1
+10:35:20.333282 [1] election timer started (270ms), term=1
+10:35:20.373445 [2] becomes Candidate (currentTerm=1); log=[]
+10:35:20.373581 [2] sending RequestVote to 1: Term:1 CandidateId:2
+10:35:20.373587 [2] sending RequestVote to 0: Term:1 CandidateId:2
+10:35:20.373637 [2] election timer started (274ms), term=1
+10:35:20.554417 [0] becomes Candidate (currentTerm=2); log=[]
+10:35:20.554581 [0] sending RequestVote to 1: Term:2 CandidateId:0
+10:35:20.554582 [0] sending RequestVote to 2: Term:2 CandidateId:0
+10:35:20.554626 [0] election timer started (230ms), term=2
+10:35:20.604408 [1] becomes Candidate (currentTerm=2); log=[]
+10:35:20.604608 [1] sending RequestVote to 0: Term:2 CandidateId:1
+10:35:20.604603 [1] sending RequestVote to 2: Term:2 CandidateId:1
+10:35:20.604643 [1] election timer started (161ms), term=2
+10:35:20.654875 [2] becomes Candidate (currentTerm=2); log=[]
+10:35:20.655050 [2] sending RequestVote to 1: Term:2 CandidateId:2
+10:35:20.655056 [2] sending RequestVote to 0: Term:2 CandidateId:2
+10:35:20.655085 [2] election timer started (253ms), term=2
+10:35:20.765828 [1] becomes Candidate (currentTerm=3); log=[]
+10:35:20.765952 [1] sending RequestVote to 0: Term:3 CandidateId:1
+10:35:20.765971 [1] sending RequestVote to 2: Term:3 CandidateId:1
+10:35:20.765981 [1] election timer started (265ms), term=3
+10:35:20.785816 [0] becomes Candidate (currentTerm=3); log=[]
+10:35:20.785969 [0] sending RequestVote to 1: Term:3 CandidateId:0
+10:35:20.786001 [0] sending RequestVote to 2: Term:3 CandidateId:0
+10:35:20.786037 [0] election timer started (226ms), term=3
+    testharness.go:131: leader not found
+10:35:20.886835 [0] becomes Dead
+10:35:20.886982 [0] CraftServer terminated!
+10:35:20.887051 [1] becomes Dead
+10:35:20.887112 [1] CraftServer terminated!
+10:35:20.887168 [2] becomes Dead
+10:35:20.887248 [2] CraftServer terminated!
+10:35:20.895608 [2] in election timer state=DEAD, bailing out
+10:35:20.896137 [1] in election timer state=DEAD, bailing out
+10:35:20.896166 [0] in election timer state=DEAD, bailing out
+--- FAIL: TestElectionDisconnectLoop (0.81s)
+FAIL
+exit status 1
+FAIL	github.com/codeharik/craft	7.226s

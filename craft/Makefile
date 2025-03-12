@@ -3,18 +3,10 @@ gen:
 	buf format -w
 	buf generate
 
-logfile1 := ./temp/part1/rlog
-test1:
-	@([ -d "temp/part1" ] && rm -rf temp/part1/* || true)
-	mkdir -p ./temp/part1
+logfile := ./temp/rlog
+test:
+	@([ -d "temp" ] && rm -rf temp/* || true)
+	mkdir -p ./temp
 	@go clean -testcache
-	go test ./part1 -v -race 2>&1 | tee "$(logfile1)"
-	go run tools/main.go -part 1 < "$(logfile1)"
-
-logfile2 := ./temp/part2/rlog
-test2:
-	@([ -d "temp/part2" ] && rm -rf temp/part2/* || true)
-	mkdir -p ./temp/part2
-	@go clean -testcache
-	go test ./part2 -v -race 2>&1 | tee "$(logfile2)"
-	go run tools/main.go -part 2 < "$(logfile2)"
+	go test -v -race 2>&1 | tee "$(logfile)"
+	go run tools/main.go < "$(logfile)"
