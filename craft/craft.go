@@ -1,7 +1,9 @@
 package craft
 
 import (
+	"bytes"
 	"context"
+	"encoding/gob"
 	"errors"
 	"fmt"
 	"log"
@@ -16,14 +18,17 @@ import (
 // NewConsensusModule creates a new CM with the given ID, list of peer IDs and
 // server. The ready channel signals the CM that all peers are connected and
 // it's safe to start its state machine.
-func NewConsensusModule(id int64, peerIds []int64, server *CraftServer, ready <-chan any, commitChan chan<- CommitEntry) *ConsensusModule {
+func NewConsensusModule(id int64, peerIds []int64, server *CraftServer, storage Storage, ready <-chan any, commitChan chan<- CommitEntry) *ConsensusModule {
 	cm := ConsensusModule{
 		id:      id,
 		peerIds: peerIds,
 		server:  server,
 
+		storage: storage,
+
 		commitChan:         commitChan,
 		newCommitReadyChan: make(chan struct{}, 16),
+		triggerAEChan:      make(chan struct{}, 1),
 
 		state:    api.CMState_FOLLOWER,
 		votedFor: -1,
@@ -33,6 +38,10 @@ func NewConsensusModule(id int64, peerIds []int64, server *CraftServer, ready <-
 
 		nextIndex:  make(map[int64]int64),
 		matchIndex: make(map[int64]int64),
+	}
+
+	if cm.storage.HasData() {
+		cm.restoreFromStorage()
 	}
 
 	go func() {
@@ -45,6 +54,7 @@ func NewConsensusModule(id int64, peerIds []int64, server *CraftServer, ready <-
 		cm.runElectionTimer()
 	}()
 
+	cm.newCommitReadyChanWg.Add(1)
 	go cm.commitChanSender()
 
 	return &cm
@@ -83,7 +93,8 @@ func (cm *ConsensusModule) RequestVote(
 		cm.electionResetEvent = time.Now()
 	}
 
-	cm.dlog("... RequestVote reply: Term:%d Votegranted:%d", reply.Term, reply.VoteGranted)
+	cm.persistToStorage()
+	cm.dlog("... RequestVote reply: %+v", &reply)
 
 	return connect.NewResponse(&reply), nil
 }
@@ -139,6 +150,7 @@ func (cm *ConsensusModule) AppendEntries(
 				logInsertIndex++
 				newEntriesIndex++
 			}
+
 			// At the end of this loop:
 			// - logInsertIndex points at the end of the log, or an index where the
 			//   term mismatches with an entry from the leader
@@ -164,9 +176,30 @@ func (cm *ConsensusModule) AppendEntries(
 				cm.dlog("... setting commitIndex=%d", cm.commitIndex)
 				cm.newCommitReadyChan <- struct{}{}
 			}
+		} else {
+			// No match for PrevLogIndex/PrevLogTerm. Populate
+			// ConflictIndex/ConflictTerm to help the leader bring us up to date
+			// quickly.
+			if req.Msg.PrevLogIndex >= int64(len(cm.log)) {
+				reply.ConflictIndex = int64(len(cm.log))
+				reply.ConflictTerm = -1
+			} else {
+				// PrevLogIndex points within our log, but PrevLogTerm doesn't match
+				// cm.log[PrevLogIndex].
+				reply.ConflictTerm = cm.log[req.Msg.PrevLogIndex].Term
+
+				var i int64
+				for i = req.Msg.PrevLogIndex - 1; i >= 0; i-- {
+					if cm.log[i].Term != reply.ConflictTerm {
+						break
+					}
+				}
+				reply.ConflictIndex = i + 1
+			}
 		}
 	}
 
+	cm.persistToStorage()
 	cm.dlog("AppendEntries reply: Term:%d Success:%d", reply.Term, reply.Success)
 
 	return connect.NewResponse(&reply), nil
@@ -181,31 +214,91 @@ func (cm *ConsensusModule) Report() (id int64, term int64, isLeader bool) {
 
 // Submit submits a new command to the CM. This function doesn't block; clients
 // read the commit channel passed in the constructor to be notified of new
-// committed entries. It returns true iff this CM is the leader - in which case
-// the command is accepted. If false is returned, the client will have to find
-// a different CM to submit this command to.
-func (cm *ConsensusModule) Submit(command int64) bool {
+// committed entries.
+// If this CM is the leader, Submit returns the log index where the command
+// is submitted. Otherwise, it returns -1
+func (cm *ConsensusModule) Submit(command int64) int64 {
 	cm.mu.Lock()
-	defer cm.mu.Unlock()
-
 	cm.dlog("Submit received by %v: %v", cm.state, command)
 	if cm.state == api.CMState_LEADER {
+		submitIndex := int64(len(cm.log))
 		cm.log = append(cm.log, LogEntry{Command: command, Term: cm.currentTerm})
+		cm.persistToStorage()
 		cm.dlog("... log=%v", cm.log)
-		return true
+		cm.mu.Unlock()
+		cm.triggerAEChan <- struct{}{}
+		return submitIndex
 	}
-	return false
+
+	cm.mu.Unlock()
+	return -1
 }
 
 // Stop stops this CM, cleaning up its state. This method returns quickly, but
 // it may take a bit of time (up to ~election timeout) for all goroutines to
 // exit.
 func (cm *ConsensusModule) Stop() {
+	cm.dlog("CM.Stop called")
 	cm.mu.Lock()
-	defer cm.mu.Unlock()
 	cm.state = api.CMState_DEAD
+	cm.mu.Unlock()
 	cm.dlog("becomes Dead")
+
+	// Close the commit notification channel, and wait for the goroutine that
+	// monitors it to exit.
 	close(cm.newCommitReadyChan)
+	cm.newCommitReadyChanWg.Wait()
+}
+
+// restoreFromStorage restores the persistent state of this CM from storage.
+// It should be called during constructor, before any concurrency concerns.
+func (cm *ConsensusModule) restoreFromStorage() {
+	if termData, found := cm.storage.Get("currentTerm"); found {
+		d := gob.NewDecoder(bytes.NewBuffer(termData))
+		if err := d.Decode(&cm.currentTerm); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Fatal("currentTerm not found in storage")
+	}
+	if votedData, found := cm.storage.Get("votedFor"); found {
+		d := gob.NewDecoder(bytes.NewBuffer(votedData))
+		if err := d.Decode(&cm.votedFor); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Fatal("votedFor not found in storage")
+	}
+	if logData, found := cm.storage.Get("log"); found {
+		d := gob.NewDecoder(bytes.NewBuffer(logData))
+		if err := d.Decode(&cm.log); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Fatal("log not found in storage")
+	}
+}
+
+// persistToStorage saves all of CM's persistent state in cm.storage.
+// Expects cm.mu to be locked.
+func (cm *ConsensusModule) persistToStorage() {
+	var termData bytes.Buffer
+	if err := gob.NewEncoder(&termData).Encode(cm.currentTerm); err != nil {
+		log.Fatal(err)
+	}
+	cm.storage.Set("currentTerm", termData.Bytes())
+
+	var votedData bytes.Buffer
+	if err := gob.NewEncoder(&votedData).Encode(cm.votedFor); err != nil {
+		log.Fatal(err)
+	}
+	cm.storage.Set("votedFor", votedData.Bytes())
+
+	var logData bytes.Buffer
+	if err := gob.NewEncoder(&logData).Encode(cm.log); err != nil {
+		log.Fatal(err)
+	}
+	cm.storage.Set("log", logData.Bytes())
 }
 
 func (cm *ConsensusModule) dlog(format string, args ...any) {
@@ -272,15 +365,6 @@ func (cm *ConsensusModule) runElectionTimer() {
 		}
 		cm.mu.Unlock()
 	}
-}
-
-func (s *CraftServer) GetPeerClient(peerId int64) (*Connection, bool) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	// Unlock before making network calls
-	// dont blocks other goroutines from accessing cm.server.peerClients
-	peer, exists := s.peerClients[peerId]
-	return peer, exists
 }
 
 // startElection starts a new election with this CM as a candidate.
@@ -370,28 +454,55 @@ func (cm *ConsensusModule) startLeader() {
 	}
 	cm.dlog("becomes Leader; term=%d, nextIndex=%v, matchIndex=%v; log=%v", cm.currentTerm, cm.nextIndex, cm.matchIndex, cm.log)
 
-	go func() {
-		ticker := time.NewTicker(50 * time.Millisecond)
-		defer ticker.Stop()
+	// This goroutine runs in the background and sends AEs to peers:
+	// * Whenever something is sent on triggerAEChan
+	// * ... Or every 50 ms, if no events occur on triggerAEChan
+	go func(heartbeatTimeout time.Duration) {
+		// Immediately send AEs to peers.
+		cm.leaderSendAEs()
 
-		// Send periodic heartbeats, as long as still leader.
+		t := time.NewTimer(heartbeatTimeout)
+		defer t.Stop()
 		for {
-			cm.leaderSendHeartbeats()
-			<-ticker.C
+			doSend := false
+			select {
+			case <-t.C:
+				doSend = true
 
-			cm.mu.Lock()
-			if cm.state != api.CMState_LEADER {
-				cm.mu.Unlock()
-				return
+				// Reset timer to fire again after heartbeatTimeout.
+				t.Stop()
+				t.Reset(heartbeatTimeout)
+			case _, ok := <-cm.triggerAEChan:
+				if ok {
+					doSend = true
+				} else {
+					return
+				}
+
+				// Reset timer for heartbeatTimeout.
+				if !t.Stop() {
+					<-t.C
+				}
+				t.Reset(heartbeatTimeout)
 			}
-			cm.mu.Unlock()
+
+			if doSend {
+				// If this isn't a leader any more, stop the heartbeat loop.
+				cm.mu.Lock()
+				if cm.state != api.CMState_LEADER {
+					cm.mu.Unlock()
+					return
+				}
+				cm.mu.Unlock()
+				cm.leaderSendAEs()
+			}
 		}
-	}()
+	}(50 * time.Millisecond)
 }
 
 // leaderSendHeartbeats sends a round of heartbeats to all peers, collects their
 // replies and adjusts cm's state.
-func (cm *ConsensusModule) leaderSendHeartbeats() {
+func (cm *ConsensusModule) leaderSendAEs() {
 	cm.mu.Lock()
 	if cm.state != api.CMState_LEADER {
 		cm.mu.Unlock()
@@ -409,6 +520,7 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 			if prevLogIndex >= 0 {
 				prevLogTerm = cm.log[prevLogIndex].Term
 			}
+
 			logentries := cm.log[ni:]
 			entries := make([]*api.LogEntry, len(logentries))
 			for i, le := range logentries {
@@ -417,8 +529,6 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 					Command: le.Command,
 				}
 			}
-
-			cm.mu.Unlock()
 
 			req := api.AppendEntriesRequest{
 				Term:         savedCurrentTerm,
@@ -429,6 +539,8 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 				LeaderCommit: cm.commitIndex,
 			}
 
+			cm.mu.Unlock()
+
 			cm.dlog("sending AppendEntries to %v: ni=%d, args=%+v", peerId, ni, &req)
 
 			if peer, exists := cm.server.GetPeerClient(peerId); exists && peer != nil {
@@ -436,11 +548,11 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 					context.Background(), connect.NewRequest(&req)); err == nil {
 
 					cm.mu.Lock()
-					defer cm.mu.Unlock()
 
-					if res.Msg.Term > savedCurrentTerm {
+					if res.Msg.Term > cm.currentTerm {
 						cm.dlog("term out of date in heartbeat reply")
 						cm.becomeFollower(res.Msg.Term)
+						cm.mu.Unlock()
 						return
 					}
 
@@ -448,8 +560,6 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 						if res.Msg.Success {
 							cm.nextIndex[peerId] = ni + int64(len(entries))
 							cm.matchIndex[peerId] = cm.nextIndex[peerId] - 1
-
-							cm.dlog("AppendEntries reply from %d success: nextIndex := %v, matchIndex := %v", peerId, cm.nextIndex, cm.matchIndex)
 
 							savedCommitIndex := cm.commitIndex
 							for i := cm.commitIndex + 1; i < int64(len(cm.log)); i++ {
@@ -465,14 +575,40 @@ func (cm *ConsensusModule) leaderSendHeartbeats() {
 									}
 								}
 							}
+							cm.dlog("AppendEntries reply from %d success: nextIndex := %v, matchIndex := %v; commitIndex := %d", peerId, cm.nextIndex, cm.matchIndex, cm.commitIndex)
 							if cm.commitIndex != savedCommitIndex {
 								cm.dlog("leader sets commitIndex := %d", cm.commitIndex)
+								// Commit index changed: the leader considers new entries to be
+								// committed. Send new entries on the commit channel to this
+								// leader's clients, and notify followers by sending them AEs.
+								cm.mu.Unlock()
 								cm.newCommitReadyChan <- struct{}{}
+								cm.triggerAEChan <- struct{}{}
+							} else {
+								cm.mu.Unlock()
 							}
 						} else {
-							cm.nextIndex[peerId] = ni - 1
+							if res.Msg.ConflictTerm >= 0 {
+								lastIndexOfTerm := int64(-1)
+								for i := int64(len(cm.log) - 1); i >= 0; i-- {
+									if cm.log[i].Term == res.Msg.ConflictTerm {
+										lastIndexOfTerm = i
+										break
+									}
+								}
+								if lastIndexOfTerm >= 0 {
+									cm.nextIndex[peerId] = lastIndexOfTerm + 1
+								} else {
+									cm.nextIndex[peerId] = res.Msg.ConflictIndex
+								}
+							} else {
+								cm.nextIndex[peerId] = res.Msg.ConflictIndex
+							}
 							cm.dlog("AppendEntries reply from %d !success: nextIndex := %d", peerId, ni-1)
+							cm.mu.Unlock()
 						}
+					} else {
+						cm.mu.Unlock()
 					}
 				}
 			}
@@ -499,6 +635,8 @@ func (cm *ConsensusModule) lastLogIndexAndTerm() (int64, int64) {
 // the client consumes new committed entries. Returns when newCommitReadyChan is
 // closed.
 func (cm *ConsensusModule) commitChanSender() {
+	defer cm.newCommitReadyChanWg.Done()
+
 	for range cm.newCommitReadyChan {
 		// Find which entries we have to apply.
 		cm.mu.Lock()

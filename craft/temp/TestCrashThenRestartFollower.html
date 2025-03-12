@@ -1,0 +1,1368 @@
+
+<!doctype html>
+	<html lang='en'>
+	<head>
+		<title>TestCrashThenRestartFollower -- PASS</title>
+	</head>
+	<style>
+	table {
+		font-family: "Courier New";
+		border-collapse: collapse;
+	}
+
+	table, th, td {
+		padding: 8px;
+		border: 1px solid #cccccc;
+	}
+
+	td.testcell {
+		background-color: #ffffff;
+	}
+
+	td.FOLLOWER {
+		background-color: #000000;
+		color: aquamarine;
+	}
+
+	td.CANDIDATE {
+		background-color: #e4ffcc;
+	}
+
+	td.LEADER {
+		background-color: #dccafe;
+	}
+
+	td.DEAD {
+		background-color: #af2e39;
+		color: aliceblue;
+	}
+
+	h1 {
+		text-align: center;
+	}
+	</style>
+	<body>
+	<h1>TestCrashThenRestartFollower -- PASS</h1>
+	<p></p>
+	<table>
+		<tr>
+		
+		<th>Time</th>
+		
+		<th>TEST</th>
+		
+		<th>0</th>
+		
+		<th>1</th>
+		
+		<th>2</th>
+		
+		</tr>
+		
+		<tr>
+		<td>23:13:12.339654</td>  <td class="testcell"></td>  <td class="FOLLOWER">listening at [::]:54414</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.340102</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">listening at [::]:54415</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.340490</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">listening at [::]:54416</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.340789</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (245ms), term=0</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.340784</td>  <td class="testcell"></td>  <td class="FOLLOWER">election timer started (264ms), term=0</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.340778</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (192ms), term=0</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.541974</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">becomes Candidate (currentTerm=1); log=[]</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.542182</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">election timer started (181ms), term=1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.542154</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">sending RequestVote to 2: Term:1 CandidateId:1 LastLogIndex:-1 LastLogTerm:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.542153</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">sending RequestVote to 0: Term:1 CandidateId:1 LastLogIndex:-1 LastLogTerm:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545155</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">RequestVote: Term:1 CandidateId:1 LastLogIndex:-1 LastLogTerm:-1 [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545176</td>  <td class="testcell"></td>  <td class="FOLLOWER">RequestVote: Term:1 CandidateId:1 LastLogIndex:-1 LastLogTerm:-1 [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545267</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">... term out of date in RequestVote</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545282</td>  <td class="testcell"></td>  <td class="FOLLOWER">... term out of date in RequestVote</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545289</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">becomes Follower with term=1; log=[]</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545310</td>  <td class="testcell"></td>  <td class="FOLLOWER">becomes Follower with term=1; log=[]</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545526</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">... RequestVote reply: Term:1 VoteGranted:true</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545526</td>  <td class="testcell"></td>  <td class="FOLLOWER">... RequestVote reply: Term:1 VoteGranted:true</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545625</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">election timer started (202ms), term=1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.545810</td>  <td class="testcell"></td>  <td class="FOLLOWER">election timer started (281ms), term=1</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547280</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">received RequestVoteReply &{Msg:Term:1 VoteGranted:true header:map[Content-Type:[application/grpc] Date:[Wed, 12 Mar 2025 17:43:12 GMT] Grpc-Accept-Encoding:[gzip] Grpc-Encoding:[gzip]] trailer:map[Grpc-Status:[0]]}</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547399</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">wins election with 2 votes</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547425</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">becomes Leader; term=1, nextIndex=map[0:0 2:0], matchIndex=map[0:-1 2:-1]; log=[]</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547603</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">received RequestVoteReply &{Msg:Term:1 VoteGranted:true header:map[Content-Type:[application/grpc] Date:[Wed, 12 Mar 2025 17:43:12 GMT] Grpc-Accept-Encoding:[gzip] Grpc-Encoding:[gzip]] trailer:map[Grpc-Status:[0]]}</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547705</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">while waiting for reply, state = LEADER</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547713</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.547740</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.548573</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.548572</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.548796</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.548828</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.550908</td>  <td class="testcell"></td>  <td class="FOLLOWER">in election timer term changed from 0 to 1, bailing out</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.550889</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">in election timer term changed from 0 to 1, bailing out</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.551564</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:0 2:0], matchIndex := map[0:-1 2:-1]; commitIndex := -1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.551641</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:0 2:0], matchIndex := map[0:-1 2:-1]; commitIndex := -1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.552658</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">in election timer state=LEADER, bailing out</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.597929</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.597929</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.599011</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.599013</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.599306</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.599305</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.601150</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:0 2:0], matchIndex := map[0:-1 2:-1]; commitIndex := -1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.601229</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:0 2:0], matchIndex := map[0:-1 2:-1]; commitIndex := -1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.642640</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">Submit received by LEADER: 5</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643028</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">... log=[{5 1}]</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643097</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">Submit received by LEADER: 6</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643366</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">... log=[{5 1} {6 1}]</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643501</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">Submit received by LEADER: 7</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643796</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">... log=[{5 1} {6 1} {7 1}]</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643985</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.644033</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.644315</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643981</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.644384</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.645506</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.645703</td>  <td class="testcell"></td>  <td class="FOLLOWER">... inserting entries [Command:5 Term:1 Command:6 Term:1 Command:7 Term:1] from index 0</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.645825</td>  <td class="testcell"></td>  <td class="FOLLOWER">... log is now: [{5 1} {6 1} {7 1}]</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.645931</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.646113</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">... inserting entries [Command:5 Term:1 Command:6 Term:1 Command:7 Term:1] from index 0</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.646258</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">... log is now: [{5 1} {6 1} {7 1}]</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.646444</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.643963</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.646069</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.646729</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.647860</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.646924</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649307</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:0 2:3], matchIndex := map[0:-1 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649375</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">leader sets commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649374</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649443</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=0, args=Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649767</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">commitChanSender entries=[{5 1} {6 1} {7 1}], savedLastApplied=-1</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649844</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.649783</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.650061</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.650462</td>  <td class="testcell">collectCommits(1) got {Command:5 Index:0 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.650512</td>  <td class="testcell">collectCommits(1) got {Command:6 Index:1 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.650564</td>  <td class="testcell">collectCommits(1) got {Command:7 Index:2 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.650945</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.651022</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">... setting commitIndex=2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.651179</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.651124</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.651273</td>  <td class="testcell"></td>  <td class="FOLLOWER">... setting commitIndex=2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652219</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">commitChanSender entries=[{5 1} {6 1} {7 1}], savedLastApplied=-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652502</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652494</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652802</td>  <td class="testcell">collectCommits(2) got {Command:5 Index:0 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652630</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652987</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.652947</td>  <td class="testcell">collectCommits(2) got {Command:6 Index:1 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.653115</td>  <td class="testcell"></td>  <td class="FOLLOWER">commitChanSender entries=[{5 1} {6 1} {7 1}], savedLastApplied=-1</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.654490</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.654699</td>  <td class="testcell">collectCommits(2) got {Command:7 Index:2 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.654740</td>  <td class="testcell">collectCommits(0) got {Command:5 Index:0 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.654796</td>  <td class="testcell">collectCommits(0) got {Command:6 Index:1 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.654821</td>  <td class="testcell">collectCommits(0) got {Command:7 Index:2 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.654701</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:-1 PrevLogTerm:-1 Entries:{Command:5 Term:1} Entries:{Command:6 Term:1} Entries:{Command:7 Term:1} LeaderCommit:-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.655063</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.655985</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.656045</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.656091</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.700021</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.700021</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.701082</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.701079</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.701413</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.701412</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.702431</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.703088</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.750613</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.750584</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.752148</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.752148</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.752670</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.752670</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.755101</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.755173</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.800657</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.800666</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.801674</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.801679</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.802009</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.802010</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.803224</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.804133</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.851289</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.851289</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.853043</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.853044</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.853530</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.853531</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.854928</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.855014</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.901864</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.901991</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.903137</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.903137</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.903546</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.903733</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.904648</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.905204</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.952696</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.952696</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.954201</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.954201</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.954708</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.954714</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.956855</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.956945</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.994991</td>  <td class="testcell">Crash 2</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.995063</td>  <td class="testcell">Disconnect 2</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.995431</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">CM.Stop called</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.995457</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="DEAD">becomes Dead</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.995487</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="DEAD">commitChanSender done</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.995707</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="DEAD">CraftServer terminated!</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:12.995725</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="DEAD">in election timer state=DEAD, bailing out</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.003542</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.003562</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.004669</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.005015</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.006014</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.054486</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.054486</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.056125</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.056651</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.057663</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.105467</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.105468</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.106754</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.107102</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.108007</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.156320</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.156321</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.156908</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.157036</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.157909</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.206953</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.206953</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.207406</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.207545</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.207983</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.256959</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.256956</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.257496</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.257664</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.258225</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.307029</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.307028</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.307834</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.308103</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.309680</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.345871</td>  <td class="testcell">Restart 2</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.347403</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">listening at [::]:54424</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.347444</td>  <td class="testcell">Reconnect 2</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.348076</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">election timer started (299ms), term=1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.357062</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.357071</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.357836</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358102</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358193</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358259</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">... setting commitIndex=2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358411</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358462</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">commitChanSender entries=[{5 1} {6 1} {7 1}], savedLastApplied=-1</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358530</td>  <td class="testcell">collectCommits(2) got {Command:5 Index:0 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358562</td>  <td class="testcell">collectCommits(2) got {Command:6 Index:1 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.358587</td>  <td class="testcell">collectCommits(2) got {Command:7 Index:2 Term:1}</td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.359458</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.359654</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.407183</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.407184</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.408107</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.408106</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.408394</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.408398</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.409383</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.409908</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.457323</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.457323</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.458683</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.458683</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.459088</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.459086</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.460006</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.460082</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.507437</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.507414</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.508802</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.508804</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.509268</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.509295</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.512165</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.512242</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.562058</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.561864</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.571854</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.572225</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.572207</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.573374</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.575976</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.576436</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.608838</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.608841</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.609312</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.609312</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.609425</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.609427</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.610634</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.610741</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.659112</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.659112</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.659621</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.659621</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.659755</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.659757</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.660510</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.660553</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.709235</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.709250</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.709828</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.709994</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.710040</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.710188</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.710668</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.710811</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.759298</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.759298</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.760052</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.760052</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.760305</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.760311</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.762583</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.762660</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.809415</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.809422</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.810610</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.810611</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.810993</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.811013</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.812036</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.812523</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.859403</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.859397</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.860724</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.860725</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.861140</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.861142</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.862852</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.862929</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.909488</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.909478</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.910929</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.910953</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.911430</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.911454</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.912623</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.913256</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.959560</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.959560</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.960953</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.960974</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.961356</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.961361</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.962261</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:13.963042</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.009674</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 0: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.009674</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">sending AppendEntries to 2: ni=3, args=Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.011610</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.011880</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries: Term:1 LeaderId:1 PrevLogIndex:2 PrevLogTerm:1 LeaderCommit:2</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.013015</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.013017</td>  <td class="testcell"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.014660</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.014735</td>  <td class="testcell"></td>  <td class="FOLLOWER"></td>  <td class="LEADER">AppendEntries reply from 0 success: nextIndex := map[0:3 2:3], matchIndex := map[0:2 2:2]; commitIndex := 2</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.018995</td>  <td class="testcell"></td>  <td class="FOLLOWER">CM.Stop called</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019024</td>  <td class="testcell"></td>  <td class="DEAD">becomes Dead</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019050</td>  <td class="testcell"></td>  <td class="DEAD">commitChanSender done</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019271</td>  <td class="testcell"></td>  <td class="DEAD">CraftServer terminated!</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019301</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="LEADER">CM.Stop called</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019323</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD">becomes Dead</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019351</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD">commitChanSender done</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019496</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD">CraftServer terminated!</td>  <td class="FOLLOWER"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019527</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="FOLLOWER">CM.Stop called</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019553</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">becomes Dead</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019578</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">commitChanSender done</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.019725</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">CraftServer terminated!</td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.026836</td>  <td class="testcell"></td>  <td class="DEAD">in election timer state=DEAD, bailing out</td>  <td class="DEAD"></td>  <td class="DEAD"></td>
+		</tr>
+		
+		<tr>
+		<td>23:13:14.029144</td>  <td class="testcell"></td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">in election timer state=DEAD, bailing out</td>
+		</tr>
+		
+	</table>
+	</body>
+</html>

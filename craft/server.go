@@ -16,11 +16,12 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
-func NewServer(serverId int64, peerIds []int64, ready <-chan any, commitChan chan<- CommitEntry) *CraftServer {
+func NewServer(serverId int64, peerIds []int64, storage Storage, ready <-chan any, commitChan chan<- CommitEntry) *CraftServer {
 	return &CraftServer{
 		serverID:    serverId,
 		peerIDs:     peerIds,
 		peerClients: make(map[int64]*Connection),
+		storage:     storage,
 		commitChan:  commitChan,
 		ready:       ready,
 		quit:        make(chan any),
@@ -29,7 +30,7 @@ func NewServer(serverId int64, peerIds []int64, ready <-chan any, commitChan cha
 
 func (s *CraftServer) Serve() {
 	s.mu.Lock()
-	s.cm = NewConsensusModule(s.serverID, s.peerIDs, s, s.ready, s.commitChan)
+	s.cm = NewConsensusModule(s.serverID, s.peerIDs, s, s.storage, s.ready, s.commitChan)
 
 	// Create a new RPC server and register a RPCProxy that forwards all methods to s.cm
 	s.rpcProxy = &RPCProxy{cm: s.cm}
@@ -85,17 +86,9 @@ func (s *CraftServer) Serve() {
 	}()
 }
 
-// DisconnectAll closes all the client connections to peers for this server.
-func (s *CraftServer) DisconnectAll() {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	for id := range s.peerClients {
-		if conn, exists := s.peerClients[id]; exists && conn != nil {
-			conn.http.CloseIdleConnections()
-			// delete(s.peerClients, id)
-			s.peerClients[id] = nil
-		}
-	}
+// Submit wraps the underlying CM's Submit; see that method for documentation.
+func (s *CraftServer) Submit(cmd int64) int64 {
+	return s.cm.Submit(cmd)
 }
 
 // Shutdown closes the server and waits for it to shut down properly.
@@ -139,6 +132,15 @@ func (s *CraftServer) GetListenAddr() string {
 	return s.server.server.Addr
 }
 
+func (s *CraftServer) GetPeerClient(peerId int64) (*Connection, bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	// Unlock before making network calls
+	// dont blocks other goroutines from accessing cm.server.peerClients
+	peer, exists := s.peerClients[peerId]
+	return peer, exists
+}
+
 func (s *CraftServer) ConnectToPeer(peerId int64, addr string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -170,4 +172,23 @@ func (s *CraftServer) DisconnectPeer(peerId int64) {
 		conn.http.CloseIdleConnections()
 		s.peerClients[peerId] = nil
 	}
+}
+
+// DisconnectAll closes all the client connections to peers for this server.
+func (s *CraftServer) DisconnectAll() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for id := range s.peerClients {
+		if conn, exists := s.peerClients[id]; exists && conn != nil {
+			conn.http.CloseIdleConnections()
+			// delete(s.peerClients, id)
+			s.peerClients[id] = nil
+		}
+	}
+}
+
+// IsLeader checks if s thinks it's the leader in the Raft cluster.
+func (s *CraftServer) IsLeader() bool {
+	_, _, isLeader := s.cm.Report()
+	return isLeader
 }

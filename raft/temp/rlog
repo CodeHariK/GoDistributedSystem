@@ -1,56 +1,288 @@
-=== RUN   TestElectionBasic
-13:37:36.367794 [0] listening at [::]:54266
-13:37:36.368192 [1] listening at [::]:54267
-13:37:36.368321 [2] listening at [::]:54268
-13:37:36.370351 [1] election timer started (295ms), term=0
-13:37:36.370394 [0] election timer started (201ms), term=0
-13:37:36.370382 [2] election timer started (240ms), term=0
-13:37:36.571486 [0] becomes Candidate (currentTerm=1); log=[]
-13:37:36.571653 [0] sending RequestVote to 1: {Term:1 CandidateId:0 LastLogIndex:-1 LastLogTerm:-1}
-13:37:36.571710 [0] election timer started (289ms), term=1
-13:37:36.571678 [0] sending RequestVote to 2: {Term:1 CandidateId:0 LastLogIndex:-1 LastLogTerm:-1}
-13:37:36.575758 [1] RequestVote: {Term:1 CandidateId:0 LastLogIndex:-1 LastLogTerm:-1} [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]
-13:37:36.575890 [1] ... term out of date in RequestVote
-13:37:36.575905 [1] becomes Follower with term=1; log=[]
-13:37:36.575943 [1] ... RequestVote reply: &{Term:1 VoteGranted:true}
-13:37:36.576001 [1] election timer started (223ms), term=1
-13:37:36.576677 [0] received RequestVoteReply {Term:1 VoteGranted:true}
-13:37:36.576714 [0] wins election with 2 votes
-13:37:36.576750 [0] becomes Leader; term=1, nextIndex=map[1:0 2:0], matchIndex=map[1:-1 2:-1]; log=[]
-13:37:36.576899 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.577329 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.577754 [2] RequestVote: {Term:1 CandidateId:0 LastLogIndex:-1 LastLogTerm:-1} [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]
-13:37:36.577827 [2] ... term out of date in RequestVote
-13:37:36.577841 [2] becomes Follower with term=1; log=[]
-13:37:36.577871 [2] ... RequestVote reply: &{Term:1 VoteGranted:true}
-13:37:36.578142 [2] election timer started (169ms), term=1
-13:37:36.578728 [0] received RequestVoteReply {Term:1 VoteGranted:true}
-13:37:36.578837 [0] while waiting for reply, state = Leader
-13:37:36.581355 [2] in election timer term changed from 0 to 1, bailing out
-13:37:36.581393 [1] in election timer term changed from 0 to 1, bailing out
-13:37:36.581404 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.581504 [2] AppendEntries reply: {Term:1 Success:true}
-13:37:36.581942 [0] AppendEntries reply from 2 success: nextIndex := map[1:0 2:0], matchIndex := map[1:-1 2:-1]
-13:37:36.582019 [0] in election timer state=Leader, bailing out
-13:37:36.582247 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.582433 [1] AppendEntries reply: {Term:1 Success:true}
-13:37:36.582723 [0] AppendEntries reply from 1 success: nextIndex := map[1:0 2:0], matchIndex := map[1:-1 2:-1]
-13:37:36.627157 [0] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.627160 [0] sending AppendEntries to 2: ni=0, args={Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.629830 [1] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.629914 [1] AppendEntries reply: {Term:1 Success:true}
-13:37:36.630133 [0] AppendEntries reply from 1 success: nextIndex := map[1:0 2:0], matchIndex := map[1:-1 2:-1]
-13:37:36.630807 [2] AppendEntries: {Term:1 LeaderId:0 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
-13:37:36.630904 [2] AppendEntries reply: {Term:1 Success:true}
-13:37:36.631120 [0] AppendEntries reply from 2 success: nextIndex := map[1:0 2:0], matchIndex := map[1:-1 2:-1]
-13:37:36.672303 [0] becomes Dead
-13:37:36.672374 [0] commitChanSender done
-13:37:36.672426 [1] becomes Dead
-13:37:36.672466 [1] commitChanSender done
-13:37:36.672485 [2] becomes Dead
-13:37:36.672536 [2] commitChanSender done
---- PASS: TestElectionBasic (0.31s)
+=== RUN   TestDisconnectAfterSubmit
+21:53:20.216229 [0] listening at [::]:53191
+21:53:20.216445 [1] listening at [::]:53192
+21:53:20.216569 [2] listening at [::]:53193
+21:53:20.217943 [2] election timer started (201ms), term=0
+21:53:20.217998 [0] election timer started (273ms), term=0
+21:53:20.217946 [1] election timer started (211ms), term=0
+21:53:20.419340 [2] becomes Candidate (currentTerm=1); log=[]
+21:53:20.419730 [2] election timer started (162ms), term=1
+21:53:20.419718 [2] sending RequestVote to 1: {Term:1 CandidateId:2 LastLogIndex:-1 LastLogTerm:-1}
+21:53:20.419743 [2] sending RequestVote to 0: {Term:1 CandidateId:2 LastLogIndex:-1 LastLogTerm:-1}
+21:53:20.424892 [1] RequestVote: {Term:1 CandidateId:2 LastLogIndex:-1 LastLogTerm:-1} [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]
+21:53:20.425043 [1] ... term out of date in RequestVote
+21:53:20.425065 [1] becomes Follower with term=1; log=[]
+21:53:20.425493 [1] ... RequestVote reply: &{Term:1 VoteGranted:true}
+21:53:20.425628 [1] election timer started (299ms), term=1
+21:53:20.425752 [0] RequestVote: {Term:1 CandidateId:2 LastLogIndex:-1 LastLogTerm:-1} [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]
+21:53:20.425852 [0] ... term out of date in RequestVote
+21:53:20.425874 [0] becomes Follower with term=1; log=[]
+21:53:20.426236 [0] ... RequestVote reply: &{Term:1 VoteGranted:true}
+21:53:20.426323 [0] election timer started (290ms), term=1
+21:53:20.426424 [2] received RequestVoteReply {Term:1 VoteGranted:true}
+21:53:20.426457 [2] wins election with 2 votes
+21:53:20.426503 [2] becomes Leader; term=1, nextIndex=map[0:0 1:0], matchIndex=map[0:-1 1:-1]; log=[]
+21:53:20.426660 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.426746 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.426944 [2] received RequestVoteReply {Term:1 VoteGranted:true}
+21:53:20.426976 [2] while waiting for reply, state = Leader
+21:53:20.428202 [0] in election timer term changed from 0 to 1, bailing out
+21:53:20.428228 [1] in election timer term changed from 0 to 1, bailing out
+21:53:20.430221 [2] in election timer state=Leader, bailing out
+21:53:20.432723 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.432729 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.432957 [1] AppendEntries reply: {Term:1 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.432960 [0] AppendEntries reply: {Term:1 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.433459 [2] AppendEntries reply from 0 success: nextIndex := map[0:0 1:0], matchIndex := map[0:-1 1:-1]; commitIndex := -1
+21:53:20.433530 [2] AppendEntries reply from 1 success: nextIndex := map[0:0 1:0], matchIndex := map[0:-1 1:-1]; commitIndex := -1
+21:53:20.476865 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.476861 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.479712 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.479947 [0] AppendEntries reply: {Term:1 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.480207 [2] AppendEntries reply from 0 success: nextIndex := map[0:0 1:0], matchIndex := map[0:-1 1:-1]; commitIndex := -1
+21:53:20.482759 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[] LeaderCommit:-1}
+21:53:20.483069 [1] AppendEntries reply: {Term:1 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.483290 [2] AppendEntries reply from 1 success: nextIndex := map[0:0 1:0], matchIndex := map[0:-1 1:-1]; commitIndex := -1
+21:53:20.519449 [2] Submit received by Leader: 5
+21:53:20.519801 [2] ... log=[{5 1}]
+21:53:20.519960 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.519974 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.521009 [TEST] Disconnect 2
+21:53:20.521595 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.521702 [1] ... inserting entries [{5 1}] from index 0
+21:53:20.521749 [1] ... log is now: [{5 1}]
+21:53:20.521978 [1] AppendEntries reply: {Term:1 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.522671 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.522783 [0] ... inserting entries [{5 1}] from index 0
+21:53:20.522832 [0] ... log is now: [{5 1}]
+21:53:20.523049 [0] AppendEntries reply: {Term:1 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.570254 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.570253 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.620752 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.620743 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.671112 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.671111 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.721744 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.721744 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.772427 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.772427 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.816829 [0] becomes Candidate (currentTerm=2); log=[{5 1}]
+21:53:20.816986 [0] sending RequestVote to 2: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:1}
+21:53:20.816993 [0] sending RequestVote to 1: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:1}
+21:53:20.817043 [0] election timer started (219ms), term=2
+21:53:20.822945 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.822946 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.822971 [1] RequestVote: {Term:2 CandidateId:0 LastLogIndex:0 LastLogTerm:1} [currentTerm=1, votedFor=2, log index/term=(0, 1)]
+21:53:20.823056 [1] ... term out of date in RequestVote
+21:53:20.823073 [1] becomes Follower with term=2; log=[{5 1}]
+21:53:20.823458 [1] ... RequestVote reply: &{Term:2 VoteGranted:true}
+21:53:20.823540 [1] election timer started (288ms), term=2
+21:53:20.824179 [0] received RequestVoteReply {Term:2 VoteGranted:true}
+21:53:20.824219 [0] wins election with 2 votes
+21:53:20.824245 [0] becomes Leader; term=2, nextIndex=map[1:1 2:1], matchIndex=map[1:-1 2:-1]; log=[{5 1}]
+21:53:20.824373 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.824384 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.825861 [1] in election timer term changed from 1 to 2, bailing out
+21:53:20.827328 [0] in election timer state=Leader, bailing out
+21:53:20.829283 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.829683 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.830172 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:20.874097 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.874100 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.874492 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.874492 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.880164 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.880494 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.880801 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:20.924194 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.924183 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.924561 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.924567 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.929589 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.929925 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.930375 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:20.974788 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.974795 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.974808 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.974788 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:20.977694 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:20.978065 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:20.978405 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:21.024863 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.024872 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.024863 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.024928 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.026782 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.027245 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.027733 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:21.074916 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.074917 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.074970 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.074918 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.076692 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.077190 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.077565 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:21.125018 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.125026 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.125052 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.125017 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.128821 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.129309 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.129659 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:21.133503 [TEST] Reconnect 2
+21:53:21.175052 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.175065 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.175051 [2] sending AppendEntries to 1: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.175041 [2] sending AppendEntries to 0: ni=0, args={Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.176871 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.177052 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.177112 [2] ... term out of date in AppendEntries
+21:53:21.177132 [2] becomes Follower with term=2; log=[{5 1}]
+21:53:21.177209 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.177297 [2] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.177398 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:-1]; commitIndex := -1
+21:53:21.177667 [2] election timer started (229ms), term=2
+21:53:21.178169 [0] AppendEntries reply from 2 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:0]; commitIndex := -1
+21:53:21.179564 [0] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.179770 [0] AppendEntries reply: {Term:2 Success:false ConflictIndex:0 ConflictTerm:0}
+21:53:21.181103 [1] AppendEntries: {Term:1 LeaderId:2 PrevLogIndex:-1 PrevLogTerm:-1 Entries:[{Command:5 Term:1}] LeaderCommit:-1}
+21:53:21.181375 [1] AppendEntries reply: {Term:2 Success:false ConflictIndex:0 ConflictTerm:0}
+21:53:21.225188 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.225188 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.226980 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.226946 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.227365 [2] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.227372 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.227700 [0] AppendEntries reply from 2 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:0]; commitIndex := -1
+21:53:21.227819 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:0]; commitIndex := -1
+21:53:21.275360 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.275360 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.279213 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.279562 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.279863 [0] AppendEntries reply from 1 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:0]; commitIndex := -1
+21:53:21.281341 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[] LeaderCommit:-1}
+21:53:21.281568 [2] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.281976 [0] AppendEntries reply from 2 success: nextIndex := map[1:1 2:1], matchIndex := map[1:0 2:0]; commitIndex := -1
+21:53:21.284766 [0] Submit received by Leader: 6
+21:53:21.285017 [0] ... log=[{5 1} {6 2}]
+21:53:21.285116 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[{Command:6 Term:2}] LeaderCommit:-1}
+21:53:21.285108 [0] sending AppendEntries to 2: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[{Command:6 Term:2}] LeaderCommit:-1}
+21:53:21.286790 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[{Command:6 Term:2}] LeaderCommit:-1}
+21:53:21.286877 [2] ... inserting entries [{6 2}] from index 1
+21:53:21.286908 [2] ... log is now: [{5 1} {6 2}]
+21:53:21.287281 [2] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.287590 [0] AppendEntries reply from 2 success: nextIndex := map[1:1 2:2], matchIndex := map[1:0 2:1]; commitIndex := 1
+21:53:21.287671 [0] leader sets commitIndex := 1
+21:53:21.287729 [0] commitChanSender entries=[{5 1} {6 2}], savedLastApplied=-1
+21:53:21.287857 [0] send on commitchan i=0, entry={5 1}
+21:53:21.287890 [0] send on commitchan i=1, entry={6 2}
+21:53:21.287918 [TEST] collectCommits(0) got {Command:5 Index:0 Term:2}
+21:53:21.287929 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.287969 [TEST] collectCommits(0) got {Command:6 Index:1 Term:2}
+21:53:21.288063 [0] sending AppendEntries to 1: ni=1, args={Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[{Command:6 Term:2}] LeaderCommit:1}
+21:53:21.289611 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[{Command:6 Term:2}] LeaderCommit:1}
+21:53:21.289690 [1] ... inserting entries [{6 2}] from index 1
+21:53:21.289722 [1] ... log is now: [{5 1} {6 2}]
+21:53:21.289755 [1] ... setting commitIndex=1
+21:53:21.289950 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.290024 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:0 PrevLogTerm:1 Entries:[{Command:6 Term:2}] LeaderCommit:-1}
+21:53:21.290201 [0] AppendEntries reply from 1 success: nextIndex := map[1:2 2:2], matchIndex := map[1:1 2:1]; commitIndex := 1
+21:53:21.290347 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.290418 [1] commitChanSender entries=[{5 1} {6 2}], savedLastApplied=-1
+21:53:21.290524 [0] AppendEntries reply from 1 success: nextIndex := map[1:2 2:2], matchIndex := map[1:1 2:1]; commitIndex := 1
+21:53:21.290570 [1] send on commitchan i=0, entry={5 1}
+21:53:21.290620 [1] send on commitchan i=1, entry={6 2}
+21:53:21.290645 [TEST] collectCommits(1) got {Command:5 Index:0 Term:2}
+21:53:21.290719 [TEST] collectCommits(1) got {Command:6 Index:1 Term:2}
+21:53:21.292764 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.292851 [2] ... setting commitIndex=1
+21:53:21.293100 [2] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.293190 [2] commitChanSender entries=[{5 1} {6 2}], savedLastApplied=-1
+21:53:21.293299 [2] send on commitchan i=0, entry={5 1}
+21:53:21.293346 [2] send on commitchan i=1, entry={6 2}
+21:53:21.293389 [0] AppendEntries reply from 2 success: nextIndex := map[1:2 2:2], matchIndex := map[1:1 2:1]; commitIndex := 1
+21:53:21.293386 [TEST] collectCommits(2) got {Command:5 Index:0 Term:2}
+21:53:21.293485 [TEST] collectCommits(2) got {Command:6 Index:1 Term:2}
+21:53:21.338386 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.338378 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.344280 [1] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.344310 [2] AppendEntries: {Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.344710 [2] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.344806 [1] AppendEntries reply: {Term:2 Success:true ConflictIndex:0 ConflictTerm:0}
+21:53:21.345070 [0] AppendEntries reply from 2 success: nextIndex := map[1:2 2:2], matchIndex := map[1:1 2:1]; commitIndex := 1
+21:53:21.345147 [0] AppendEntries reply from 1 success: nextIndex := map[1:2 2:2], matchIndex := map[1:1 2:1]; commitIndex := 1
+--- PASS: TestDisconnectAfterSubmit (1.17s)
 PASS
-13:37:36.676585 [1] in election timer state=Dead, bailing out
-13:37:36.678318 [2] in election timer state=Dead, bailing out
-ok  	github.com/eliben/raft	1.583s
+21:53:21.388245 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.388261 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.438426 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.438431 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.488489 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.488490 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.538518 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.538518 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.578305 [2] becomes Candidate (currentTerm=3); log=[{5 1} {6 2}]
+21:53:21.578560 [2] election timer started (234ms), term=3
+21:53:21.578558 [2] sending RequestVote to 0: {Term:3 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:21.578592 [2] sending RequestVote to 1: {Term:3 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:21.589053 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.589113 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.634217 [1] becomes Candidate (currentTerm=3); log=[{5 1} {6 2}]
+21:53:21.634469 [1] election timer started (158ms), term=3
+21:53:21.634456 [1] sending RequestVote to 2: {Term:3 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:21.634463 [1] sending RequestVote to 0: {Term:3 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:21.639374 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.639385 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.689457 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.689451 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.739514 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.739514 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.789543 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.789564 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.795229 [1] becomes Candidate (currentTerm=4); log=[{5 1} {6 2}]
+21:53:21.795305 [1] sending RequestVote to 0: {Term:4 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:21.795331 [1] election timer started (193ms), term=4
+21:53:21.795309 [1] sending RequestVote to 2: {Term:4 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:21.819039 [2] becomes Candidate (currentTerm=4); log=[{5 1} {6 2}]
+21:53:21.819124 [2] sending RequestVote to 1: {Term:4 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:21.819156 [2] election timer started (151ms), term=4
+21:53:21.819126 [2] sending RequestVote to 0: {Term:4 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:21.839661 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.839697 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.889694 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.889691 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.939806 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.939821 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.979678 [2] becomes Candidate (currentTerm=5); log=[{5 1} {6 2}]
+21:53:21.979922 [2] election timer started (263ms), term=5
+21:53:21.979930 [2] sending RequestVote to 0: {Term:5 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:21.979909 [2] sending RequestVote to 1: {Term:5 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:21.990334 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.990335 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:21.996132 [1] becomes Candidate (currentTerm=5); log=[{5 1} {6 2}]
+21:53:21.996321 [1] election timer started (202ms), term=5
+21:53:21.996348 [1] sending RequestVote to 0: {Term:5 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:21.996371 [1] sending RequestVote to 2: {Term:5 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:22.040493 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.040495 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.090552 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.090552 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.140660 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.140675 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.190695 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.190688 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.207211 [1] becomes Candidate (currentTerm=6); log=[{5 1} {6 2}]
+21:53:22.207358 [1] election timer started (208ms), term=6
+21:53:22.207340 [1] sending RequestVote to 0: {Term:6 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:22.207391 [1] sending RequestVote to 2: {Term:6 CandidateId:1 LastLogIndex:1 LastLogTerm:2}
+21:53:22.240833 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.240833 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.250173 [2] becomes Candidate (currentTerm=6); log=[{5 1} {6 2}]
+21:53:22.250335 [2] sending RequestVote to 0: {Term:6 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:22.250363 [2] election timer started (195ms), term=6
+21:53:22.250335 [2] sending RequestVote to 1: {Term:6 CandidateId:2 LastLogIndex:1 LastLogTerm:2}
+21:53:22.290802 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.290800 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.340859 [0] sending AppendEntries to 2: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+21:53:22.340859 [0] sending AppendEntries to 1: ni=2, args={Term:2 LeaderId:0 PrevLogIndex:1 PrevLogTerm:2 Entries:[] LeaderCommit:1}
+ok  	github.com/eliben/raft/part3/raft	2.593s
