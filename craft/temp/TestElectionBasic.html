@@ -2,7 +2,7 @@
 <!doctype html>
 	<html lang='en'>
 	<head>
-		<title>TestElectionBasic -- FAIL</title>
+		<title>TestElectionBasic -- PASS</title>
 	</head>
 	<style>
 	table {
@@ -20,11 +20,12 @@
 	}
 
 	td.FOLLOWER {
-		background-color: #e4ffcc;
+		background-color: #000000;
+		color: aquamarine;
 	}
 
 	td.CANDIDATE {
-		background-color: #fbffe1;
+		background-color: #e4ffcc;
 	}
 
 	td.LEADER {
@@ -32,7 +33,8 @@
 	}
 
 	td.DEAD {
-		background-color: #ffb6bc;
+		background-color: #af2e39;
+		color: aliceblue;
 	}
 
 	h1 {
@@ -40,7 +42,7 @@
 	}
 	</style>
 	<body>
-	<h1>TestElectionBasic -- FAIL</h1>
+	<h1>TestElectionBasic -- PASS</h1>
 	<p></p>
 	<table>
 		<tr>
@@ -56,183 +58,191 @@
 		</tr>
 		
 		<tr>
-		<td>10:35:14.171087</td>  <td class="FOLLOWER">listening at [::]:50418</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.092562</td>  <td class="FOLLOWER">listening at [::]:56710</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.171335</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">listening at [::]:50419</td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.092982</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">listening at [::]:56711</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.171490</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">listening at [::]:50420</td>
+		<td>15:47:39.093209</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">listening at [::]:56712</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.171704</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (262ms), term=0</td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.093440</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (243ms), term=0</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.171711</td>  <td class="FOLLOWER">election timer started (196ms), term=0</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.093440</td>  <td class="FOLLOWER">election timer started (236ms), term=0</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.171735</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (270ms), term=0</td>
+		<td>15:47:39.093446</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (247ms), term=0</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.372984</td>  <td class="CANDIDATE">becomes Candidate (currentTerm=1); log=[]</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.334781</td>  <td class="CANDIDATE">becomes Candidate (currentTerm=1); log=[]</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.373298</td>  <td class="CANDIDATE">sending RequestVote to 1: Term:1 CandidateId:0</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.335102</td>  <td class="CANDIDATE">election timer started (277ms), term=1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.373316</td>  <td class="CANDIDATE">sending RequestVote to 2: Term:1 CandidateId:0</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.335116</td>  <td class="CANDIDATE">sending RequestVote to 2: Term:1 LastLogIndex:-1 LastLogTerm:-1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.373266</td>  <td class="CANDIDATE">election timer started (235ms), term=1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
+		<td>15:47:39.335132</td>  <td class="CANDIDATE">sending RequestVote to 1: Term:1 LastLogIndex:-1 LastLogTerm:-1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442221</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="CANDIDATE">becomes Candidate (currentTerm=1); log=[]</td>
+		<td>15:47:39.339988</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">RequestVote: Term:1 LastLogIndex:-1 LastLogTerm:-1 [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442222</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">becomes Candidate (currentTerm=1); log=[]</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.339981</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">RequestVote: Term:1 LastLogIndex:-1 LastLogTerm:-1 [currentTerm=0, votedFor=-1, log index/term=(-1, -1)]</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442424</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 0: Term:1 CandidateId:2</td>
+		<td>15:47:39.340082</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">... term out of date in RequestVote</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442480</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 2: Term:1 CandidateId:1</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.340105</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">... term out of date in RequestVote</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442523</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">election timer started (252ms), term=1</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.340130</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">becomes Follower with term=1; log=[]</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442430</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 0: Term:1 CandidateId:1</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.340123</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">becomes Follower with term=1; log=[]</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442429</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 1: Term:1 CandidateId:2</td>
+		<td>15:47:39.340179</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">... RequestVote reply: Term:1 Votegranted:%!d(bool=true)</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.442707</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">election timer started (178ms), term=1</td>
+		<td>15:47:39.340187</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">... RequestVote reply: Term:1 Votegranted:%!d(bool=true)</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.613676</td>  <td class="CANDIDATE">becomes Candidate (currentTerm=2); log=[]</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.340225</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">election timer started (163ms), term=1</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.613932</td>  <td class="CANDIDATE">sending RequestVote to 1: Term:2 CandidateId:0</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.340300</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">election timer started (223ms), term=1</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.613964</td>  <td class="CANDIDATE">election timer started (171ms), term=2</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.343774</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER">in election timer term changed from 0 to 1, bailing out</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.613944</td>  <td class="CANDIDATE">sending RequestVote to 2: Term:2 CandidateId:0</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.343832</td>  <td class="CANDIDATE"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">in election timer term changed from 0 to 1, bailing out</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.623493</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">becomes Candidate (currentTerm=2); log=[]</td>
+		<td>15:47:39.343847</td>  <td class="CANDIDATE">received RequestVoteReply &{Msg:Term:1 VoteGranted:true header:map[Content-Type:[application/grpc] Date:[Wed, 12 Mar 2025 10:17:39 GMT] Grpc-Accept-Encoding:[gzip] Grpc-Encoding:[gzip]] trailer:map[Grpc-Status:[0]]}</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.623598</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 0: Term:2 CandidateId:2</td>
+		<td>15:47:39.344011</td>  <td class="CANDIDATE">wins election with 2 votes</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.623665</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">election timer started (285ms), term=2</td>
+		<td>15:47:39.344050</td>  <td class="LEADER">becomes Leader; term=1, nextIndex=map[1:0 2:0], matchIndex=map[1:-1 2:-1]; log=[]</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.623593</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 1: Term:2 CandidateId:2</td>
+		<td>15:47:39.344125</td>  <td class="LEADER">received RequestVoteReply &{Msg:Term:1 VoteGranted:true header:map[Content-Type:[application/grpc] Date:[Wed, 12 Mar 2025 10:17:39 GMT] Grpc-Accept-Encoding:[gzip] Grpc-Encoding:[gzip]] trailer:map[Grpc-Status:[0]]}</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.703676</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">becomes Candidate (currentTerm=2); log=[]</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.344217</td>  <td class="LEADER">while waiting for reply, state = LEADER</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.703858</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 2: Term:2 CandidateId:1</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.344295</td>  <td class="LEADER">sending AppendEntries to 1: ni=0, args=Term:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.703848</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 0: Term:2 CandidateId:1</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.344304</td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.703867</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">election timer started (284ms), term=2</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.345385</td>  <td class="LEADER">in election timer state=LEADER, bailing out</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.794842</td>  <td class="CANDIDATE">becomes Candidate (currentTerm=3); log=[]</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.345515</td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.795038</td>  <td class="CANDIDATE">sending RequestVote to 1: Term:3 CandidateId:0</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.345622</td>  <td class="LEADER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.795051</td>  <td class="CANDIDATE">election timer started (253ms), term=3</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.345602</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">AppendEntries: Term:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.795048</td>  <td class="CANDIDATE">sending RequestVote to 2: Term:3 CandidateId:0</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.345844</td>  <td class="LEADER"></td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER">AppendEntries reply: Term:1 Success:%!d(bool=true)</td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.914823</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">becomes Candidate (currentTerm=3); log=[]</td>
+		<td>15:47:39.348577</td>  <td class="LEADER">AppendEntries reply from 2 success: nextIndex := map[1:0 2:0], matchIndex := map[1:-1 2:-1]</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.915051</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 0: Term:3 CandidateId:2</td>
+		<td>15:47:39.348691</td>  <td class="LEADER">AppendEntries reply from 1 success: nextIndex := map[1:0 2:0], matchIndex := map[1:-1 2:-1]</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.915059</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">sending RequestVote to 1: Term:3 CandidateId:2</td>
+		<td>15:47:39.394657</td>  <td class="LEADER">sending AppendEntries to 1: ni=0, args=Term:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.915057</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE">election timer started (293ms), term=3</td>
+		<td>15:47:39.394667</td>  <td class="LEADER">sending AppendEntries to 2: ni=0, args=Term:1 PrevLogIndex:-1 PrevLogTerm:-1 LeaderCommit:-1</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925389</td>  <td class="DEAD">becomes Dead</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.394935</td>  <td class="DEAD">becomes Dead</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925563</td>  <td class="DEAD">CraftServer terminated!</td>  <td class="CANDIDATE"></td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.394982</td>  <td class="DEAD">commitChanSender done</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925593</td>  <td class="DEAD"></td>  <td class="DEAD">becomes Dead</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.395147</td>  <td class="DEAD">CraftServer terminated!</td>  <td class="FOLLOWER"></td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925624</td>  <td class="DEAD"></td>  <td class="DEAD">CraftServer terminated!</td>  <td class="CANDIDATE"></td>
+		<td>15:47:39.395175</td>  <td class="DEAD"></td>  <td class="DEAD">becomes Dead</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925649</td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">becomes Dead</td>
+		<td>15:47:39.395213</td>  <td class="DEAD"></td>  <td class="DEAD">commitChanSender done</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925702</td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">CraftServer terminated!</td>
+		<td>15:47:39.395321</td>  <td class="DEAD"></td>  <td class="DEAD">CraftServer terminated!</td>  <td class="FOLLOWER"></td>
 		</tr>
 		
 		<tr>
-		<td>10:35:14.925791</td>  <td class="DEAD">in election timer state=DEAD, bailing out</td>  <td class="DEAD"></td>  <td class="DEAD"></td>
+		<td>15:47:39.395349</td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">becomes Dead</td>
+		</tr>
+		
+		<tr>
+		<td>15:47:39.395401</td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">commitChanSender done</td>
+		</tr>
+		
+		<tr>
+		<td>15:47:39.395486</td>  <td class="DEAD"></td>  <td class="DEAD"></td>  <td class="DEAD">CraftServer terminated!</td>
 		</tr>
 		
 	</table>

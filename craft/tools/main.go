@@ -63,11 +63,12 @@ const tmpl = `
 	}
 
 	td.FOLLOWER {
-		background-color: #e4ffcc;
+		background-color: #000000;
+		color: aquamarine;
 	}
 
 	td.CANDIDATE {
-		background-color: #fbffe1;
+		background-color: #e4ffcc;
 	}
 
 	td.LEADER {
@@ -75,7 +76,8 @@ const tmpl = `
 	}
 
 	td.DEAD {
-		background-color: #ffb6bc;
+		background-color: #af2e39;
+		color: aliceblue;
 	}
 
 	h1 {

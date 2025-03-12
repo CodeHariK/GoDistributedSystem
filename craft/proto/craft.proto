@@ -18,7 +18,7 @@ enum CMState {
 }
 
 message LogEntry {
-  bytes Command = 1;
+  int64 Command = 1;
   int64 Term = 2;
 }
 

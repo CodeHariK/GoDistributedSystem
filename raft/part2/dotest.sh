@@ -1,9 +1,13 @@
-#!/bin/bash
-set -x
-set -e
+#!/usr/bin/env bash
+set -ex
 
-logfile=~/temp/rlog
+logfile=../temp/rlog
 
-go test -v -race -run $@ |& tee ${logfile}
+# Check if arguments exist, then construct the command accordingly
+if [[ $# -gt 0 ]]; then
+    go test -v -race -run "$@" 2>&1 | tee "${logfile}"
+else
+    go test -v -race 2>&1 | tee "${logfile}"
+fi
 
-go run ../tools/raft-testlog-viz/main.go < ${logfile}
+go run ../tools/raft-testlog-viz/main.go < "${logfile}"

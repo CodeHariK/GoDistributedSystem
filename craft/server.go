@@ -5,7 +5,10 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"sync"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"connectrpc.com/connect"
 	"github.com/codeharik/craft/api/apiconnect"
@@ -13,11 +16,12 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
-func NewServer(serverId int64, peerIds []int64, ready <-chan any) *CraftServer {
+func NewServer(serverId int64, peerIds []int64, ready <-chan any, commitChan chan<- CommitEntry) *CraftServer {
 	return &CraftServer{
 		serverID:    serverId,
 		peerIDs:     peerIds,
 		peerClients: make(map[int64]*Connection),
+		commitChan:  commitChan,
 		ready:       ready,
 		quit:        make(chan any),
 	}
@@ -25,22 +29,22 @@ func NewServer(serverId int64, peerIds []int64, ready <-chan any) *CraftServer {
 
 func (s *CraftServer) Serve() {
 	s.mu.Lock()
-	s.cm = NewConsensusModule(s.serverID, s.peerIDs, s, s.ready)
+	s.cm = NewConsensusModule(s.serverID, s.peerIDs, s, s.ready, s.commitChan)
 
 	// Create a new RPC server and register a RPCProxy that forwards all methods to s.cm
 	s.rpcProxy = &RPCProxy{cm: s.cm}
 
-	// 1. Create a TCP listener on a random available port
+	// Create a TCP listener on a random available port
 	listener, err := net.Listen("tcp", ":0") // OS assigns a free port
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
-	defer listener.Close()
+	s.server.listener = listener
 
 	mux := http.NewServeMux()
 	mux.Handle(apiconnect.NewCraftServiceHandler(s.cm))
 
-	s.server = &http.Server{
+	s.server.server = http.Server{
 		Addr: listener.Addr().String(), // Get assigned address (e.g., "127.0.0.1:54321")
 		Handler: h2c.NewHandler(
 			mux,
@@ -48,26 +52,37 @@ func (s *CraftServer) Serve() {
 		),
 	}
 
-	s.cm.dlog("listening at %s", s.server.Addr)
+	s.cm.dlog("listening at %s", s.server.server.Addr)
 	s.mu.Unlock()
 
-	// go func() {
-	// 	if err := s.server.Serve(listener); err != http.ErrServerClosed {
-	// 		log.Fatalf("Server error: %v", err)
-	// 	}
-	// }()
+	s.wg.Add(1)
+	go func() {
+		defer s.wg.Done()
 
-	// // Handle OS signals for graceful shutdown
-	// sigChan := make(chan os.Signal, 1)
-	// signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+		// Handle OS signals for graceful shutdown
+		sigChan := make(chan os.Signal, 1)
+		signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 
-	// // Wait for signal
-	// select {
-	// case sig := <-sigChan:
-	// 	log.Printf("Received signal: %v. Shutting down...", sig)
-	// case <-s.quit:
-	// 	log.Println("Received quit signal. Shutting down...")
-	// }
+		// Track if the server stops
+		serverExited := make(chan struct{})
+
+		go func() {
+			if err := s.server.server.Serve(listener); err != http.ErrServerClosed {
+				log.Fatalf("[%d] Server error: %v", s.cm.id, err)
+			}
+			close(serverExited) // Signal that the server has stopped
+		}()
+
+		// Wait for signal
+		select {
+		case sig := <-sigChan:
+			log.Printf("Received signal: %v. Shutting down...", sig)
+		case <-s.quit:
+			log.Println("Received quit signal. Shutting down...")
+		case <-serverExited:
+			log.Println("Server exited unexpectedly.")
+		}
+	}()
 }
 
 // DisconnectAll closes all the client connections to peers for this server.
@@ -85,23 +100,34 @@ func (s *CraftServer) DisconnectAll() {
 
 // Shutdown closes the server and waits for it to shut down properly.
 func (s *CraftServer) Shutdown() {
-	var once sync.Once
-	once.Do(func() { // Ensures this runs only once
+	s.once.Do(func() { // Ensures this runs only once
 		s.cm.Stop()
 
 		// Close quit channel only if this call initiated shutdown
 		select {
-		case <-s.quit: // Already closed, do nothing
+		case <-s.quit:
+			// Already closed, do nothing
 		default:
 			close(s.quit)
 		}
 
-		if err := s.server.Shutdown(context.Background()); err != nil {
+		// Gracefully shut down the HTTP server
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		if err := s.server.server.Shutdown(ctx); err != nil {
 			s.cm.dlog("Shutdown error: %v", err)
-			if err := s.server.Close(); err != nil {
+			if err := s.server.server.Close(); err != nil {
 				log.Fatalf("Server force close error: %v", err)
 			}
 		}
+
+		// Close the listener first to stop accepting new connections
+		if err := s.server.listener.Close(); err != nil {
+			log.Printf("Listener close error: %v", err)
+		}
+
+		s.wg.Wait() // the program waits for all goroutines to exit
 
 		s.cm.dlog("CraftServer terminated!")
 	})
@@ -110,7 +136,7 @@ func (s *CraftServer) Shutdown() {
 func (s *CraftServer) GetListenAddr() string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return s.server.Addr
+	return s.server.server.Addr
 }
 
 func (s *CraftServer) ConnectToPeer(peerId int64, addr string) error {
