@@ -1,0 +1,45 @@
+syntax = "proto3";
+package gossip;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/codeharik/gossip/api";
+
+service GossipService {
+  rpc BroadcastMessage(BroadcastRequest) returns (BroadcastResponse);
+  rpc Connect(ConnectRequest) returns (ConnectResponse);
+}
+
+enum MessageType {
+  JOIN = 0;
+  MSG = 1;
+}
+
+message Peer {
+  uint64 peer_id = 1;
+  string addr = 2;
+  int64 start_time = 3;
+  repeated uint64 topics = 4;
+}
+
+message BroadcastRequest {
+  uint64 origin_id = 1;
+  int64 timestamp = 2;
+  MessageType messageType = 3;
+  string message = 4;
+  uint64 topics = 5;
+}
+message BroadcastResponse {
+  bool received = 1;
+}
+
+message ConnectRequest {
+  Peer peer = 1;
+}
+message ConnectResponse {
+  Peer peer = 1;
+
+  uint64 approx_num_node = 2;
+
+  repeated Peer known_peers = 4;
+}

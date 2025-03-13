@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmark Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+        }
+
+        canvas {
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Benchmark Results (Live)</h2>
+    <div class="grid-container">
+        <div class="chart-container"><canvas id="requestsChart"></canvas></div>
+        <div class="chart-container"><canvas id="latencyChart"></canvas></div>
+        <div class="chart-container"><canvas id="cpuChart"></canvas></div>
+        <div class="chart-container"><canvas id="memoryChart"></canvas></div>
+        <div class="chart-container"><canvas id="netSentChart"></canvas></div>
+        <div class="chart-container"><canvas id="netRecvChart"></canvas></div>
+        <div id="percentileReport" style="margin-top: 20px; font-size: 16px;"></div>
+    </div>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:8888/ws");
+
+        let labels = Array.from((_, i) => i);
+
+        function createChart(canvasId, datasets) {
+            return new Chart(document.getElementById(canvasId), {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: "linear",
+                            position: "bottom",
+                            ticks: { autoSkip: true, maxTicksLimit: 20 }
+                        },
+                        y: { beginAtZero: true }
+                    },
+                    animation: false, // Real-time performance optimization
+                }
+            });
+        }
+
+        // Create charts
+        const requestsChart = createChart("requestsChart", [
+            { label: "Requests/sec", data: [], borderColor: "blue", fill: false },
+            { label: "Success/sec", data: [], borderColor: "green", fill: false },
+        ]);
+        const latencyChart = createChart("latencyChart", [
+            { label: "Avg Latency (ms)", data: [], borderColor: "red", fill: false }
+        ]);
+        const cpuChart = createChart("cpuChart", [
+            { label: "CPU Usage (%)", data: [], borderColor: "green", fill: false }
+        ]);
+        const memoryChart = createChart("memoryChart", [
+            { label: "Memory Usage (%)", data: [], borderColor: "purple", fill: false }
+        ]);
+        const netSentChart = createChart("netSentChart", [
+            { label: "Network Sent (MB)", data: [], borderColor: "orange", fill: false }
+        ]);
+        const netRecvChart = createChart("netRecvChart", [
+            { label: "Network Received (MB)", data: [], borderColor: "brown", fill: false }
+        ]);
+
+        // Function to compute percentiles
+        function getPercentile(sortedArray, percentile) {
+            if (sortedArray.length === 0) return 0;
+            const index = Math.floor(percentile * sortedArray.length);
+            return sortedArray[Math.min(index, sortedArray.length - 1)];
+        }
+
+        // Display latency percentile report
+        function displayLatencyPercentiles() {
+            const sortedLatencies = [...latencyValues].sort((a, b) => a - b);
+
+            const p50 = getPercentile(sortedLatencies, 0.50);
+            const p90 = getPercentile(sortedLatencies, 0.90);
+            const p99 = getPercentile(sortedLatencies, 0.99);
+
+            document.getElementById("percentileReport").innerHTML = `
+        <strong>Latency Percentiles:</strong><br>
+        P50: ${p50} ms | P90: ${p90} ms | P99: ${p99} ms
+    `;
+        }
+
+        function updateChart(chart, newData, datasetIndex = 0) {
+            const dataset = chart.data.datasets[datasetIndex];
+            dataset.data.push({ x: dataset.data.length, y: newData });
+
+            chart.update();
+        }
+
+        const latencyValues = []; // Store latency values for percentile calculations
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            updateChart(requestsChart, Array.of(data.Requests).map((e) => e * 10), 0);
+            updateChart(requestsChart, Array.of(data.Success).map((e) => e * 10), 1);
+
+            const latency = data.Requests > 0 ? Math.round(data.TotalLatency / (data.Requests * 100000)) : 0;
+            updateChart(latencyChart, latency);
+
+            updateChart(cpuChart, data.CPUUsage);
+            updateChart(memoryChart, Math.round(data.MemUsage));
+            updateChart(netSentChart, Math.round(data.NetSent / 1048576));
+            updateChart(netRecvChart, Math.round(data.NetRecv / 1048576));
+
+            // Store latency for percentile calculations
+            if (latency > 0) {
+                latencyValues.push(latency);
+                if (latencyValues.length > 600) latencyValues.shift(); // Keep last 600 values (last 60 sec if 100ms interval)
+            }
+
+            // Compute and display percentiles
+            displayLatencyPercentiles();
+        };
+
+        socket.onclose = function () {
+            console.log("WebSocket closed.");
+        };
+    </script>
+</body>
+
+</html>

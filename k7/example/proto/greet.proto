@@ -1,0 +1,18 @@
+syntax = "proto3";
+package greet;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/codeharik/k7/example/api";
+
+message GreetRequest {
+  string name = 1;
+}
+
+message GreetResponse {
+  string greeting = 1;
+}
+
+service GreetService {
+  rpc Greet(GreetRequest) returns (GreetResponse) {}
+}

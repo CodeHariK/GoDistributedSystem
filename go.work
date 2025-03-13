@@ -1,0 +1,11 @@
+go 1.24.0
+
+use (
+	./craft
+	./goraft
+	./hraftd
+	./kademlia
+	./raft/part1
+	./raft/part2
+	./raft/part3
+)

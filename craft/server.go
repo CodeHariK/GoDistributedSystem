@@ -2,6 +2,7 @@ package craft
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net"
 	"net/http"
@@ -77,11 +78,11 @@ func (s *CraftServer) Serve() {
 		// Wait for signal
 		select {
 		case sig := <-sigChan:
-			log.Printf("Received signal: %v. Shutting down...", sig)
+			log.Printf("[%d] Received signal: %v. Shutting down...", s.cm.id, sig)
 		case <-s.quit:
-			log.Println("Received quit signal. Shutting down...")
+			log.Printf("[%d] Received quit signal. Shutting down...", s.cm.id)
 		case <-serverExited:
-			log.Println("Server exited unexpectedly.")
+			log.Printf("[%d] Server exited unexpectedly.", s.cm.id)
 		}
 	}()
 }
@@ -115,9 +116,8 @@ func (s *CraftServer) Shutdown() {
 			}
 		}
 
-		// Close the listener first to stop accepting new connections
-		if err := s.server.listener.Close(); err != nil {
-			log.Printf("Listener close error: %v", err)
+		if err := s.server.listener.Close(); err != nil && !errors.Is(err, net.ErrClosed) {
+			log.Printf("[%d] Listener close error: %v", s.cm.id, err)
 		}
 
 		s.wg.Wait() // the program waits for all goroutines to exit

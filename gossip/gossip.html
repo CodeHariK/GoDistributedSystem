@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gossip</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        #table {
+            max-width: 600px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="chart"></div>
+
+    <span>LogScale</span>
+    <input type="checkbox" id="logscale">
+
+    <span id="fanoutValue">Fanout : 10</span>
+    <input type="range" min="1" value="10" max="30" id="fanout">
+
+    <span id="maxIterationsValue">MaxIteration : 10</span>
+    <input type="range" min="1" value="10" max="30" id="maxIterations">
+
+    <div id="table"></div>
+</body>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(draw);
+
+    let FANOUT = 10;
+    let MAX_ITERATIONS = 10;
+    let LOGSCALE = false;
+
+    function loss(iteration) {
+        return Math.pow(Math.log((1 - 1 / MAX_ITERATIONS) * iteration + 1) / Math.log(MAX_ITERATIONS), 4);
+    }
+
+    function simulate() {
+        let nodes = 1;
+        let data = [['Iteration', 'Nodes', 'Effective Propogation', 'Loss%', 'Multiply']];
+
+        data.push([0, 1, FANOUT, 0, FANOUT + 1]);
+
+        for (let iteration = 1; iteration < MAX_ITERATIONS + 1; iteration++) {
+            let effPropogation = FANOUT * (1 - loss(iteration));
+            let lastEffPropogation = data.at(-1)[2]
+            let newNodes = lastEffPropogation * nodes;
+            nodes += newNodes;
+            data.push([
+                iteration,
+                Math.round(nodes),
+                effPropogation,
+                (100 * (FANOUT - effPropogation) / FANOUT).toFixed(2),
+                iteration != MAX_ITERATIONS ? (effPropogation + 1).toFixed(2) : 0,
+            ]);
+        }
+        return data;
+    }
+
+    function draw() {
+        let propInfo = simulate()
+        let data = google.visualization.arrayToDataTable(propInfo);
+        let options = {
+            title: 'Gossip Protocol',
+            curveType: 'function',
+            width: 1200,
+            height: 600,
+            series: {
+                0: { targetAxisIndex: 0, color: 'purple' },
+                1: { targetAxisIndex: 1, color: 'orange' },
+                2: { targetAxisIndex: 2, color: 'red' },
+                3: { targetAxisIndex: 3, color: 'green' }
+            },
+            vAxes: {
+                0: { title: 'Nodes', logScale: LOGSCALE },
+                1: { title: 'Effective Propogation, Loss, Multiply' },
+            }
+        };
+
+        let chart = new google.visualization.LineChart(document.getElementById("chart"));
+        chart.draw(data, options);
+
+        let tableDiv = document.getElementById("table");
+        tableDiv.innerHTML = ""; // Clear previous table
+
+        let table = document.createElement("table");
+        table.border = "1"; // Add a border for visibility
+        let tbody = document.createElement("tbody");
+
+        propInfo.forEach((row, index) => {
+            let tr = document.createElement("tr");
+            row.forEach(cell => {
+                let td = document.createElement(index === 0 ? "th" : "td"); // Use <th> for header
+                td.textContent = cell;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        tableDiv.appendChild(table);
+    }
+
+
+    document.getElementById("fanout").addEventListener("input", (e) => {
+        FANOUT = parseInt(e.target.value, 10);
+        document.getElementById("fanoutValue").textContent = "Fanout : " + FANOUT;
+        draw();
+    });
+    document.getElementById("maxIterations").addEventListener("input", (e) => {
+        MAX_ITERATIONS = parseInt(e.target.value, 10);
+        document.getElementById("maxIterationsValue").textContent = "MaxIteration : " + MAX_ITERATIONS;
+        draw();
+    });
+    document.getElementById("logscale").addEventListener("input", (e) => {
+        LOGSCALE = e.target.checked;
+        draw();
+    });
+
+</script>
+
+</html>
