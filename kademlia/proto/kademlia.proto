@@ -1,0 +1,57 @@
+syntax = "proto3";
+package kademlia;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/codeharik/kademlia/api";
+
+service Kademlia {
+  rpc Ping(PingRequest) returns (PingResponse);
+  rpc FindNode(FindNodeRequest) returns (FindNodeResponse);
+  rpc Store(StoreRequest) returns (StoreResponse);
+  rpc FindValue(FindValueRequest) returns (FindValueResponse);
+}
+
+message KKey {
+  bytes key = 1;
+}
+
+message Contact {
+  KKey node_id = 1;
+  string ip = 2;
+  int32 port = 3;
+}
+
+message PingRequest {
+  KKey node_id = 1;
+  string ip = 2;
+  int32 port = 3;
+}
+message PingResponse {
+  string status = 1;
+}
+
+message FindNodeRequest {
+  KKey target_id = 1;
+}
+message FindNodeResponse {
+  repeated Contact contacts = 1;
+}
+
+message StoreRequest {
+  KKey key = 1;
+  bytes value = 2;
+}
+message StoreResponse {
+  string status = 1;
+}
+
+message FindValueRequest {
+  KKey key = 1;
+}
+message FindValueResponse {
+  oneof response {
+    bytes value = 1; // Value found
+    FindNodeResponse nodes = 2; // Closest nodes if value is not found
+  }
+}
