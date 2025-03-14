@@ -35,6 +35,8 @@ const (
 const (
 	// KademliaPingProcedure is the fully-qualified name of the Kademlia's Ping RPC.
 	KademliaPingProcedure = "/kademlia.Kademlia/Ping"
+	// KademliaGetContactsProcedure is the fully-qualified name of the Kademlia's GetContacts RPC.
+	KademliaGetContactsProcedure = "/kademlia.Kademlia/GetContacts"
 	// KademliaFindNodeProcedure is the fully-qualified name of the Kademlia's FindNode RPC.
 	KademliaFindNodeProcedure = "/kademlia.Kademlia/FindNode"
 	// KademliaStoreProcedure is the fully-qualified name of the Kademlia's Store RPC.
@@ -46,6 +48,7 @@ const (
 // KademliaClient is a client for the kademlia.Kademlia service.
 type KademliaClient interface {
 	Ping(context.Context, *connect.Request[api.PingRequest]) (*connect.Response[api.PingResponse], error)
+	GetContacts(context.Context, *connect.Request[api.GetContactsRequest]) (*connect.Response[api.GetContactsResponse], error)
 	FindNode(context.Context, *connect.Request[api.FindNodeRequest]) (*connect.Response[api.FindNodeResponse], error)
 	Store(context.Context, *connect.Request[api.StoreRequest]) (*connect.Response[api.StoreResponse], error)
 	FindValue(context.Context, *connect.Request[api.FindValueRequest]) (*connect.Response[api.FindValueResponse], error)
@@ -66,6 +69,12 @@ func NewKademliaClient(httpClient connect.HTTPClient, baseURL string, opts ...co
 			httpClient,
 			baseURL+KademliaPingProcedure,
 			connect.WithSchema(kademliaMethods.ByName("Ping")),
+			connect.WithClientOptions(opts...),
+		),
+		getContacts: connect.NewClient[api.GetContactsRequest, api.GetContactsResponse](
+			httpClient,
+			baseURL+KademliaGetContactsProcedure,
+			connect.WithSchema(kademliaMethods.ByName("GetContacts")),
 			connect.WithClientOptions(opts...),
 		),
 		findNode: connect.NewClient[api.FindNodeRequest, api.FindNodeResponse](
@@ -91,15 +100,21 @@ func NewKademliaClient(httpClient connect.HTTPClient, baseURL string, opts ...co
 
 // kademliaClient implements KademliaClient.
 type kademliaClient struct {
-	ping      *connect.Client[api.PingRequest, api.PingResponse]
-	findNode  *connect.Client[api.FindNodeRequest, api.FindNodeResponse]
-	store     *connect.Client[api.StoreRequest, api.StoreResponse]
-	findValue *connect.Client[api.FindValueRequest, api.FindValueResponse]
+	ping        *connect.Client[api.PingRequest, api.PingResponse]
+	getContacts *connect.Client[api.GetContactsRequest, api.GetContactsResponse]
+	findNode    *connect.Client[api.FindNodeRequest, api.FindNodeResponse]
+	store       *connect.Client[api.StoreRequest, api.StoreResponse]
+	findValue   *connect.Client[api.FindValueRequest, api.FindValueResponse]
 }
 
 // Ping calls kademlia.Kademlia.Ping.
 func (c *kademliaClient) Ping(ctx context.Context, req *connect.Request[api.PingRequest]) (*connect.Response[api.PingResponse], error) {
 	return c.ping.CallUnary(ctx, req)
+}
+
+// GetContacts calls kademlia.Kademlia.GetContacts.
+func (c *kademliaClient) GetContacts(ctx context.Context, req *connect.Request[api.GetContactsRequest]) (*connect.Response[api.GetContactsResponse], error) {
+	return c.getContacts.CallUnary(ctx, req)
 }
 
 // FindNode calls kademlia.Kademlia.FindNode.
@@ -120,6 +135,7 @@ func (c *kademliaClient) FindValue(ctx context.Context, req *connect.Request[api
 // KademliaHandler is an implementation of the kademlia.Kademlia service.
 type KademliaHandler interface {
 	Ping(context.Context, *connect.Request[api.PingRequest]) (*connect.Response[api.PingResponse], error)
+	GetContacts(context.Context, *connect.Request[api.GetContactsRequest]) (*connect.Response[api.GetContactsResponse], error)
 	FindNode(context.Context, *connect.Request[api.FindNodeRequest]) (*connect.Response[api.FindNodeResponse], error)
 	Store(context.Context, *connect.Request[api.StoreRequest]) (*connect.Response[api.StoreResponse], error)
 	FindValue(context.Context, *connect.Request[api.FindValueRequest]) (*connect.Response[api.FindValueResponse], error)
@@ -136,6 +152,12 @@ func NewKademliaHandler(svc KademliaHandler, opts ...connect.HandlerOption) (str
 		KademliaPingProcedure,
 		svc.Ping,
 		connect.WithSchema(kademliaMethods.ByName("Ping")),
+		connect.WithHandlerOptions(opts...),
+	)
+	kademliaGetContactsHandler := connect.NewUnaryHandler(
+		KademliaGetContactsProcedure,
+		svc.GetContacts,
+		connect.WithSchema(kademliaMethods.ByName("GetContacts")),
 		connect.WithHandlerOptions(opts...),
 	)
 	kademliaFindNodeHandler := connect.NewUnaryHandler(
@@ -160,6 +182,8 @@ func NewKademliaHandler(svc KademliaHandler, opts ...connect.HandlerOption) (str
 		switch r.URL.Path {
 		case KademliaPingProcedure:
 			kademliaPingHandler.ServeHTTP(w, r)
+		case KademliaGetContactsProcedure:
+			kademliaGetContactsHandler.ServeHTTP(w, r)
 		case KademliaFindNodeProcedure:
 			kademliaFindNodeHandler.ServeHTTP(w, r)
 		case KademliaStoreProcedure:
@@ -177,6 +201,10 @@ type UnimplementedKademliaHandler struct{}
 
 func (UnimplementedKademliaHandler) Ping(context.Context, *connect.Request[api.PingRequest]) (*connect.Response[api.PingResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("kademlia.Kademlia.Ping is not implemented"))
+}
+
+func (UnimplementedKademliaHandler) GetContacts(context.Context, *connect.Request[api.GetContactsRequest]) (*connect.Response[api.GetContactsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("kademlia.Kademlia.GetContacts is not implemented"))
 }
 
 func (UnimplementedKademliaHandler) FindNode(context.Context, *connect.Request[api.FindNodeRequest]) (*connect.Response[api.FindNodeResponse], error) {

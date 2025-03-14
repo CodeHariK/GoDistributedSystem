@@ -25,12 +25,12 @@ func TestKKeyEncodingDecoding(t *testing.T) {
 	for _, test := range keyTests {
 		key := api.KKey{Key: test.key}
 
-		nodeId, err := NodeIDFromKKey(&key)
+		nodeId, err := ToKKey(&key)
 		if (err != nil) != test.error {
 			t.Errorf("Decoding failed: %v", err)
 		}
 
-		kkey, err := nodeId.KKey()
+		kkey, err := nodeId.ApiKKey()
 		if (err != nil || bytes.Compare(kkey.Key, test.key) != 0) != test.error {
 			t.Errorf("Decoded NodeID does not match original. Got %v, expected %v", nodeId, test.key)
 		}

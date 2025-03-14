@@ -15,19 +15,21 @@ const (
 	CONST_TIMEOUT_SEC = 2  // RPC timeout duration.
 )
 
-// NodeID represents a 160-bit unique identifier.
-type NodeID [20]byte
+// KKey represents a 160-bit unique identifier.
+type KKey [20]byte
 
 type Node struct {
 	contact      Contact
 	routingTable *RoutingTable
 
 	httpClient  *http.Client
-	connections map[NodeID]Connection
+	connections map[KKey]Connection
+
+	kvStore KeyValueStore
 }
 
 type Contact struct {
-	ID NodeID
+	ID KKey
 	IP net.TCPAddr
 }
 
@@ -37,7 +39,7 @@ type KBucket struct {
 }
 
 type RoutingTable struct {
-	SelfID   NodeID
+	SelfID   KKey
 	Buckets  [160]*KBucket
 	BucketMu sync.Mutex
 }
@@ -46,4 +48,9 @@ type Connection struct {
 	contact   Contact
 	StartTime int64
 	Client    apiconnect.KademliaClient
+}
+
+type KeyValueStore struct {
+	data map[KKey][]byte
+	mu   sync.RWMutex
 }

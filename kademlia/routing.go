@@ -1,7 +1,7 @@
 package kademlia
 
 // NewRoutingTable initializes a routing table.
-func NewRoutingTable(selfID NodeID) *RoutingTable {
+func NewRoutingTable(selfID KKey) *RoutingTable {
 	rt := &RoutingTable{SelfID: selfID}
 	for i := 0; i < 160; i++ {
 		rt.Buckets[i] = &KBucket{}
@@ -18,7 +18,7 @@ func (rt *RoutingTable) AddContact(c Contact) {
 }
 
 // FindClosest returns k closest nodes to a target ID.
-func (rt *RoutingTable) FindClosest(target NodeID, k int) []Contact {
+func (rt *RoutingTable) FindClosest(target KKey) []Contact {
 	// Find the appropriate bucket
 	bucketIndex := target.Distance(rt.SelfID).LeadingZeros()
 	rt.BucketMu.Lock()
@@ -26,8 +26,8 @@ func (rt *RoutingTable) FindClosest(target NodeID, k int) []Contact {
 	rt.BucketMu.Unlock()
 
 	// If not enough contacts, look in neighboring buckets.
-	if len(closest) < k {
-		for i := 1; i < 160 && len(closest) < k; i++ {
+	if len(closest) < CONST_K {
+		for i := 1; i < 160 && len(closest) < CONST_ALPHA; i++ {
 			if bucketIndex-i >= 0 {
 				rt.BucketMu.Lock()
 				closest = append(closest, rt.Buckets[bucketIndex-i].GetContacts()...)
@@ -42,8 +42,8 @@ func (rt *RoutingTable) FindClosest(target NodeID, k int) []Contact {
 	}
 
 	// Return k closest contacts
-	if len(closest) > k {
-		closest = closest[:k]
+	if len(closest) > CONST_K {
+		closest = closest[:CONST_K]
 	}
 	return closest
 }
