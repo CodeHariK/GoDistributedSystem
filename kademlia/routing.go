@@ -1,5 +1,7 @@
 package kademlia
 
+import "bytes"
+
 // NewRoutingTable initializes a routing table.
 func NewRoutingTable(selfID KKey) *RoutingTable {
 	rt := &RoutingTable{SelfID: selfID}
@@ -60,4 +62,18 @@ func (rt *RoutingTable) FindClosest(target KKey) []Contact {
 		closest = closest[:CONST_K]
 	}
 	return closest
+}
+
+func (node *Node) FindSuccessor(key KKey) Contact {
+	closestNodes := node.routingTable.FindClosest(key)
+
+	// Instead of XOR, find the first node *greater than or equal* to key
+	for _, contact := range closestNodes {
+		if bytes.Compare(contact.ID[:], key[:]) >= 0 {
+			return contact
+		}
+	}
+
+	// If no node is greater, wrap around (i.e., return the first node in the ring)
+	return closestNodes[0]
 }

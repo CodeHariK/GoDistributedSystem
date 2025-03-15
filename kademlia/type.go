@@ -2,6 +2,7 @@ package kademlia
 
 import (
 	"container/list"
+	"crypto/ecdsa"
 	"net"
 	"net/http"
 	"sync"
@@ -14,12 +15,16 @@ const (
 	CONST_ALPHA       = 3  // Number of parallel queries at a time.
 	CONST_TIMEOUT_SEC = 2  // RPC timeout duration.
 
-	CONST_KKEY_BIT_COUNT = 64 // 160-bit standard, 64 for testing
+	CONST_KKEY_BIT_COUNT = 18 * 8
 )
 
-// KKey represents a 160-bit unique identifier.
-// type KKey [20]byte
-type KKey [8]byte
+//	type TopicKKey struct {
+//		Latitude    byte
+//		Longitude   byte
+//		TopicHash   [8]byte
+//		ContentHash [8]byte
+//	}
+type KKey [18]byte
 
 type Node struct {
 	contact      Contact
@@ -33,14 +38,17 @@ type Node struct {
 
 	kvStore KeyValueStore
 
+	privateKey *ecdsa.PrivateKey
+
 	quit chan any
 	wg   sync.WaitGroup
 	once sync.Once
 }
 
 type Contact struct {
-	ID   KKey
-	Addr string
+	ID        KKey
+	Addr      string
+	PublicKey []byte
 }
 
 type KBucket struct {
@@ -51,8 +59,7 @@ type KBucket struct {
 type RoutingTable struct {
 	SelfID KKey
 
-	// Buckets  [160]*KBucket
-	Buckets [64]*KBucket
+	Buckets [144]*KBucket
 
 	BucketMu sync.Mutex
 }

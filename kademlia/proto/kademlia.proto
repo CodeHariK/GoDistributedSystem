@@ -19,6 +19,7 @@ message KKey {
 message Contact {
   KKey node_id = 1;
   string addr = 2;
+  bytes public_key = 3; // ECDSA Public Key (X || Y coordinates)
 }
 
 message PingRequest {

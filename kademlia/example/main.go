@@ -1,13 +1,17 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/codeharik/kademlia"
 )
 
 func main() {
-	node := kademlia.NewNode()
+	node, err := kademlia.NewNode("Hoopa")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	node.Start()
 

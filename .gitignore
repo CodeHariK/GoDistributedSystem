@@ -30,3 +30,5 @@ zig-out/
 zig-cache/
 
 node_modules
+
+TEMP

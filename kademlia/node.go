@@ -19,8 +19,15 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
-func NewNode() *Node {
-	nodeId := NewNodeID()
+func NewNode(topic string) (*Node, error) {
+	privKey, err := LoadKeyPair("TEMP/key")
+	if err != nil {
+		return nil, err
+	}
+	nodeId, err := NewKKey(topic, nil, &privKey.PublicKey)
+	if err != nil {
+		return nil, err
+	}
 
 	transport := &http.Transport{}
 	httpClient := http.Client{
@@ -37,6 +44,8 @@ func NewNode() *Node {
 		kvStore: KeyValueStore{
 			data: map[KKey][]byte{},
 		},
+
+		privateKey: privKey,
 
 		quit: make(chan any),
 	}
@@ -66,7 +75,7 @@ func NewNode() *Node {
 		Addr: server.Addr,
 	}
 
-	return &node
+	return &node, nil
 }
 
 func (node *Node) Start() {
@@ -145,7 +154,7 @@ func (node *Node) GetClient(contact Contact) apiconnect.KademliaClient {
 	)
 
 	// Create new client if not cached
-	node.connections[contact.ID] = Connection{contact: contact, Client: client}
+	node.connections[contact.ID] = Connection{Client: client}
 	return node.connections[contact.ID].Client
 }
 
