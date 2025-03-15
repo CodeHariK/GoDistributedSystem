@@ -30,13 +30,9 @@ func (node *Node) GetContacts(
 
 	var nodes []*api.Contact
 	for _, contact := range closestNodes {
-		nodeId, err := contact.ID.ApiKKey()
+		apiContact, err := contact.ApiContact()
 		if err != nil {
-			nodes = append(nodes, &api.Contact{
-				NodeId: nodeId,
-				Ip:     contact.IP.String(),
-				Port:   int32(contact.IP.Port),
-			})
+			nodes = append(nodes, apiContact)
 		}
 	}
 
@@ -107,12 +103,10 @@ func (node *Node) FindValue(
 
 	var nodes []*api.Contact
 	for _, contact := range closestNodes {
-		apiKKey, _ := contact.ID.ApiKKey()
-		nodes = append(nodes, &api.Contact{
-			NodeId: apiKKey,
-			Ip:     contact.IP.String(),
-			Port:   int32(contact.IP.Port),
-		})
+		apiContact, err := contact.ApiContact()
+		if err != nil {
+			nodes = append(nodes, apiContact)
+		}
 	}
 
 	return connect.NewResponse(&api.FindValueResponse{

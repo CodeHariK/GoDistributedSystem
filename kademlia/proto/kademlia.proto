@@ -18,8 +18,7 @@ message KKey {
 }
 message Contact {
   KKey node_id = 1;
-  string ip = 2;
-  int32 port = 3;
+  string addr = 2;
 }
 
 message PingRequest {
