@@ -18,10 +18,10 @@ const (
 	CONST_KKEY_BIT_COUNT = 18 * 8
 )
 
-//	type TopicKKey struct {
+//	type DomainKKey struct {
+//		DomainHash  [8]byte
 //		Latitude    byte
 //		Longitude   byte
-//		TopicHash   [8]byte
 //		ContentHash [8]byte
 //	}
 type KKey [18]byte
@@ -36,9 +36,14 @@ type Node struct {
 	httpClient  http.Client
 	connections map[KKey]Connection
 
+	topics []string
+
 	kvStore KeyValueStore
 
-	privateKey *ecdsa.PrivateKey
+	domain    string
+	domainKey *ecdsa.PrivateKey
+	id        string
+	idKey     *ecdsa.PrivateKey
 
 	quit chan any
 	wg   sync.WaitGroup
@@ -46,9 +51,13 @@ type Node struct {
 }
 
 type Contact struct {
-	ID        KKey
-	Addr      string
-	PublicKey []byte
+	ID   KKey
+	Addr string
+
+	domain    string
+	domainKey *ecdsa.PublicKey
+	id        string
+	idKey     *ecdsa.PublicKey
 }
 
 type KBucket struct {

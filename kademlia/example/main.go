@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	node, err := kademlia.NewNode("Hoopa")
+	node, err := kademlia.NewNode("Google", "Hoopa")
 	if err != nil {
 		log.Fatal(err)
 	}

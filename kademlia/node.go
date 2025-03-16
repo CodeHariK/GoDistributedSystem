@@ -19,12 +19,16 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
-func NewNode(topic string) (*Node, error) {
-	privKey, err := LoadKeyPair("TEMP/key")
+func NewNode(domain, id string) (*Node, error) {
+	domainKey, err := LoadKeyPair("TEMP/domain")
 	if err != nil {
 		return nil, err
 	}
-	nodeId, err := NewKKey(topic, nil, &privKey.PublicKey)
+	idKey, err := LoadKeyPair("TEMP/id")
+	if err != nil {
+		return nil, err
+	}
+	nodeId, err := NewKKey(domain, id, nil, domainKey, idKey)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +49,9 @@ func NewNode(topic string) (*Node, error) {
 			data: map[KKey][]byte{},
 		},
 
-		privateKey: privKey,
+		domain:    domain,
+		domainKey: domainKey,
+		idKey:     idKey,
 
 		quit: make(chan any),
 	}
