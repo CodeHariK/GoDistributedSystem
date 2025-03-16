@@ -40,8 +40,9 @@ func NewNode(domain, id string) (*Node, error) {
 	}
 
 	node := Node{
-		httpClient:  httpClient,
-		connections: make(map[KKey]Connection),
+		Key: nodeId,
+
+		httpClient: httpClient,
 
 		routingTable: NewRoutingTable(nodeId),
 
@@ -51,6 +52,7 @@ func NewNode(domain, id string) (*Node, error) {
 
 		domain:    domain,
 		domainKey: domainKey,
+		id:        id,
 		idKey:     idKey,
 
 		quit: make(chan any),
@@ -76,10 +78,7 @@ func NewNode(domain, id string) (*Node, error) {
 	node.listener = listener
 	node.server = server
 
-	node.contact = Contact{
-		ID:   nodeId,
-		Addr: server.Addr,
-	}
+	node.Addr = server.Addr
 
 	return &node, nil
 }
@@ -97,7 +96,7 @@ func (node *Node) Start() {
 		serverExited := make(chan struct{})
 
 		go func() {
-			log.Printf("[%s] Server listening at %s", node.contact.ID.HexString(), node.contact.Addr)
+			log.Printf("[%s] Server listening at %s", node.Key.HexString(), node.Addr)
 			if err := node.server.Serve(node.listener); err != http.ErrServerClosed {
 				log.Fatalf("Server error: %v", err)
 			}
@@ -149,29 +148,21 @@ func (s *Node) Shutdown() {
 }
 
 func (node *Node) GetClient(contact Contact) apiconnect.KademliaClient {
-	if client, exists := node.connections[contact.ID]; exists {
-		return client.Client
+	if contact.Client != nil {
+		return contact.Client
 	}
 
 	client := apiconnect.NewKademliaClient(
 		&node.httpClient,
-		"http://"+node.contact.Addr,
+		"http://"+contact.Addr,
 		// connect.WithGRPC(),
 	)
 
-	// Create new client if not cached
-	node.connections[contact.ID] = Connection{Client: client}
-	return node.connections[contact.ID].Client
+	contact.Client = client
+	return client
 }
 
 func (node *Node) CloseClient(nodeId KKey) {
-	if _, exists := node.connections[nodeId]; exists {
-		delete(node.connections, nodeId)
-	}
-}
-
-func (node *Node) FindClosest(target KKey) []Contact {
-	return node.routingTable.FindClosest(target)
 }
 
 type FindNodeResult struct {
@@ -186,7 +177,7 @@ func (node *Node) RFindNode(target KKey) FindNodeResult {
 
 func (node *Node) RecursiveFindNode(target KKey, queried map[KKey]bool, path []Contact) FindNodeResult {
 	// Get K closest nodes from the routing table
-	closestNodes := node.routingTable.FindClosest(target)
+	closestNodes := node.FindClosest(target)
 
 	// Base case: If no new nodes to query, return error
 	if len(closestNodes) == 0 {
@@ -203,10 +194,10 @@ func (node *Node) RecursiveFindNode(target KKey, queried map[KKey]bool, path []C
 
 	for i := 0; i < len(closestNodes) && i < CONST_ALPHA; i++ {
 		contact := closestNodes[i]
-		if queried[contact.ID] {
+		if queried[contact.key] {
 			continue // Skip already queried nodes
 		}
-		queried[contact.ID] = true
+		queried[contact.key] = true
 
 		wg.Add(1)
 		go func(contact Contact, localPath []Contact) {
@@ -238,7 +229,7 @@ func (node *Node) RecursiveFindNode(target KKey, queried map[KKey]bool, path []C
 					continue
 				}
 
-				if contact.ID == target {
+				if contact.key == target {
 					found <- contact
 					results <- FindNodeResult{contact, localPath, nil}
 					return
@@ -286,21 +277,18 @@ func (node *Node) StartPingTicker() {
 // PingOldestContacts pings the least recently seen nodes in each k-bucket.
 func (node *Node) PingOldestContacts() {
 	for _, bucket := range node.routingTable.Buckets {
-		bucket.mutex.Lock()
+		bucket.mu.Lock()
 		if bucket.contacts.Len() == 0 {
-			bucket.mutex.Unlock()
+			bucket.mu.Unlock()
 			continue
 		}
 
 		// Get the oldest contact
-		oldestElement := bucket.contacts.Front()
-		if oldestElement == nil {
-			bucket.mutex.Unlock()
+		oldest := bucket.contacts.Peek()
+		bucket.mu.Unlock()
+		if oldest == nil {
 			continue
 		}
-
-		oldest := oldestElement.Value.(Contact)
-		bucket.mutex.Unlock()
 
 		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 		defer cancel()
@@ -309,26 +297,24 @@ func (node *Node) PingOldestContacts() {
 
 		ol, err := oldest.ApiContact()
 		if err != nil {
-			bucket.mutex.Lock()
-			bucket.contacts.Remove(oldestElement)
-			bucket.mutex.Unlock()
+			bucket.mu.Lock()
+			bucket.contacts.Remove(oldest.key)
+			bucket.mu.Unlock()
 		}
 
-		res, err := node.GetClient(oldest).Ping(ctx,
+		res, err := node.GetClient(*oldest).Ping(ctx,
 			connect.NewRequest(&api.PingRequest{Contact: ol}))
 
 		if err != nil || res.Msg.Status != "OK" {
-			log.Printf("Node %s unresponsive, removing from routing table\n", oldest.ID)
+			log.Printf("Node %s unresponsive, removing from routing table\n", oldest.key)
 
-			bucket.mutex.Lock()
-			bucket.contacts.Remove(oldestElement)
-			delete(node.connections, oldest.ID) // Remove connection entry
-			bucket.mutex.Unlock()
+			bucket.mu.Lock()
+			bucket.contacts.Remove(oldest.key)
+			bucket.mu.Unlock()
 		} else {
-			log.Printf("Node %s is active\n", oldest.ID)
+			log.Printf("Node %s is active\n", oldest.key)
 
-			nnn := node.connections[oldest.ID]
-			nnn.RTT = int32(time.Since(startTime).Milliseconds())
+			oldest.RTT = int32(time.Since(startTime).Milliseconds())
 		}
 	}
 }

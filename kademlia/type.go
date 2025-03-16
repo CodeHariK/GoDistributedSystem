@@ -1,7 +1,6 @@
 package kademlia
 
 import (
-	"container/list"
 	"crypto/ecdsa"
 	"net"
 	"net/http"
@@ -12,10 +11,11 @@ import (
 
 const (
 	CONST_K           = 20 // Number of contacts in each bucket.
-	CONST_ALPHA       = 3  // Number of parallel queries at a time.
+	CONST_ALPHA       = 5  // Number of parallel queries at a time.
 	CONST_TIMEOUT_SEC = 2  // RPC timeout duration.
 
-	CONST_KKEY_BIT_COUNT = 18 * 8
+	CONST_KKEY_BYTE_COUNT = 18
+	CONST_KKEY_BIT_COUNT  = CONST_KKEY_BYTE_COUNT * 8
 )
 
 //	type DomainKKey struct {
@@ -27,14 +27,16 @@ const (
 type KKey [18]byte
 
 type Node struct {
-	contact      Contact
+	Key         KKey
+	Addr        string
+	SERVER_MODE bool // Is this node a CLIENT or SERVER
+
 	routingTable *RoutingTable
 
 	listener net.Listener
 	server   *http.Server
 
-	httpClient  http.Client
-	connections map[KKey]Connection
+	httpClient http.Client
 
 	topics []string
 
@@ -51,33 +53,34 @@ type Node struct {
 }
 
 type Contact struct {
-	ID   KKey
+	key  KKey
 	Addr string
 
 	domain    string
 	domainKey *ecdsa.PublicKey
 	id        string
 	idKey     *ecdsa.PublicKey
-}
 
-type KBucket struct {
-	contacts list.List
-	mutex    sync.Mutex
-}
-
-type RoutingTable struct {
-	SelfID KKey
-
-	Buckets [144]*KBucket
-
-	BucketMu sync.Mutex
-}
-
-type Connection struct {
 	StartTime int64
 	RTT       int32
 	Client    apiconnect.KademliaClient
+
+	SERVER_MODE bool // Is this node a CLIENT or SERVER
 }
+
+// ContactHeap implements a min-heap based on StartTime and RTT.
+type (
+	ContactHeap []Contact
+	KBucket     struct {
+		contacts ContactHeap
+		mu       sync.Mutex
+	}
+	RoutingTable struct {
+		Buckets [144]*KBucket
+
+		mu sync.Mutex
+	}
+)
 
 type KeyValueStore struct {
 	data map[KKey][]byte

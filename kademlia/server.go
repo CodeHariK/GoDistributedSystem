@@ -26,7 +26,7 @@ func (node *Node) GetContacts(
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.FindNode incorrect targetID"))
 	}
 
-	closestNodes := node.routingTable.FindClosest(targetId)
+	closestNodes := node.FindClosest(targetId)
 
 	var nodes []*api.Contact
 	for _, contact := range closestNodes {
@@ -99,7 +99,7 @@ func (node *Node) FindValue(
 		}), nil
 	}
 
-	closestNodes := node.routingTable.FindClosest(key)
+	closestNodes := node.FindClosest(key)
 
 	var nodes []*api.Contact
 	for _, contact := range closestNodes {

@@ -1,10 +1,13 @@
 package kademlia
 
-import "bytes"
+import (
+	"bytes"
+	"container/heap"
+)
 
 // NewRoutingTable initializes a routing table.
 func NewRoutingTable(selfID KKey) *RoutingTable {
-	rt := &RoutingTable{SelfID: selfID}
+	rt := &RoutingTable{}
 	for i := 0; i < CONST_KKEY_BIT_COUNT; i++ {
 		rt.Buckets[i] = &KBucket{}
 	}
@@ -12,47 +15,44 @@ func NewRoutingTable(selfID KKey) *RoutingTable {
 }
 
 // AddContact adds a node to the correct bucket.
-func (rt *RoutingTable) AddContact(c Contact) {
-	bucketIndex := c.ID.Distance(rt.SelfID).LeadingZeros()
-	rt.BucketMu.Lock()
-	rt.Buckets[bucketIndex].AddContact(c)
-	rt.BucketMu.Unlock()
+func (node *Node) AddContact(c Contact) {
+	bucketIndex := c.key.Xor(node.Key).LeadingZeros()
+	node.routingTable.mu.Lock()
+	node.routingTable.Buckets[bucketIndex].AddContact(c)
+	node.routingTable.mu.Unlock()
 }
 
 // Remove removes the newest node when the bucket is full.
-func (rt *RoutingTable) Remove(contact Contact) {
-	rt.BucketMu.Lock()
-	defer rt.BucketMu.Unlock()
+func (node *Node) Remove(c Contact) {
+	node.routingTable.mu.Lock()
+	defer node.routingTable.mu.Unlock()
 
-	for i := len(rt.Buckets) - 1; i >= 0; i-- { // Remove newest node
-		bucket := rt.Buckets[i]
-		if bucket.contacts.Len() > 0 {
-			bucket.contacts.Remove(bucket.contacts.Back()) // Remove newest node
-			return
-		}
-	}
+	bucketIndex := c.key.Xor(node.Key).LeadingZeros()
+
+	node.routingTable.Buckets[bucketIndex].contacts.Remove(c.key)
 }
 
 // FindClosest returns k closest nodes to a target ID.
-func (rt *RoutingTable) FindClosest(target KKey) []Contact {
+func (node *Node) FindClosest(target KKey) []Contact {
 	// Find the appropriate bucket
-	bucketIndex := target.Distance(rt.SelfID).LeadingZeros()
-	rt.BucketMu.Lock()
-	closest := rt.Buckets[bucketIndex].GetContacts()
-	rt.BucketMu.Unlock()
+	bucketIndex := target.Xor(node.Key).LeadingZeros()
+
+	node.routingTable.mu.Lock()
+	closest := node.routingTable.Buckets[bucketIndex].GetContacts()
+	node.routingTable.mu.Unlock()
 
 	// If not enough contacts, look in neighboring buckets.
 	if len(closest) < CONST_K {
-		for i := 1; i < 160 && len(closest) < CONST_ALPHA; i++ {
+		for i := 1; i < CONST_KKEY_BIT_COUNT && len(closest) < CONST_ALPHA; i++ {
 			if bucketIndex-i >= 0 {
-				rt.BucketMu.Lock()
-				closest = append(closest, rt.Buckets[bucketIndex-i].GetContacts()...)
-				rt.BucketMu.Unlock()
+				node.routingTable.mu.Lock()
+				closest = append(closest, node.routingTable.Buckets[bucketIndex-i].GetContacts()...)
+				node.routingTable.mu.Unlock()
 			}
-			if bucketIndex+i < 160 {
-				rt.BucketMu.Lock()
-				closest = append(closest, rt.Buckets[bucketIndex+i].GetContacts()...)
-				rt.BucketMu.Unlock()
+			if bucketIndex+i < CONST_KKEY_BIT_COUNT {
+				node.routingTable.mu.Lock()
+				closest = append(closest, node.routingTable.Buckets[bucketIndex+i].GetContacts()...)
+				node.routingTable.mu.Unlock()
 			}
 		}
 	}
@@ -65,15 +65,101 @@ func (rt *RoutingTable) FindClosest(target KKey) []Contact {
 }
 
 func (node *Node) FindSuccessor(key KKey) Contact {
-	closestNodes := node.routingTable.FindClosest(key)
+	closestNodes := node.FindClosest(key)
 
 	// Instead of XOR, find the first node *greater than or equal* to key
 	for _, contact := range closestNodes {
-		if bytes.Compare(contact.ID[:], key[:]) >= 0 {
+		if bytes.Compare(contact.key[:], key[:]) >= 0 {
 			return contact
 		}
 	}
 
 	// If no node is greater, wrap around (i.e., return the first node in the ring)
 	return closestNodes[0]
+}
+
+func (h ContactHeap) Len() int { return len(h) }
+
+func (h ContactHeap) Less(i, j int) bool {
+	// Higher StartTime is better, lower RTT is better.
+	if h[i].StartTime == h[j].StartTime {
+		return h[i].RTT < h[j].RTT
+	}
+	return h[i].StartTime > h[j].StartTime
+}
+
+func (h ContactHeap) Swap(i, j int) {
+	h[i], h[j] = h[j], h[i]
+}
+
+func (h *ContactHeap) Push(x any) {
+	*h = append(*h, x.(Contact)) // Modify heap in place
+}
+
+func (h *ContactHeap) Pop() any {
+	old := *h
+	n := len(old)
+	item := old[n-1]
+	*h = old[:n-1] // Modify heap in place
+	return item
+}
+
+// Remove removes a contact by key while maintaining heap properties.
+func (h *ContactHeap) Remove(key KKey) {
+	for i, contact := range *h {
+		if contact.key == key {
+			heap.Remove(h, i) // Use heap.Remove to maintain heap structure
+			return
+		}
+	}
+}
+
+// Peek returns the highest-priority contact without removing it.
+func (h *ContactHeap) Peek() *Contact {
+	if len(*h) == 0 {
+		return nil
+	}
+	return &(*h)[0]
+}
+
+// NewContactHeap initializes a ContactHeap.
+func NewContactHeap() *ContactHeap {
+	h := &ContactHeap{}
+	heap.Init(h)
+	return h
+}
+
+// AddContact adds a new contact or updates its position in the heap.
+func (b *KBucket) AddContact(c Contact) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	// Check if contact already exists and update it
+	for i, contact := range b.contacts {
+		if contact.key == c.key {
+			b.contacts[i] = c        // Update the contact
+			heap.Fix(&b.contacts, i) // Reorder heap
+			return
+		}
+	}
+
+	// Add new contact if space is available
+	if b.contacts.Len() < CONST_K {
+		heap.Push(&b.contacts, c)
+	} else {
+		// Remove the least prioritized contact and add the new one
+		heap.Pop(&b.contacts)
+		heap.Push(&b.contacts, c)
+	}
+}
+
+// GetContacts returns a list of contacts in the bucket.
+func (b *KBucket) GetContacts() []Contact {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	// Return a copy of the heap as a slice
+	contactsCopy := make([]Contact, len(b.contacts))
+	copy(contactsCopy, b.contacts)
+	return contactsCopy
 }
