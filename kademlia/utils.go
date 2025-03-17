@@ -66,9 +66,13 @@ func NewKKey(domain, id string, content []byte, domainKey, idKey *ecdsa.PrivateK
 	return kkey, nil
 }
 
+func (id KKey) BitString() string {
+	return fmt.Sprintf("%08b-%08b-%08b", id[:8], id[8:10], id[10:])
+}
+
 func (id KKey) HexString() string {
 	key := hex.EncodeToString(id[:])
-	return fmt.Sprintf("%s-%s-%s", key[:4], key[4:20], key[20:])
+	return fmt.Sprintf("%s-%s-%s", key[:16], key[16:20], key[20:])
 }
 
 func (id KKey) ApiKKey() (*api.KKey, error) {
@@ -128,8 +132,8 @@ func (contact Contact) ApiContact() (*api.Contact, error) {
 	}
 
 	return &api.Contact{
-		NodeId: contactKey,
-		Addr:   contact.Addr,
+		Key:  contactKey,
+		Addr: contact.Addr,
 
 		Domain:    contact.domain,
 		DomainKey: domainKey,
@@ -139,7 +143,10 @@ func (contact Contact) ApiContact() (*api.Contact, error) {
 }
 
 func ToContact(c *api.Contact) (Contact, error) {
-	contactKey, err := ToKKey(c.NodeId)
+	if c == nil {
+		return Contact{}, errors.New("Null Contact")
+	}
+	contactKey, err := ToKKey(c.Key)
 	if err != nil {
 		return Contact{}, err
 	}
@@ -157,6 +164,17 @@ func ToContact(c *api.Contact) (Contact, error) {
 		id:        c.Id,
 		domainKey: domainkey,
 		idKey:     idkey,
+	}, nil
+}
+
+func (c *Node) ToContact() (Contact, error) {
+	return Contact{
+		key:       c.Key,
+		Addr:      c.Addr,
+		domain:    c.domain,
+		id:        c.id,
+		domainKey: &c.domainKey.PublicKey,
+		idKey:     &c.idKey.PublicKey,
 	}, nil
 }
 

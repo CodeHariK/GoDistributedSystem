@@ -7,8 +7,9 @@ option go_package = "github.com/codeharik/kademlia/api";
 
 service Kademlia {
   rpc Ping(PingRequest) returns (PingResponse);
-  rpc GetContacts(GetContactsRequest) returns (GetContactsResponse);
+  rpc Join(JoinRequest) returns (JoinResponse);
   rpc FindNode(FindNodeRequest) returns (FindNodeResponse);
+  rpc GetContacts(GetContactsRequest) returns (GetContactsResponse);
   rpc Store(StoreRequest) returns (StoreResponse);
   rpc FindValue(FindValueRequest) returns (FindValueResponse);
 }
@@ -17,19 +18,26 @@ message KKey {
   bytes key = 1;
 }
 message Contact {
-  KKey node_id = 1;
+  KKey key = 1;
   string addr = 2;
   string domain = 3;
-  bytes domain_key = 4; // ECDSA Public Key (X || Y coordinates)
+  bytes domainKey = 4; // ECDSA Public Key (X || Y coordinates)
   string id = 5;
-  bytes id_key = 6; // ECDSA Public Key (X || Y coordinates)
+  bytes idKey = 6; // ECDSA Public Key (X || Y coordinates)
 }
 
-message PingRequest {
-  Contact contact = 1;
-}
+message PingRequest {}
 message PingResponse {
   string status = 1;
+}
+
+message JoinRequest {
+  // Contact self = 1;
+  string hello = 2;
+}
+message JoinResponse {
+  // Contact self = 1;
+  // repeated Contact contacts = 2;
 }
 
 message GetContactsRequest {
@@ -59,8 +67,5 @@ message FindValueRequest {
   KKey key = 1;
 }
 message FindValueResponse {
-  oneof response {
-    bytes value = 1; // Value found
-    GetContactsResponse nodes = 2; // Closest nodes if value is not found
-  }
+  bytes value = 1;
 }

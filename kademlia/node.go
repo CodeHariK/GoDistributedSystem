@@ -58,8 +58,8 @@ func NewNode(domain, id string) (*Node, error) {
 		quit: make(chan any),
 	}
 
-	// Create a TCP listener on a random available port
-	listener, err := net.Listen("tcp", ":0") // OS assigns a free port
+	// Create a TCP listener on a random available port, OS assigns a free port
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -68,7 +68,7 @@ func NewNode(domain, id string) (*Node, error) {
 	mux.Handle(apiconnect.NewKademliaHandler(&node))
 
 	server := &http.Server{
-		Addr: listener.Addr().String(), // Get assigned address (e.g., "127.0.0.1:54321")
+		Addr: listener.Addr().String(), // Eg:"127.0.0.1:54321"
 		Handler: h2c.NewHandler(
 			mux,
 			&http2.Server{},
@@ -85,34 +85,32 @@ func NewNode(domain, id string) (*Node, error) {
 
 func (node *Node) Start() {
 	node.wg.Add(1)
+	defer node.wg.Done()
+
+	// Handle OS signals for graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+
+	// Track if the server stops
+	serverExited := make(chan struct{})
+
 	go func() {
-		defer node.wg.Done()
-
-		// Handle OS signals for graceful shutdown
-		sigChan := make(chan os.Signal, 1)
-		signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
-
-		// Track if the server stops
-		serverExited := make(chan struct{})
-
-		go func() {
-			log.Printf("[%s] Server listening at %s", node.Key.HexString(), node.Addr)
-			if err := node.server.Serve(node.listener); err != http.ErrServerClosed {
-				log.Fatalf("Server error: %v", err)
-			}
-			close(serverExited) // Signal that the server has stopped
-		}()
-
-		// Wait for signal
-		select {
-		case sig := <-sigChan:
-			log.Printf("Received signal: %v. Shutting down...", sig)
-		case <-node.quit:
-			log.Printf("Received quit signal. Shutting down...")
-		case <-serverExited:
-			log.Printf("Server exited unexpectedly.")
+		log.Printf("[%s] Server listening at %s", node.Key.HexString(), node.Addr)
+		if err := node.server.Serve(node.listener); err != http.ErrServerClosed {
+			log.Fatalf("Server error: %v", err)
 		}
+		close(serverExited) // Signal that the server has stopped
 	}()
+
+	// Wait for signal
+	select {
+	case sig := <-sigChan:
+		log.Printf("Received signal: %v. Shutting down...", sig)
+	case <-node.quit:
+		log.Printf("Received quit signal. Shutting down...")
+	case <-serverExited:
+		log.Printf("Server exited unexpectedly.")
+	}
 }
 
 func (s *Node) Shutdown() {
@@ -295,15 +293,8 @@ func (node *Node) PingOldestContacts() {
 
 		startTime := time.Now() // Record start time for RTT calculation
 
-		ol, err := oldest.ApiContact()
-		if err != nil {
-			bucket.mu.Lock()
-			bucket.contacts.Remove(oldest.key)
-			bucket.mu.Unlock()
-		}
-
 		res, err := node.GetClient(*oldest).Ping(ctx,
-			connect.NewRequest(&api.PingRequest{Contact: ol}))
+			connect.NewRequest(&api.PingRequest{}))
 
 		if err != nil || res.Msg.Status != "OK" {
 			log.Printf("Node %s unresponsive, removing from routing table\n", oldest.key)

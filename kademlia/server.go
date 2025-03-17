@@ -3,7 +3,7 @@ package kademlia
 import (
 	"context"
 	"errors"
-	"log"
+	"fmt"
 
 	"connectrpc.com/connect"
 	"github.com/codeharik/kademlia/api"
@@ -13,7 +13,8 @@ func (node *Node) Ping(
 	ctx context.Context, req *connect.Request[api.PingRequest]) (
 	*connect.Response[api.PingResponse], error,
 ) {
-	log.Println("Received Ping from:", req.Msg.Contact.NodeId)
+	fmt.Printf("-> Ping : Node:%s\n", node.Key.HexString())
+
 	return connect.NewResponse(&api.PingResponse{Status: "OK"}), nil
 }
 
@@ -21,6 +22,8 @@ func (node *Node) GetContacts(
 	ctx context.Context, req *connect.Request[api.GetContactsRequest]) (
 	*connect.Response[api.GetContactsResponse], error,
 ) {
+	fmt.Printf("-> GetContacts : Node:%s\n", node.Key.HexString())
+
 	targetId, err := ToKKey(req.Msg.TargetId)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.FindNode incorrect targetID"))
@@ -39,10 +42,42 @@ func (node *Node) GetContacts(
 	return connect.NewResponse(&api.GetContactsResponse{Contacts: nodes}), nil
 }
 
+func (node *Node) Join(
+	ctx context.Context, req *connect.Request[api.JoinRequest]) (
+	*connect.Response[api.JoinResponse], error,
+) {
+	fmt.Printf("-> Join : Node:%s (%+v)\n", node.Key.HexString(), req.Msg.Hello)
+
+	// c, err := ToContact(req.Msg.Self)
+	// if err != nil {
+	// 	fmt.Println("---Error---", err)
+	// 	return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.Join incorrect contact"))
+	// }
+	// node.AddContact(c)
+
+	// contacts := node.FewContacts()
+
+	// var nodes []*api.Contact
+	// for _, contact := range contacts {
+	// 	apiContact, err := contact.ApiContact()
+	// 	if err != nil {
+	// 		nodes = append(nodes, apiContact)
+	// 	}
+	// }
+
+	// fmt.Printf("-> Join : Nodes:%v\n", nodes)
+
+	return connect.NewResponse(&api.JoinResponse{
+		// Contacts: nodes
+	}), nil
+}
+
 func (node *Node) FindNode(
 	ctx context.Context, req *connect.Request[api.FindNodeRequest]) (
 	*connect.Response[api.FindNodeResponse], error,
 ) {
+	fmt.Printf("-> FindNode : Node:%s\n", node.Key.HexString())
+
 	targetId, err := ToKKey(req.Msg.TargetId)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.FindNode incorrect targetID"))
@@ -76,6 +111,8 @@ func (node *Node) Store(
 	ctx context.Context, req *connect.Request[api.StoreRequest]) (
 	*connect.Response[api.StoreResponse], error,
 ) {
+	fmt.Printf("-> Store : Node:%s\n", node.Key.HexString())
+
 	key, err := ToKKey(req.Msg.Key)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.Store Invalid Key"))
@@ -88,6 +125,8 @@ func (node *Node) FindValue(
 	ctx context.Context, req *connect.Request[api.FindValueRequest]) (
 	*connect.Response[api.FindValueResponse], error,
 ) {
+	fmt.Printf("-> FindValue : Node:%s\n", node.Key.HexString())
+
 	key, err := ToKKey(req.Msg.Key)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.FindValue Invalid Key"))
@@ -95,23 +134,9 @@ func (node *Node) FindValue(
 	value, exists := node.kvStore.Get(key)
 	if exists {
 		return connect.NewResponse(&api.FindValueResponse{
-			Response: &api.FindValueResponse_Value{Value: value},
+			Value: value,
 		}), nil
 	}
 
-	closestNodes := node.FindClosest(key)
-
-	var nodes []*api.Contact
-	for _, contact := range closestNodes {
-		apiContact, err := contact.ApiContact()
-		if err != nil {
-			nodes = append(nodes, apiContact)
-		}
-	}
-
-	return connect.NewResponse(&api.FindValueResponse{
-		Response: &api.FindValueResponse_Nodes{
-			Nodes: &api.GetContactsResponse{Contacts: nodes},
-		},
-	}), nil
+	return nil, connect.NewError(connect.CodeNotFound, errors.New("kademlia.Kademlia.FindValue Not Found"))
 }

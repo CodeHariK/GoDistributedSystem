@@ -32,10 +32,33 @@ func (node *Node) Remove(c Contact) {
 	node.routingTable.Buckets[bucketIndex].contacts.Remove(c.key)
 }
 
+func (node *Node) NumContacts() int {
+	num := 0
+	for _, b := range node.routingTable.Buckets {
+		num += b.contacts.Len()
+	}
+	return num
+}
+
+func (node *Node) FewContacts() []Contact {
+	contacts := make([]Contact, CONST_KKEY_BIT_COUNT)
+	for i, b := range node.routingTable.Buckets {
+		c := b.contacts.Peek()
+		if c != nil {
+			contacts[i] = *c
+		}
+	}
+	return contacts
+}
+
 // FindClosest returns k closest nodes to a target ID.
 func (node *Node) FindClosest(target KKey) []Contact {
 	// Find the appropriate bucket
 	bucketIndex := target.Xor(node.Key).LeadingZeros()
+
+	if bucketIndex == CONST_KKEY_BIT_COUNT {
+		return []Contact{}
+	}
 
 	node.routingTable.mu.Lock()
 	closest := node.routingTable.Buckets[bucketIndex].GetContacts()
