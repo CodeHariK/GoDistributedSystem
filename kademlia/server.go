@@ -46,29 +46,30 @@ func (node *Node) Join(
 	ctx context.Context, req *connect.Request[api.JoinRequest]) (
 	*connect.Response[api.JoinResponse], error,
 ) {
-	fmt.Printf("-> Join : Node:%s (%+v)\n", node.Key.HexString(), req.Msg.Hello)
+	fmt.Printf("-> Join : Node:%s (%v)\n", node.Key.HexString(), req.Msg.Self.Key)
 
-	// c, err := ToContact(req.Msg.Self)
-	// if err != nil {
-	// 	fmt.Println("---Error---", err)
-	// 	return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.Join incorrect contact"))
-	// }
-	// node.AddContact(c)
+	c, err := ToContact(req.Msg.Self)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("kademlia.Kademlia.Join incorrect contact"))
+	}
 
-	// contacts := node.FewContacts()
+	contacts := node.FewContacts()
 
-	// var nodes []*api.Contact
-	// for _, contact := range contacts {
-	// 	apiContact, err := contact.ApiContact()
-	// 	if err != nil {
-	// 		nodes = append(nodes, apiContact)
-	// 	}
-	// }
+	var nodes []*api.Contact
+	for _, contact := range contacts {
+		apiContact, err := contact.ApiContact()
+		if err == nil {
+			nodes = append(nodes, apiContact)
+		}
+	}
 
-	// fmt.Printf("-> Join : Nodes:%v\n", nodes)
+	node.AddContact(c)
 
+	cc, _ := node.ToContact()
+	apic, _ := cc.ApiContact()
 	return connect.NewResponse(&api.JoinResponse{
-		// Contacts: nodes
+		Self:     apic,
+		Contacts: nodes,
 	}), nil
 }
 

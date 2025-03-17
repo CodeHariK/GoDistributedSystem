@@ -42,13 +42,15 @@ func (node *Node) NumContacts() int {
 
 func (node *Node) FewContacts() []Contact {
 	contacts := make([]Contact, CONST_KKEY_BIT_COUNT)
+	n := 0
 	for i, b := range node.routingTable.Buckets {
 		c := b.contacts.Peek()
 		if c != nil {
 			contacts[i] = *c
+			n++
 		}
 	}
-	return contacts
+	return contacts[:n]
 }
 
 // FindClosest returns k closest nodes to a target ID.

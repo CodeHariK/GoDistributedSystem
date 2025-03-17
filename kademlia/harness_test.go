@@ -2,8 +2,6 @@ package kademlia
 
 import (
 	"context"
-	"crypto/rand"
-	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
@@ -15,10 +13,7 @@ import (
 
 // TestHarness initializes multiple nodes, connects them, and verifies operations.
 func TestHarness(t *testing.T) {
-	hello := make([]byte, 8)
-	rand.Read(hello)
-
-	bootstrap, err := NewNode(string(hello), string(hello))
+	bootstrap, err := NewNode("BootDomain", "BootId")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -31,8 +26,7 @@ func TestHarness(t *testing.T) {
 
 	// Create and start nodes
 	for i := 0; i < numNodes; i++ {
-		rand.Read(hello)
-		n, err := NewNode(string(hello), string(hello))
+		n, err := NewNode(fmt.Sprint("NodeDomain", i), fmt.Sprint("NodeId", i))
 		if err == nil {
 			nodes = append(nodes, n)
 
@@ -50,42 +44,37 @@ func TestHarness(t *testing.T) {
 			// connect.WithGRPC(),
 		)
 
-		// c, err := nodes[i].ToContact()
-		// if err != nil {
-		// 	continue
-		// }
-		// cc, err := c.ApiContact()
-		// if err != nil {
-		// 	continue
-		// }
-
-		req := api.JoinRequest{
-			// Self:  cc,
-			Hello: ".....Hello I am.....",
+		c, err := nodes[i].ToContact()
+		if err != nil {
+			continue
 		}
-		b, _ := json.MarshalIndent(req, "", " ")
-		fmt.Println("---> ", string(b))
+		cc, err := c.ApiContact()
+		if err != nil {
+			continue
+		}
 
-		_, err := client.Join(context.Background(),
-			connect.NewRequest(&req))
+		res, err := client.Join(context.Background(),
+			connect.NewRequest(&api.JoinRequest{Self: cc}))
+
 		if err != nil {
 			t.Errorf("Node %d failed to join Network[%s]: %v\n", i, "http://"+bootstrap.Addr, err)
 		} else {
-			// fmt.Printf("\nB:%s\nN:%s\nV:%v\nC:%v\n", bootstrap.Key.BitString(), nodes[i].Key.BitString()) // res.Msg.Self, res.Msg.Contacts)
+			fmt.Printf("B:%s\nN:%s\nL:%d\n", bootstrap.Key.BitString(), nodes[i].Key.BitString(), len(res.Msg.Contacts))
 		}
 
+		time.Sleep(1 * time.Second) // Wait for nodes to start
 	}
 
-	// time.Sleep(2 * time.Second) // Wait for nodes to start
+	time.Sleep(2 * time.Second) // Wait for nodes to start
 
-	// // if bootstrap.NumContacts() == 0 {
-	// // 	t.Errorf("Node bootstrap has an empty routing table")
-	// // }
-	// // for i, node := range nodes {
-	// // 	if node.NumContacts() == 0 {
-	// // 		t.Errorf("Node %d has an empty routing table", i)
-	// // 	}
-	// // }
+	if bootstrap.NumContacts() == 0 {
+		t.Errorf("Node bootstrap has an empty routing table")
+	}
+	for i, node := range nodes {
+		if node.NumContacts() == 0 {
+			t.Errorf("Node %d has an empty routing table", i)
+		}
+	}
 
 	// // // Perform a store operation on Node 0
 	// // key := KKey{1, 2, 3} // Sample key

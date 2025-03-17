@@ -128,7 +128,7 @@ func (contact Contact) ApiContact() (*api.Contact, error) {
 	domainKey, drr := ECDSAMarshal(contact.domainKey)
 	idKey, irr := ECDSAMarshal(contact.idKey)
 	if drr != nil || irr != nil {
-		return nil, err
+		return nil, errors.Join(drr, irr)
 	}
 
 	return &api.Contact{
@@ -146,6 +146,7 @@ func ToContact(c *api.Contact) (Contact, error) {
 	if c == nil {
 		return Contact{}, errors.New("Null Contact")
 	}
+
 	contactKey, err := ToKKey(c.Key)
 	if err != nil {
 		return Contact{}, err
@@ -154,7 +155,7 @@ func ToContact(c *api.Contact) (Contact, error) {
 	domainkey, domainerr := BytesToECDSAPublicKey(c.DomainKey)
 	idkey, iderr := BytesToECDSAPublicKey(c.IdKey)
 	if domainerr != nil || iderr != nil {
-		return Contact{}, err
+		return Contact{}, errors.Join(domainerr, iderr)
 	}
 
 	return Contact{
@@ -224,21 +225,33 @@ func ECDSAMarshal(pubKey *ecdsa.PublicKey) ([]byte, error) {
 	return elliptic.MarshalCompressed(elliptic.P256(), pubKey.X, pubKey.Y), nil
 }
 
-// BytesToECDSAPublicKey converts a []byte public key to an ecdsa.PublicKey.
+// BytesToECDSAPublicKey converts a compressed or uncompressed []byte public key to an ecdsa.PublicKey.
 func BytesToECDSAPublicKey(pubKeyBytes []byte) (*ecdsa.PublicKey, error) {
-	if len(pubKeyBytes) != 64 { // P-256 keys should be 64 bytes (X: 32 bytes, Y: 32 bytes)
-		return nil, errors.New("invalid public key length")
-	}
+	curve := elliptic.P256()
 
-	x := new(big.Int).SetBytes(pubKeyBytes[:32]) // First 32 bytes → X coordinate
-	y := new(big.Int).SetBytes(pubKeyBytes[32:]) // Last 32 bytes → Y coordinate
+	switch len(pubKeyBytes) {
+	case 33: // Compressed format
+		x, y := elliptic.UnmarshalCompressed(curve, pubKeyBytes)
+		if x == nil || y == nil {
+			return nil, fmt.Errorf("invalid compressed public key: %v", pubKeyBytes)
+		}
+		return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}, nil
 
-	pubKey := &ecdsa.PublicKey{
-		Curve: elliptic.P256(),
-		X:     x,
-		Y:     y,
+	case 65: // Uncompressed format (0x04 + X + Y)
+		x, y := elliptic.Unmarshal(curve, pubKeyBytes)
+		if x == nil || y == nil {
+			return nil, fmt.Errorf("invalid uncompressed public key: %v", pubKeyBytes)
+		}
+		return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}, nil
+
+	case 64: // Raw `X || Y` format (like your function originally expected)
+		x := new(big.Int).SetBytes(pubKeyBytes[:32])
+		y := new(big.Int).SetBytes(pubKeyBytes[32:])
+		return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}, nil
+
+	default:
+		return nil, fmt.Errorf("invalid public key length: %d : %v", len(pubKeyBytes), pubKeyBytes)
 	}
-	return pubKey, nil
 }
 
 func SignMessage(privKey *ecdsa.PrivateKey, message []byte) (sig []byte, err error) {

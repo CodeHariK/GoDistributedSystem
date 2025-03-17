@@ -32,12 +32,11 @@ message PingResponse {
 }
 
 message JoinRequest {
-  // Contact self = 1;
-  string hello = 2;
+  Contact self = 1;
 }
 message JoinResponse {
-  // Contact self = 1;
-  // repeated Contact contacts = 2;
+  Contact self = 1;
+  repeated Contact contacts = 2;
 }
 
 message GetContactsRequest {
