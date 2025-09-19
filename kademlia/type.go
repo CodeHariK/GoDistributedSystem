@@ -28,7 +28,6 @@ type KKey [18]byte
 
 type Node struct {
 	Key         KKey
-	Addr        string
 	SERVER_MODE bool // Is this node a CLIENT or SERVER
 
 	routingTable *RoutingTable

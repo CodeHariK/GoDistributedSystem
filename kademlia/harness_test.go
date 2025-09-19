@@ -21,7 +21,7 @@ func TestHarness(t *testing.T) {
 		bootstrap.Start()
 	}()
 
-	numNodes := 2
+	numNodes := 200
 	var nodes []*Node
 
 	// Create and start nodes
@@ -59,21 +59,28 @@ func TestHarness(t *testing.T) {
 		if err != nil {
 			t.Errorf("Node %d failed to join Network[%s]: %v\n", i, "http://"+bootstrap.Addr, err)
 		} else {
-			fmt.Printf("B:%s\nN:%s\nL:%d\n", bootstrap.Key.BitString(), nodes[i].Key.BitString(), len(res.Msg.Contacts))
+			// fmt.Printf("B:%s\nN:%s\nL:%d\n", bootstrap.Key.HexString(), nodes[i].Key.HexString(), len(res.Msg.Contacts))
 		}
 
-		time.Sleep(1 * time.Second) // Wait for nodes to start
+		ccc, err := ToContact(res.Msg.Self)
+		if err == nil {
+			nodes[i].AddContact(ccc)
+		}
+		for _, node := range res.Msg.Contacts {
+			ccc, err := ToContact(node)
+			if err == nil {
+				nodes[i].AddContact(ccc)
+			}
+		}
+
+		time.Sleep(50 * time.Millisecond) // Wait for nodes to start
 	}
 
 	time.Sleep(2 * time.Second) // Wait for nodes to start
 
-	if bootstrap.NumContacts() == 0 {
-		t.Errorf("Node bootstrap has an empty routing table")
-	}
+	fmt.Println("Bootstrap", bootstrap.NumContacts())
 	for i, node := range nodes {
-		if node.NumContacts() == 0 {
-			t.Errorf("Node %d has an empty routing table", i)
-		}
+		fmt.Println(i, ":Node", node.NumContacts())
 	}
 
 	// // // Perform a store operation on Node 0

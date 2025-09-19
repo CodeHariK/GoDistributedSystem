@@ -78,8 +78,6 @@ func NewNode(domain, id string) (*Node, error) {
 	node.listener = listener
 	node.server = server
 
-	node.Addr = server.Addr
-
 	return &node, nil
 }
 
@@ -95,7 +93,7 @@ func (node *Node) Start() {
 	serverExited := make(chan struct{})
 
 	go func() {
-		log.Printf("[%s] Server listening at %s", node.Key.HexString(), node.Addr)
+		log.Printf("[%s] Server listening at %s", node.Key.HexString(), node.server.Addr)
 		if err := node.server.Serve(node.listener); err != http.ErrServerClosed {
 			log.Fatalf("Server error: %v", err)
 		}

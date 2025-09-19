@@ -18,6 +18,11 @@
 * [Build Your Own Distributed System Using Go](https://www.youtube.com/watch?v=8XbxQ1Epi5w)
 * [Understand RAFT without breaking your brain](https://www.youtube.com/watch?v=IujMVjKvWP4)
 
+# DHT
+
+https://github.com/nictuku/dht
+https://github.com/shiyanhui/dht
+
 # Torrent Protocol
 
 * https://www.bittorrent.org/beps/bep_0003.html
@@ -25,3 +30,10 @@
 * https://blog.jse.li/posts/torrent/
 
 * [BitTorrent Internals](https://www.youtube.com/playlist?list=PLsdq-3Z1EPT1rNeq2GXpnivaWINnOaCd0)
+
+## NAT
+
+* [How NAT traversal works](https://tailscale.com/blog/how-nat-traversal-works)
+
+* [Iroh](https://www.iroh.computer/docs/examples/gossip-chat)
+* [Iroh](https://number-zero.notion.site/Iroh-Hole-Punching-b9a38cc228fb47328a73e71d10520418)
